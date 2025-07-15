@@ -1,0 +1,184 @@
+<script lang="ts">
+  import { currentSection, navigateToSection, totalSections } from '../stores/navigation';
+  
+  const sections = ['Home', 'About', 'Work', 'Projects', 'Contact'];
+  
+  let menuOpen = false;
+  
+  function handleNavClick(index: number) {
+    navigateToSection(index);
+    menuOpen = false;
+  }
+</script>
+
+<nav class="navigation" class:menu-open={menuOpen}>
+  <button class="menu-toggle" on:click={() => menuOpen = !menuOpen} aria-label="Toggle menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  
+  <ul class="nav-list">
+    {#each sections as section, i}
+      <li>
+        <button 
+          class="nav-item"
+          class:active={$currentSection === i}
+          on:click={() => handleNavClick(i)}
+        >
+          <span class="nav-indicator"></span>
+          <span class="nav-text">{section}</span>
+        </button>
+      </li>
+    {/each}
+  </ul>
+</nav>
+
+<style>
+  .navigation {
+    position: fixed;
+    left: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+  }
+  
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .menu-toggle span {
+    width: 24px;
+    height: 2px;
+    background: var(--text-primary);
+    transition: all var(--transition-base) var(--ease-out);
+  }
+  
+  .menu-open .menu-toggle span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  
+  .menu-open .menu-toggle span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .menu-open .menu-toggle span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+  }
+  
+  .nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .nav-item {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    transition: all var(--transition-fast) var(--ease-out);
+  }
+  
+  .nav-item:hover {
+    color: var(--text-primary);
+  }
+  
+  .nav-item.active {
+    color: var(--text-primary);
+  }
+  
+  .nav-indicator {
+    width: 40px;
+    height: 2px;
+    background: var(--text-muted);
+    transition: all var(--transition-base) var(--ease-out);
+    position: relative;
+  }
+  
+  .nav-item:hover .nav-indicator {
+    width: 60px;
+    background: var(--text-secondary);
+  }
+  
+  .nav-item.active .nav-indicator {
+    width: 60px;
+    background: var(--gradient-primary);
+  }
+  
+  .nav-text {
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all var(--transition-base) var(--ease-out);
+  }
+  
+  .nav-item:hover .nav-text,
+  .nav-item.active .nav-text {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  @media (max-width: 1024px) {
+    .navigation {
+      left: 1rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .navigation {
+      top: 2rem;
+      left: 2rem;
+      transform: none;
+    }
+    
+    .menu-toggle {
+      display: flex;
+    }
+    
+    .nav-list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 1rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      padding: 1.5rem;
+      border-radius: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-10px);
+      transition: all var(--transition-base) var(--ease-out);
+    }
+    
+    .menu-open .nav-list {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0);
+    }
+    
+    .nav-text {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+</style>
