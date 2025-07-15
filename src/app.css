@@ -66,15 +66,15 @@
   --color-accent-2: #34D399;
   --color-accent-3: #FBBF24;
   
-  /* Backgrounds */
-  --bg-base: #0A0E1A;
-  --bg-elevated: #0F1629;
-  --bg-overlay: #1A2238;
-  --bg-subtle: rgba(129, 140, 248, 0.05);
+  /* Backgrounds - Darker and richer */
+  --bg-base: #030712;
+  --bg-elevated: #0A0F1F;
+  --bg-overlay: #111827;
+  --bg-subtle: rgba(129, 140, 248, 0.03);
   
-  /* Glass morphism */
-  --glass-bg: rgba(15, 22, 41, 0.7);
-  --glass-border: rgba(129, 140, 248, 0.1);
+  /* Glass morphism - More subtle */
+  --glass-bg: rgba(10, 15, 31, 0.6);
+  --glass-border: rgba(129, 140, 248, 0.08);
   
   /* Text */
   --text-primary: #F8FAFC;
@@ -82,21 +82,21 @@
   --text-muted: #64748B;
   --text-accent: var(--color-primary-light);
   
-  /* Gradients */
+  /* Gradients - More vibrant */
   --gradient-primary: linear-gradient(135deg, #818CF8 0%, #F472B6 100%);
-  --gradient-mesh: radial-gradient(at 40% 20%, #F472B6 0%, transparent 50%),
-                   radial-gradient(at 80% 0%, #818CF8 0%, transparent 50%),
-                   radial-gradient(at 0% 50%, #34D399 0%, transparent 50%);
-  --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  --gradient-mesh: radial-gradient(at 40% 20%, rgba(244, 114, 182, 0.3) 0%, transparent 50%),
+                   radial-gradient(at 80% 0%, rgba(129, 140, 248, 0.3) 0%, transparent 50%),
+                   radial-gradient(at 0% 50%, rgba(52, 211, 153, 0.3) 0%, transparent 50%);
+  --gradient-hero: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 50%, rgba(240, 147, 251, 0.1) 100%);
   --gradient-hover: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   
-  /* Shadows & Glows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
-  --glow-primary: 0 0 30px rgba(129, 140, 248, 0.3);
-  --glow-accent: 0 0 30px rgba(244, 114, 182, 0.3);
+  /* Shadows & Glows - Deeper shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  --glow-primary: 0 0 40px rgba(129, 140, 248, 0.4);
+  --glow-accent: 0 0 40px rgba(244, 114, 182, 0.4);
 }
 
 /* Light Theme */

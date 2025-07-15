@@ -18,6 +18,8 @@
       const element = document.querySelector(id);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
+        // Update current section immediately when clicking
+        currentSection = id;
       }
     }
     menuOpen = false; // Close mobile menu after clicking
@@ -26,42 +28,46 @@
   // Update current section based on scroll position with debouncing
   import { onMount } from 'svelte';
   
-  // Temporarily disabled scroll tracking to test dragging issue
-  // onMount(() => {
-  //   let ticking = false;
+  onMount(() => {
+    let ticking = false;
     
-  //   function updateCurrentSection() {
-  //     const scrollPos = window.scrollY + 100;
+    function updateCurrentSection() {
+      const scrollPos = window.scrollY + window.innerHeight / 3; // Adjusted for better detection
       
-  //     sections.forEach(section => {
-  //       const element = document.querySelector(section.href);
-  //       if (element) {
-  //         const { top, bottom } = element.getBoundingClientRect();
-  //         const elementTop = top + window.scrollY;
-  //         const elementBottom = bottom + window.scrollY;
+      // Find the section that's currently in view
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        const element = document.querySelector(section.href);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          const elementTop = rect.top + window.scrollY;
           
-  //         if (scrollPos >= elementTop && scrollPos < elementBottom) {
-  //           currentSection = section.href;
-  //         }
-  //       }
-  //     });
+          if (scrollPos >= elementTop) {
+            currentSection = section.href;
+            break;
+          }
+        }
+      }
       
-  //     ticking = false;
-  //   }
+      ticking = false;
+    }
     
-  //   function onScroll() {
-  //     if (!ticking) {
-  //       window.requestAnimationFrame(updateCurrentSection);
-  //       ticking = true;
-  //     }
-  //   }
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(updateCurrentSection);
+        ticking = true;
+      }
+    }
     
-  //   window.addEventListener('scroll', onScroll, { passive: true });
+    // Initial check
+    updateCurrentSection();
     
-  //   return () => {
-  //     window.removeEventListener('scroll', onScroll);
-  //   };
-  // });
+    window.addEventListener('scroll', onScroll, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  });
 </script>
 
 <nav class="navigation" class:menu-open={menuOpen}>
