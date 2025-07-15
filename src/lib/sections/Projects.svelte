@@ -134,7 +134,7 @@
     overflow: hidden;
     transform-origin: center;
     cursor: pointer !important;
-    min-height: 280px;
+    min-height: 350px;
     transform: translateZ(0);
     will-change: transform, box-shadow;
   }
