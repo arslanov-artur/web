@@ -5,9 +5,21 @@
   
   let mounted = false;
   onMount(() => mounted = true);
+  
+  function handleSmoothScroll(e: MouseEvent) {
+    e.preventDefault();
+    const target = e.currentTarget as HTMLAnchorElement;
+    const id = target.getAttribute('href');
+    if (id && id.startsWith('#')) {
+      const element = document.querySelector(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }
 </script>
 
-<section class="hero">
+<section id="home" class="hero">
   <div class="mesh-gradient gradient-animated"></div>
   <div class="floating-orbs">
     <div class="orb orb-1"></div>
@@ -15,7 +27,6 @@
     <div class="orb orb-3"></div>
   </div>
   
-  {#if mounted}
     <div class="content" in:fade={{ duration: 1000 }}>
       <h1 class="name" in:fly={{ y: 30, duration: 800, delay: 200 }}>
         Arthur Arslanov
@@ -38,15 +49,14 @@
       </div>
       
       <div class="cta-group" in:fly={{ y: 20, duration: 800, delay: 800 }}>
-        <button class="btn-primary" on:click={() => navigateToSection(2)}>
+        <a href="#work" class="btn-primary" on:click={handleSmoothScroll}>
           View Work
-        </button>
-        <button class="btn-secondary" on:click={() => navigateToSection(4)}>
+        </a>
+        <a href="#contact" class="btn-secondary" on:click={handleSmoothScroll}>
           Get in Touch
-        </button>
+        </a>
       </div>
     </div>
-  {/if}
 </section>
 
 <style>
@@ -61,7 +71,7 @@
     inset: 0;
     background: var(--gradient-hero);
     opacity: 0.4;
-    filter: blur(100px);
+    filter: blur(50px);
   }
   
   .floating-orbs {
@@ -74,17 +84,17 @@
   .orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(40px);
+    filter: blur(20px);
     opacity: 0.5;
-    animation: float 20s ease-in-out infinite;
+    /* Removed animation to improve scroll performance */
   }
   
   .orb-1 {
     width: 400px;
     height: 400px;
     background: radial-gradient(circle, rgba(129, 140, 248, 0.8) 0%, transparent 70%);
-    top: -200px;
-    left: -200px;
+    top: -100px;
+    left: -100px;
     animation-delay: 0s;
   }
   
@@ -92,8 +102,8 @@
     width: 300px;
     height: 300px;
     background: radial-gradient(circle, rgba(244, 114, 182, 0.8) 0%, transparent 70%);
-    bottom: -150px;
-    right: -150px;
+    bottom: -100px;
+    right: -100px;
     animation-delay: 7s;
   }
   
@@ -128,7 +138,7 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin-bottom: 1rem;
-    animation: gradient-shift 8s ease infinite;
+    /* Removed animation to improve scroll performance */
     position: relative;
   }
   
@@ -137,15 +147,16 @@
     color: var(--text-secondary);
     font-weight: 300;
     letter-spacing: var(--tracking-wider);
-    margin-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
     position: relative;
     display: inline-block;
+    line-height: 1.2;
   }
   
   .title::after {
     content: '';
     position: absolute;
-    bottom: -10px;
+    bottom: -15px;
     left: 50%;
     transform: translateX(-50%);
     width: 100px;
@@ -216,6 +227,8 @@
     border: none;
     cursor: pointer;
     font-size: var(--text-base);
+    text-decoration: none;
+    display: inline-block;
   }
   
   .btn-primary {
@@ -238,7 +251,6 @@
   }
   
   .btn-primary:hover {
-    transform: translateY(-2px) scale(1.02);
     box-shadow: var(--glow-primary), var(--shadow-lg);
   }
   
@@ -249,8 +261,7 @@
   .btn-secondary {
     background: var(--glass-bg);
     color: var(--text-primary);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    /* Removed backdrop-filter to improve scroll performance */
     border: 1px solid var(--glass-border);
   }
   
@@ -262,10 +273,12 @@
   @media (max-width: 768px) {
     .hero {
       padding: 1rem;
+      overflow: hidden;
     }
     
     .content {
       padding: 0;
+      max-width: 100%;
     }
     
     .name {

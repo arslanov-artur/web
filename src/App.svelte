@@ -7,30 +7,28 @@
   import Contact from './lib/sections/Contact.svelte';
   import Navigation from './lib/components/Navigation.svelte';
   import ThemeToggle from './lib/components/ThemeToggle.svelte';
-  import { currentSection, handleWheel, handleKeyboard } from './lib/stores/navigation';
+  // import { currentSection, handleWheel, handleKeyboard } from './lib/stores/navigation';
   import { theme } from './lib/stores/theme';
   
   let mounted = false;
-  let sectionOffset = 0;
   
   onMount(() => {
     mounted = true;
     theme.init();
     
-    // Add event listeners for navigation
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('keydown', handleKeyboard);
+    // Disabled custom navigation - using standard scroll
+    // window.addEventListener('wheel', handleWheel, { passive: false });
+    // window.addEventListener('keydown', handleKeyboard);
     
-    // Subscribe to section changes
-    const unsubscribe = currentSection.subscribe(value => {
-      sectionOffset = value * 100;
-    });
+    // const unsubscribe = currentSection.subscribe(value => {
+    //   sectionOffset = value * 100;
+    // });
     
-    return () => {
-      unsubscribe();
-      window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('keydown', handleKeyboard);
-    };
+    // return () => {
+    //   unsubscribe();
+    //   window.removeEventListener('wheel', handleWheel);
+    //   window.removeEventListener('keydown', handleKeyboard);
+    // };
   });
 </script>
 
@@ -39,7 +37,8 @@
     <Navigation />
     <ThemeToggle />
     
-    <div class="sections-wrapper" style="transform: translateY(-{sectionOffset}vh)">
+    <!-- Using standard scroll instead of transform -->
+    <div class="sections-wrapper">
       <Hero />
       <About />
       <Work />
@@ -47,58 +46,26 @@
       <Contact />
     </div>
     
-    <div class="scroll-progress">
-      <div class="progress-bar" style="height: {($currentSection + 1) * 20}%"></div>
-    </div>
+    <!-- Scroll progress removed for standard scrolling -->
   {/if}
 </main>
 
 <style>
   .portfolio-container {
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
     position: relative;
     background-color: var(--bg-base);
     width: 100%;
   }
   
   .sections-wrapper {
-    transition: transform 0.8s var(--ease-in-out);
-    will-change: transform;
+    /* Removed transition that was causing drag */
     width: 100%;
   }
   
-  /* Ensure each section can scroll internally if needed */
+  /* Standard scrolling for sections */
   .sections-wrapper > :global(section) {
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
+    position: relative;
   }
   
-  .scroll-progress {
-    position: fixed;
-    right: 2rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 3px;
-    height: 200px;
-    background-color: var(--bg-overlay);
-    border-radius: 3px;
-    overflow: hidden;
-    z-index: 100;
-  }
-  
-  .progress-bar {
-    width: 100%;
-    background: var(--gradient-primary);
-    transition: height 0.8s var(--ease-in-out);
-    border-radius: 3px;
-  }
-  
-  @media (max-width: 768px) {
-    .scroll-progress {
-      right: 1rem;
-    }
-  }
 </style>

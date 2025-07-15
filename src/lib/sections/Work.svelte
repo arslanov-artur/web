@@ -1,10 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import IntersectionObserver from 'svelte-intersection-observer';
-  import { fly, fade } from 'svelte/transition';
-  
   let sectionElement: HTMLElement;
-  let visible = false;
   
   const experiences = [
     {
@@ -34,25 +29,23 @@
   ];
 </script>
 
-<section bind:this={sectionElement} class="work">
-  <IntersectionObserver element={sectionElement} bind:intersecting={visible} threshold={0.3}>
+<section id="work" bind:this={sectionElement} class="work">
     <div class="container">
-      {#if visible}
         <div class="content">
-          <h2 class="section-title" in:fade={{ duration: 600 }}>
+          <h2 class="section-title">
             Work Experience
           </h2>
           
           <div class="timeline">
             {#each experiences as exp, i}
-              <div class="timeline-item" in:fly={{ x: i % 2 === 0 ? -50 : 50, duration: 800, delay: 200 + i * 150 }}>
+              <div class="timeline-item">
                 <div class="timeline-marker"></div>
                 <div class="timeline-content glass">
                   <div class="timeline-header">
-                    <h3>{exp.role}</h3>
+                    <h3>{exp.company}</h3>
                     <span class="period">{exp.period}</span>
                   </div>
-                  <h4>{exp.company}</h4>
+                  <h4>{exp.role}</h4>
                   <p>{exp.description}</p>
                   <ul class="highlights">
                     {#each exp.highlights as highlight}
@@ -64,30 +57,18 @@
             {/each}
           </div>
         </div>
-      {/if}
     </div>
-  </IntersectionObserver>
 </section>
 
 <style>
   .work {
     background-color: var(--bg-base);
-    overflow-y: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
   }
   
   .container {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
   }
   
   .content {
@@ -106,24 +87,6 @@
   .timeline {
     position: relative;
     padding: 2rem 0;
-    max-height: 80vh;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-primary) var(--bg-elevated);
-  }
-  
-  .timeline::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  .timeline::-webkit-scrollbar-track {
-    background: var(--bg-elevated);
-    border-radius: 4px;
-  }
-  
-  .timeline::-webkit-scrollbar-thumb {
-    background: var(--color-primary);
-    border-radius: 4px;
   }
   
   .timeline::before {
@@ -145,12 +108,12 @@
   
   .timeline-item:nth-child(odd) {
     left: 0;
-    padding-right: 4rem;
+    padding-right: 6rem;
   }
   
   .timeline-item:nth-child(even) {
     left: 50%;
-    padding-left: 4rem;
+    padding-left: 6rem;
   }
   
   .timeline-marker {
@@ -162,7 +125,7 @@
     top: 2rem;
     z-index: 1;
     box-shadow: 0 0 0 4px var(--bg-base), 0 0 0 6px var(--color-primary);
-    animation: pulse-glow 3s ease-in-out infinite;
+    /* Removed animation to improve scroll performance */
   }
   
   .timeline-item:nth-child(odd) .timeline-marker {
@@ -174,11 +137,13 @@
   }
   
   .timeline-content {
-    padding: 2rem;
+    padding: 2.5rem;
     border-radius: 1rem;
-    transition: all var(--transition-base) var(--ease-out);
+    transition: box-shadow var(--transition-base) var(--ease-out), border-color var(--transition-base) var(--ease-out);
     position: relative;
     overflow: hidden;
+    max-width: 600px;
+    transform-origin: center;
   }
   
   .timeline-content::before {
@@ -193,7 +158,6 @@
   }
   
   .timeline-content:hover {
-    transform: translateY(-8px) scale(1.02);
     box-shadow: var(--shadow-lg), 0 10px 30px rgba(129, 140, 248, 0.2);
     border-color: var(--color-primary);
   }
@@ -205,33 +169,40 @@
   .timeline-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 0.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
   
   .timeline-content h3 {
-    font-size: var(--text-xl);
-    color: var(--text-primary);
-    font-family: var(--font-sans);
+    font-size: var(--text-2xl);
+    color: var(--color-primary);
+    font-family: var(--font-display);
     font-weight: 600;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   
   .timeline-content h4 {
     font-size: var(--text-lg);
-    color: var(--color-primary);
+    color: var(--text-primary);
     margin-bottom: 1rem;
     font-family: var(--font-sans);
     font-weight: 500;
   }
   
   .period {
-    font-size: var(--text-sm);
+    font-size: var(--text-base);
     color: var(--text-muted);
     font-weight: 500;
     background: var(--glass-bg);
-    padding: 0.25rem 0.75rem;
-    border-radius: 15px;
+    padding: 0.375rem 1rem;
+    border-radius: 20px;
     border: 1px solid var(--glass-border);
+    white-space: nowrap;
   }
   
   .timeline-content p {
@@ -284,14 +255,11 @@
     .container {
       padding: 0;
       max-width: 100%;
-      height: 100%;
     }
     
     .timeline {
       padding: 0;
       margin: 0;
-      max-height: 85vh;
-      overflow-y: auto;
     }
     
     .timeline::before {

@@ -1,22 +1,16 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import IntersectionObserver from 'svelte-intersection-observer';
   import { fly, fade } from 'svelte/transition';
   
-  let sectionElement: HTMLElement;
-  let visible = false;
-  
   const skills = [
-    { category: 'Frontend', items: ['React', 'TypeScript', 'Next.js', 'Redux/Zustand', 'Material UI'] },
-    { category: 'Backend', items: ['Node.js', 'NestJS', 'Express', 'PostgreSQL', 'Redis'] },
-    { category: 'Architecture', items: ['Microservices', 'WebSockets', 'RabbitMQ', 'ElasticSearch', 'Docker/K8s'] }
+    { category: 'Frontend', items: ['React', 'TypeScript', 'Next.js', 'Redux/Zustand', 'Material UI', 'Styled Components', 'Webpack', 'Vite'] },
+    { category: 'Backend', items: ['Node.js', 'NestJS', 'Express', 'PostgreSQL', 'MySQL', 'MongoDB', 'Redis', 'TypeORM'] },
+    { category: 'Architecture', items: ['Microservices', 'WebSockets', 'RabbitMQ', 'ElasticSearch', 'Docker/K8s', 'REST API', 'GraphQL', 'Event-Driven'] },
+    { category: 'DevOps & Testing', items: ['CI/CD', 'GitHub Actions', 'Jest', 'Cypress', 'AWS', 'Nginx', 'PM2', 'Monitoring'] }
   ];
 </script>
 
-<section bind:this={sectionElement} class="about">
-  <IntersectionObserver element={sectionElement} bind:intersecting={visible} threshold={0.3}>
+<section id="about" class="about">
     <div class="container">
-      {#if visible}
         <div class="content">
           <h2 class="section-title" in:fade={{ duration: 600 }}>
             About Me
@@ -27,16 +21,16 @@
               <p>
                 Senior Fullstack Developer with 5+ years of commercial experience solving complex technical 
                 challenges. I've built real-time collaboration systems, automated document processing pipelines, 
-                and designed scalable API architectures.
+                and designed scalable API architectures
               </p>
               <p>
                 Delivered measurable results: platforms handling 1000+ concurrent users, 3x improvement 
                 in speed, and 60% reduction in manual workflows through automation. Strong expertise in 
-                React, TypeScript, and Node.js ecosystem.
+                React, TypeScript, and Node.js ecosystem
               </p>
               <p>
                 I have a strong mentoring background, helping junior developers improve their skills and 
-                coding proficiency. I prefer working remotely as a B2B contractor.
+                coding proficiency
               </p>
             </div>
             
@@ -54,9 +48,7 @@
             </div>
           </div>
         </div>
-      {/if}
     </div>
-  </IntersectionObserver>
 </section>
 
 <style>
@@ -116,8 +108,8 @@
   }
   
   .skills-container {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
   }
   
@@ -140,12 +132,11 @@
     border-radius: 25px;
     font-size: var(--text-sm);
     color: var(--text-primary);
-    transition: all var(--transition-base) var(--ease-out);
+    transition: box-shadow var(--transition-base) var(--ease-out), border-color var(--transition-base) var(--ease-out), color var(--transition-base) var(--ease-out);
     position: relative;
     overflow: hidden;
     background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    /* Removed backdrop-filter to improve scroll performance */
     border: 1px solid var(--glass-border);
   }
   
@@ -165,7 +156,6 @@
   }
   
   .skill-tag:hover {
-    transform: translateY(-2px) scale(1.05);
     box-shadow: var(--shadow-md), 0 0 20px rgba(129, 140, 248, 0.3);
     border-color: var(--color-primary);
     color: white;
@@ -200,6 +190,7 @@
     }
     
     .skills-container {
+      grid-template-columns: 1fr;
       gap: 1.5rem;
     }
     

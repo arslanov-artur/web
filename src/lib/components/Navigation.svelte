@@ -1,14 +1,67 @@
 <script lang="ts">
-  import { currentSection, navigateToSection, totalSections } from '../stores/navigation';
-  
-  const sections = ['Home', 'About', 'Work', 'Projects', 'Contact'];
+  const sections = [
+    { name: 'Home', href: '#home' },
+    { name: 'About', href: '#about' },
+    { name: 'Work', href: '#work' },
+    { name: 'Projects', href: '#projects' },
+    { name: 'Contact', href: '#contact' }
+  ];
   
   let menuOpen = false;
+  let currentSection = '#home';
   
-  function handleNavClick(index: number) {
-    navigateToSection(index);
-    menuOpen = false;
+  function handleSmoothScroll(e: MouseEvent) {
+    e.preventDefault();
+    const target = e.currentTarget as HTMLAnchorElement;
+    const id = target.getAttribute('href');
+    if (id && id.startsWith('#')) {
+      const element = document.querySelector(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+    menuOpen = false; // Close mobile menu after clicking
   }
+  
+  // Update current section based on scroll position with debouncing
+  import { onMount } from 'svelte';
+  
+  // Temporarily disabled scroll tracking to test dragging issue
+  // onMount(() => {
+  //   let ticking = false;
+    
+  //   function updateCurrentSection() {
+  //     const scrollPos = window.scrollY + 100;
+      
+  //     sections.forEach(section => {
+  //       const element = document.querySelector(section.href);
+  //       if (element) {
+  //         const { top, bottom } = element.getBoundingClientRect();
+  //         const elementTop = top + window.scrollY;
+  //         const elementBottom = bottom + window.scrollY;
+          
+  //         if (scrollPos >= elementTop && scrollPos < elementBottom) {
+  //           currentSection = section.href;
+  //         }
+  //       }
+  //     });
+      
+  //     ticking = false;
+  //   }
+    
+  //   function onScroll() {
+  //     if (!ticking) {
+  //       window.requestAnimationFrame(updateCurrentSection);
+  //       ticking = true;
+  //     }
+  //   }
+    
+  //   window.addEventListener('scroll', onScroll, { passive: true });
+    
+  //   return () => {
+  //     window.removeEventListener('scroll', onScroll);
+  //   };
+  // });
 </script>
 
 <nav class="navigation" class:menu-open={menuOpen}>
@@ -19,16 +72,17 @@
   </button>
   
   <ul class="nav-list">
-    {#each sections as section, i}
+    {#each sections as section}
       <li>
-        <button 
+        <a 
+          href={section.href}
           class="nav-item"
-          class:active={$currentSection === i}
-          on:click={() => handleNavClick(i)}
+          class:active={currentSection === section.href}
+          on:click={handleSmoothScroll}
         >
           <span class="nav-indicator"></span>
-          <span class="nav-text">{section}</span>
-        </button>
+          <span class="nav-text">{section.name}</span>
+        </a>
       </li>
     {/each}
   </ul>
@@ -97,6 +151,7 @@
     font-weight: 500;
     transition: all var(--transition-fast) var(--ease-out);
     position: relative;
+    text-decoration: none;
   }
   
   .nav-item::before {

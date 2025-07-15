@@ -1,101 +1,76 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import IntersectionObserver from 'svelte-intersection-observer';
-  import { fly, fade } from 'svelte/transition';
-  
   let sectionElement: HTMLElement;
-  let visible = false;
   
   const projects = [
     {
-      title: 'Real-time Contract Editor',
-      description: 'WebSocket-based collaborative document editor handling 25+ concurrent users with conflict-free editing using Operational Transform algorithm',
-      technologies: ['React', 'WebSockets', 'Redis Pub/Sub', 'MessagePack'],
-      link: 'https://github.com/arthur-arslanov',
+      title: 'StickIO Bot',
+      description: 'AI-powered Telegram bot that turns ideas into vibrant sticker packs. Generates custom stickers with various styles and emotions, used by thousands of users',
+      technologies: ['Node.js', 'Telegram Bot API', 'AI/ML', 'Image Generation'],
+      link: 'https://t.me/stickio_bot',
+      demo: 'https://t.me/stickio_bot',
+      type: 'telegram'
+    },
+    {
+      title: 'Headless UI Collection',
+      description: 'Production-ready headless UI components for React. Unstyled, accessible components that integrate seamlessly with any design system',
+      technologies: ['React', 'TypeScript', 'Headless UI', 'Accessibility'],
+      link: 'https://github.com/arslanov-artur/react-headless-ui-collection',
       demo: null
     },
     {
-      title: 'Document Processing Pipeline',
-      description: 'Automated contract processing system handling 8000+ documents monthly with 82% automation accuracy using ML validation rules',
-      technologies: ['RabbitMQ', 'ElasticSearch', 'NestJS', 'TypeScript'],
-      link: 'https://github.com/arthur-arslanov',
-      demo: null
-    },
-    {
-      title: 'Enterprise HR Platform',
-      description: 'Scalable staffing management system serving 1000+ concurrent users with 150+ API endpoints and 99% uptime',
-      technologies: ['NestJS', 'MySQL', 'Redis', 'Docker'],
-      link: 'https://github.com/arthur-arslanov',
-      demo: null
-    },
-    {
-      title: 'API Integration Layer',
-      description: 'Robust integration system connecting 5+ external services, processing 50K+ daily API calls with circuit breakers and retry mechanisms',
-      technologies: ['TypeScript', 'Express', 'Redis', 'Circuit Breakers'],
-      link: 'https://github.com/arthur-arslanov',
+      title: 'Messenger PWA',
+      description: 'Progressive Web App messenger with real-time messaging, offline support, and push notifications. Built with modern web technologies',
+      technologies: ['React', 'PWA', 'Service Workers', 'WebSockets'],
+      link: 'https://github.com/arslanov-artur/messenger-pwa',
       demo: null
     }
   ];
 </script>
 
-<section bind:this={sectionElement} class="projects">
-  <IntersectionObserver element={sectionElement} bind:intersecting={visible} threshold={0.3}>
+<section id="projects" bind:this={sectionElement} class="projects">
     <div class="container">
-      {#if visible}
         <div class="content">
-          <h2 class="section-title" in:fade={{ duration: 600 }}>
+          <h2 class="section-title">
             Featured Projects
           </h2>
           
           <div class="projects-grid">
             {#each projects as project, i}
-              <div class="project-card glass" in:fly={{ y: 30, duration: 800, delay: 200 + i * 100 }}>
-                <div class="project-header">
-                  <h3>{project.title}</h3>
-                  <div class="project-links">
-                    <a href={project.link} target="_blank" rel="noopener noreferrer" 
-                       class="project-link" aria-label="View source code">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
-                      </svg>
-                    </a>
-                    {#if project.demo}
-                      <a href={project.demo} target="_blank" rel="noopener noreferrer"
-                         class="project-link" aria-label="View live demo">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                          <polyline points="15 3 21 3 21 9"/>
-                          <line x1="10" y1="14" x2="21" y2="3"/>
+              <a href={project.link} target="_blank" rel="noopener noreferrer" class="project-card-link">
+                <div class="project-card glass">
+                  <div class="project-header">
+                    <h3>{project.title}</h3>
+                    <div class="project-links">
+                      {#if project.type === 'telegram'}
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="project-icon">
+                          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
                         </svg>
-                      </a>
-                    {/if}
+                      {:else}
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="project-icon">
+                          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                        </svg>
+                      {/if}
+                    </div>
+                  </div>
+                  
+                  <p class="project-description">{project.description}</p>
+                  
+                  <div class="tech-stack">
+                    {#each project.technologies as tech}
+                      <span class="tech-tag">{tech}</span>
+                    {/each}
                   </div>
                 </div>
-                
-                <p class="project-description">{project.description}</p>
-                
-                <div class="tech-stack">
-                  {#each project.technologies as tech}
-                    <span class="tech-tag">{tech}</span>
-                  {/each}
-                </div>
-              </div>
+              </a>
             {/each}
           </div>
         </div>
-      {/if}
     </div>
-  </IntersectionObserver>
 </section>
 
 <style>
   .projects {
     background-color: var(--bg-base);
-    overflow-y: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
   }
   
   .container {
@@ -122,15 +97,23 @@
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
     position: relative;
+    overflow: hidden;
+  }
+  
+  .project-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    cursor: pointer;
   }
   
   .projects-grid::before {
     content: '';
     position: absolute;
-    inset: -100px;
+    inset: 0;
     background: radial-gradient(circle at center, var(--color-primary) 0%, transparent 70%);
     opacity: 0.05;
-    filter: blur(100px);
+    filter: blur(50px);
     pointer-events: none;
   }
   
@@ -138,11 +121,14 @@
     padding: 2rem;
     border-radius: 1rem;
     text-align: left;
-    transition: all var(--transition-base) var(--ease-out);
+    transition: box-shadow var(--transition-base) var(--ease-out), border-color var(--transition-base) var(--ease-out);
     display: flex;
     flex-direction: column;
     position: relative;
     overflow: hidden;
+    transform-origin: center;
+    cursor: pointer;
+    min-height: 280px;
   }
   
   .project-card::before {
@@ -160,7 +146,6 @@
   }
   
   .project-card:hover {
-    transform: translateY(-8px) scale(1.02);
     box-shadow: var(--shadow-lg), 0 20px 40px rgba(129, 140, 248, 0.2);
     border-color: transparent;
   }
@@ -188,38 +173,9 @@
     gap: 0.75rem;
   }
   
-  .project-link {
+  .project-icon {
     color: var(--text-muted);
-    transition: all var(--transition-fast) var(--ease-out);
-    display: flex;
-    align-items: center;
-    padding: 0.5rem;
-    border-radius: 8px;
-    position: relative;
-  }
-  
-  .project-link::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--color-primary);
-    opacity: 0;
-    border-radius: 8px;
-    transition: opacity var(--transition-fast);
-  }
-  
-  .project-link:hover {
-    color: white;
-    transform: scale(1.1);
-  }
-  
-  .project-link:hover::before {
-    opacity: 1;
-  }
-  
-  .project-link svg {
-    position: relative;
-    z-index: 1;
+    pointer-events: none;
   }
   
   .project-description {
@@ -266,10 +222,12 @@
   @media (max-width: 768px) {
     .projects {
       padding: 1rem;
+      overflow-x: hidden;
     }
     
     .container {
       padding: 0 1rem;
+      max-width: 100%;
     }
     
     .section-title {
@@ -280,10 +238,12 @@
     .projects-grid {
       grid-template-columns: 1fr;
       gap: 1.5rem;
+      padding: 0;
     }
     
     .project-card {
       padding: 1.5rem;
+      min-height: auto;
     }
     
     .project-card h3 {
