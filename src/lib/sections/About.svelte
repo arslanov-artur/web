@@ -167,7 +167,7 @@
   
   @media (max-width: 768px) {
     .about {
-      padding: 1rem;
+      padding: 3rem 1rem;
     }
     
     .container {

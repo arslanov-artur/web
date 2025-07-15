@@ -249,7 +249,7 @@
   
   @media (max-width: 768px) {
     .work {
-      padding: 1rem 0;
+      padding: 3rem 0;
     }
     
     .container {

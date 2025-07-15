@@ -180,6 +180,25 @@ a, button, [role="button"], .btn-primary, .btn-secondary, .contact-link, .contac
   cursor: pointer !important;
 }
 
+/* Additional cursor pointer enforcement */
+.project-card-link,
+.project-card-link *,
+.project-card,
+a[href],
+a[href] * {
+  cursor: pointer !important;
+}
+
+/* Hover state cursor enforcement */
+.project-card-link:hover,
+.project-card:hover,
+.btn-primary:hover,
+.btn-secondary:hover,
+.contact-link:hover,
+.nav-item:hover {
+  cursor: pointer !important;
+}
+
 /* Typography Styles */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
@@ -288,6 +307,7 @@ section {
   position: relative;
   padding: 4rem 2rem;
   box-sizing: border-box;
+  overflow: visible;
 }
 
 /* Allow sections to be scrollable when content is too long */

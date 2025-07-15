@@ -71,6 +71,7 @@
 <style>
   .projects {
     background-color: var(--bg-base);
+    overflow: visible;
   }
   
   .container {
@@ -97,14 +98,19 @@
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
+    padding-bottom: 2rem;
   }
   
   .project-card-link {
     text-decoration: none;
     color: inherit;
     display: block;
-    cursor: pointer;
+    cursor: pointer !important;
+  }
+  
+  .project-card-link:hover {
+    cursor: pointer !important;
   }
   
   .projects-grid::before {
@@ -121,14 +127,16 @@
     padding: 2rem;
     border-radius: 1rem;
     text-align: left;
-    transition: box-shadow var(--transition-base) var(--ease-out), border-color var(--transition-base) var(--ease-out);
+    transition: all var(--transition-base) var(--ease-smooth);
     display: flex;
     flex-direction: column;
     position: relative;
     overflow: hidden;
     transform-origin: center;
-    cursor: pointer;
+    cursor: pointer !important;
     min-height: 280px;
+    transform: translateZ(0);
+    will-change: transform, box-shadow;
   }
   
   .project-card::before {
@@ -146,7 +154,8 @@
   }
   
   .project-card:hover {
-    box-shadow: var(--shadow-lg), 0 20px 40px rgba(129, 140, 248, 0.2);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 0 20px 40px rgba(129, 140, 248, 0.3);
     border-color: transparent;
   }
   
@@ -221,7 +230,7 @@
   
   @media (max-width: 768px) {
     .projects {
-      padding: 1rem;
+      padding: 3rem 1rem;
       overflow-x: hidden;
     }
     
