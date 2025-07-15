@@ -7,9 +7,9 @@
   let visible = false;
   
   const skills = [
-    { category: 'Frontend', items: ['React', 'Vue', 'Svelte', 'TypeScript', 'Next.js'] },
-    { category: 'Backend', items: ['Node.js', 'Python', 'Go', 'PostgreSQL', 'MongoDB'] },
-    { category: 'Tools', items: ['Docker', 'Kubernetes', 'AWS', 'CI/CD', 'Git'] }
+    { category: 'Frontend', items: ['React', 'TypeScript', 'Next.js', 'Redux/Zustand', 'Material UI'] },
+    { category: 'Backend', items: ['Node.js', 'NestJS', 'Express', 'PostgreSQL', 'Redis'] },
+    { category: 'Architecture', items: ['Microservices', 'WebSockets', 'RabbitMQ', 'ElasticSearch', 'Docker/K8s'] }
   ];
 </script>
 
@@ -25,16 +25,18 @@
           <div class="about-grid">
             <div class="about-text" in:fly={{ x: -30, duration: 800, delay: 200 }}>
               <p>
-                I'm a passionate fullstack developer with over 8 years of experience 
-                building scalable web applications and leading development teams.
+                Senior Fullstack Developer with 5+ years of commercial experience solving complex technical 
+                challenges. I've built real-time collaboration systems, automated document processing pipelines, 
+                and designed scalable API architectures.
               </p>
               <p>
-                My journey in tech started with a curiosity about how things work on the web, 
-                and has evolved into a career focused on creating elegant solutions to complex problems.
+                Delivered measurable results: platforms handling 1000+ concurrent users, 3x improvement 
+                in speed, and 60% reduction in manual workflows through automation. Strong expertise in 
+                React, TypeScript, and Node.js ecosystem.
               </p>
               <p>
-                I specialize in modern JavaScript frameworks, cloud architecture, and building 
-                products that prioritize user experience and performance.
+                I have a strong mentoring background, helping junior developers improve their skills and 
+                coding proficiency. I prefer working remotely as a B2B contractor.
               </p>
             </div>
             
@@ -44,7 +46,7 @@
                   <h3>{skillGroup.category}</h3>
                   <div class="skill-items">
                     {#each skillGroup.items as skill}
-                      <span class="skill-tag glass">{skill}</span>
+                      <span class="skill-tag glass"><span>{skill}</span></span>
                     {/each}
                   </div>
                 </div>
@@ -75,10 +77,27 @@
   .section-title {
     font-size: var(--text-3xl);
     margin-bottom: 4rem;
-    background: var(--gradient-primary);
+    background: linear-gradient(270deg, var(--color-primary), var(--color-accent-1));
+    background-size: 300% 300%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    animation: gradient-shift 6s ease infinite;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: var(--gradient-primary);
+    border-radius: 2px;
+    animation: pulse-glow 2s ease-in-out infinite;
   }
   
   .about-grid {
@@ -122,27 +141,75 @@
     font-size: var(--text-sm);
     color: var(--text-primary);
     transition: all var(--transition-base) var(--ease-out);
+    position: relative;
+    overflow: hidden;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+  }
+  
+  .skill-tag span {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .skill-tag::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-primary);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    border-radius: 25px;
   }
   
   .skill-tag:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: var(--shadow-md), 0 0 20px rgba(129, 140, 248, 0.3);
     border-color: var(--color-primary);
+    color: white;
+  }
+  
+  .skill-tag:hover::before {
+    opacity: 1;
   }
   
   @media (max-width: 768px) {
+    .about {
+      padding: 1rem;
+    }
+    
+    .container {
+      padding: 0 1rem;
+    }
+    
     .about-grid {
       grid-template-columns: 1fr;
-      gap: 3rem;
+      gap: 2rem;
     }
     
     .section-title {
       font-size: var(--text-2xl);
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
     }
     
     .about-text p {
       font-size: var(--text-base);
+      margin-bottom: 1rem;
+    }
+    
+    .skills-container {
+      gap: 1.5rem;
+    }
+    
+    .skill-group h3 {
+      font-size: var(--text-lg);
+    }
+    
+    .skill-tag {
+      font-size: var(--text-xs);
+      padding: 0.375rem 1rem;
     }
   }
 </style>

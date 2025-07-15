@@ -8,31 +8,31 @@
   
   const projects = [
     {
-      title: 'E-Commerce Platform',
-      description: 'Full-stack e-commerce solution with real-time inventory management',
-      technologies: ['React', 'Node.js', 'PostgreSQL', 'Redis'],
-      link: 'https://github.com/arthur-arslanov/ecommerce',
-      demo: 'https://demo.example.com'
-    },
-    {
-      title: 'Task Management System',
-      description: 'Collaborative project management tool with real-time updates',
-      technologies: ['Vue.js', 'Express', 'MongoDB', 'Socket.io'],
-      link: 'https://github.com/arthur-arslanov/taskmanager',
+      title: 'Real-time Contract Editor',
+      description: 'WebSocket-based collaborative document editor handling 25+ concurrent users with conflict-free editing using Operational Transform algorithm',
+      technologies: ['React', 'WebSockets', 'Redis Pub/Sub', 'MessagePack'],
+      link: 'https://github.com/arthur-arslanov',
       demo: null
     },
     {
-      title: 'Analytics Dashboard',
-      description: 'Data visualization dashboard for business intelligence',
-      technologies: ['Svelte', 'D3.js', 'Python', 'FastAPI'],
-      link: 'https://github.com/arthur-arslanov/analytics',
-      demo: 'https://analytics.example.com'
+      title: 'Document Processing Pipeline',
+      description: 'Automated contract processing system handling 8000+ documents monthly with 82% automation accuracy using ML validation rules',
+      technologies: ['RabbitMQ', 'ElasticSearch', 'NestJS', 'TypeScript'],
+      link: 'https://github.com/arthur-arslanov',
+      demo: null
     },
     {
-      title: 'Social Media API',
-      description: 'RESTful API for social media platform with GraphQL support',
-      technologies: ['GraphQL', 'Go', 'PostgreSQL', 'Docker'],
-      link: 'https://github.com/arthur-arslanov/social-api',
+      title: 'Enterprise HR Platform',
+      description: 'Scalable staffing management system serving 1000+ concurrent users with 150+ API endpoints and 99% uptime',
+      technologies: ['NestJS', 'MySQL', 'Redis', 'Docker'],
+      link: 'https://github.com/arthur-arslanov',
+      demo: null
+    },
+    {
+      title: 'API Integration Layer',
+      description: 'Robust integration system connecting 5+ external services, processing 50K+ daily API calls with circuit breakers and retry mechanisms',
+      technologies: ['TypeScript', 'Express', 'Redis', 'Circuit Breakers'],
+      link: 'https://github.com/arthur-arslanov',
       demo: null
     }
   ];
@@ -72,7 +72,7 @@
                   </div>
                 </div>
                 
-                <p>{project.description}</p>
+                <p class="project-description">{project.description}</p>
                 
                 <div class="tech-stack">
                   {#each project.technologies as tech}
@@ -91,6 +91,11 @@
 <style>
   .projects {
     background-color: var(--bg-base);
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
   }
   
   .container {
@@ -116,6 +121,17 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
+    position: relative;
+  }
+  
+  .projects-grid::before {
+    content: '';
+    position: absolute;
+    inset: -100px;
+    background: radial-gradient(circle at center, var(--color-primary) 0%, transparent 70%);
+    opacity: 0.05;
+    filter: blur(100px);
+    pointer-events: none;
   }
   
   .project-card {
@@ -125,12 +141,32 @@
     transition: all var(--transition-base) var(--ease-out);
     display: flex;
     flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: var(--gradient-primary);
+    border-radius: 1rem;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity var(--transition-base);
   }
   
   .project-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--color-primary);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--shadow-lg), 0 20px 40px rgba(129, 140, 248, 0.2);
+    border-color: transparent;
+  }
+  
+  .project-card:hover::before {
+    opacity: 1;
   }
   
   .project-header {
@@ -154,20 +190,55 @@
   
   .project-link {
     color: var(--text-muted);
-    transition: color var(--transition-fast) var(--ease-out);
+    transition: all var(--transition-fast) var(--ease-out);
     display: flex;
     align-items: center;
+    padding: 0.5rem;
+    border-radius: 8px;
+    position: relative;
+  }
+  
+  .project-link::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--color-primary);
+    opacity: 0;
+    border-radius: 8px;
+    transition: opacity var(--transition-fast);
   }
   
   .project-link:hover {
-    color: var(--color-primary);
+    color: white;
+    transform: scale(1.1);
   }
   
-  .project-card p {
+  .project-link:hover::before {
+    opacity: 1;
+  }
+  
+  .project-link svg {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .project-description {
     font-size: var(--text-base);
     color: var(--text-secondary);
     margin-bottom: 1.5rem;
     flex: 1;
+    line-height: var(--leading-relaxed);
+    position: relative;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    transition: all var(--transition-base);
+  }
+  
+  .project-card:hover .project-description {
+    -webkit-line-clamp: unset;
+    color: rgba(255, 255, 255, 0.9);
   }
   
   .tech-stack {
@@ -183,9 +254,24 @@
     color: var(--text-primary);
     background: var(--bg-subtle);
     border: 1px solid var(--glass-border);
+    transition: all var(--transition-fast) var(--ease-out);
+  }
+  
+  .project-card:hover .tech-tag {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
   }
   
   @media (max-width: 768px) {
+    .projects {
+      padding: 1rem;
+    }
+    
+    .container {
+      padding: 0 1rem;
+    }
+    
     .section-title {
       font-size: var(--text-2xl);
       margin-bottom: 3rem;
@@ -193,6 +279,19 @@
     
     .projects-grid {
       grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .project-card {
+      padding: 1.5rem;
+    }
+    
+    .project-card h3 {
+      font-size: var(--text-lg);
+    }
+    
+    .project-description {
+      font-size: var(--text-sm);
     }
   }
 </style>

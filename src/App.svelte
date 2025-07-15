@@ -59,11 +59,21 @@
     overflow: hidden;
     position: relative;
     background-color: var(--bg-base);
+    width: 100%;
   }
   
   .sections-wrapper {
     transition: transform 0.8s var(--ease-in-out);
     will-change: transform;
+    width: 100%;
+  }
+  
+  /* Ensure each section can scroll internally if needed */
+  .sections-wrapper > :global(section) {
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
   }
   
   .scroll-progress {

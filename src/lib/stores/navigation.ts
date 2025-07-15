@@ -4,6 +4,10 @@ export const currentSection = writable(0);
 export const totalSections = 5;
 
 let isScrolling = false;
+let scrollAccumulator = 0;
+let lastScrollTime = Date.now();
+const SCROLL_THRESHOLD = 50; // Minimum delta to trigger scroll
+const SCROLL_TIMEOUT = 1200; // Increased timeout for smoother experience
 
 export function navigateToSection(index: number) {
   if (isScrolling || index < 0 || index >= totalSections) return;
@@ -13,7 +17,8 @@ export function navigateToSection(index: number) {
   
   setTimeout(() => {
     isScrolling = false;
-  }, 800);
+    scrollAccumulator = 0;
+  }, SCROLL_TIMEOUT);
 }
 
 export function handleWheel(event: WheelEvent) {
@@ -21,15 +26,31 @@ export function handleWheel(event: WheelEvent) {
   
   if (isScrolling) return;
   
-  const direction = event.deltaY > 0 ? 1 : -1;
-  currentSection.update(current => {
-    const next = current + direction;
-    if (next >= 0 && next < totalSections) {
-      navigateToSection(next);
-      return next;
-    }
-    return current;
-  });
+  const now = Date.now();
+  const timeDiff = now - lastScrollTime;
+  
+  // Reset accumulator if too much time has passed
+  if (timeDiff > 200) {
+    scrollAccumulator = 0;
+  }
+  
+  scrollAccumulator += event.deltaY;
+  lastScrollTime = now;
+  
+  // Only scroll if we've accumulated enough delta
+  if (Math.abs(scrollAccumulator) >= SCROLL_THRESHOLD) {
+    const direction = scrollAccumulator > 0 ? 1 : -1;
+    scrollAccumulator = 0;
+    
+    currentSection.update(current => {
+      const next = current + direction;
+      if (next >= 0 && next < totalSections) {
+        navigateToSection(next);
+        return next;
+      }
+      return current;
+    });
+  }
 }
 
 export function handleKeyboard(event: KeyboardEvent) {

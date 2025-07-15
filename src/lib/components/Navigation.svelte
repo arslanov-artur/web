@@ -96,6 +96,24 @@
     font-size: var(--text-sm);
     font-weight: 500;
     transition: all var(--transition-fast) var(--ease-out);
+    position: relative;
+  }
+  
+  .nav-item::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 0;
+    background: var(--gradient-primary);
+    border-radius: 2px;
+    transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .nav-item.active::before {
+    height: 20px;
   }
   
   .nav-item:hover {
@@ -112,6 +130,18 @@
     background: var(--text-muted);
     transition: all var(--transition-base) var(--ease-out);
     position: relative;
+    overflow: hidden;
+  }
+  
+  .nav-indicator::after {
+    content: '';
+    position: absolute;
+    left: -100%;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-primary);
+    transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .nav-item:hover .nav-indicator {
@@ -122,6 +152,12 @@
   .nav-item.active .nav-indicator {
     width: 60px;
     background: var(--gradient-primary);
+    box-shadow: 0 0 10px rgba(129, 140, 248, 0.5);
+  }
+  
+  .nav-item.active .nav-indicator::after {
+    left: 0;
+    animation: shimmer 2s infinite;
   }
   
   .nav-text {
