@@ -1,14 +1,3 @@
-## Features
-
-🎨 Beautiful dark/light theme system
-
-- 🚀 Single-page navigation with smooth scrolling
-- ✨ Elegant animations and transitions
-- 📱 Fully responsive design
-- 🎯 Optimized performance with Svelte
-- 🔤 Premium typography with custom fonts
-- 🌐 GitHub Pages ready
-
 ## Development
 
 ```bash
@@ -59,4 +48,4 @@ Edit the following files to personalize:
 
 ## License
 
-MIT
+Whatever
