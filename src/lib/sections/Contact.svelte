@@ -80,7 +80,7 @@
             
             <div class="footer-text" in:fade={{ duration: 600, delay: 800 }}>
               <p class="shimmer">Built with Svelte • Hosted on GitHub Pages</p>
-              <p>&copy; 2025 Arthur Arslanov. All rights reserved.</p>
+              <p>&copy; 2025 Artur Arslanov. All rights reserved.</p>
             </div>
           </div>
         </div>

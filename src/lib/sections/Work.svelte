@@ -4,26 +4,26 @@
   const experiences = [
     {
       company: 'Juro',
-      role: 'Senior Fullstack Developer',
+      role: 'Senior Software Engineer',
       period: 'Jun 2023 - Present',
       description: 'London based LegalTech startup specializing in AI-driven contract automation platform',
       highlights: [
-        'Optimized React performance from 2.4s to 800ms (3x improvement) for 1000+ items',
-        'Built document pipeline processing 8000+ contracts/month with 82% automation',
-        'Reduced WebSocket latency by 35%, supporting 25+ concurrent users',
-        'Mentored 2 junior developers: 25% faster PR approvals, 30% fewer bugs'
+        'Implemented performance optimizations using virtualization and memoization, improving render times from 2.4s to 800ms, resulting in 40% better user engagement',
+        'Built document processing pipeline, processing 8000+ contracts monthly with 82% automation accuracy, reducing manual review time by 60%',
+        'Mentored 2 junior developers, contributing to 25% improvement in code review approval time and 30% reduction in frontend bugs',
+        'Optimized real-time collaboration features, reducing document editing latency by 35% and supporting 25+ concurrent users without conflicts'
       ]
     },
     {
       company: 'Ancor',
-      role: 'Fullstack Developer',
+      role: 'Software Engineer',
       period: 'Oct 2019 - Jun 2023',
       description: 'Comprehensive staffing platform for automated HR management',
       highlights: [
-        'Architected NestJS backend serving 1000+ concurrent users with 99% uptime',
-        'Designed MySQL schema with 45+ tables, achieving sub-200ms query times',
-        'Built API integration layer connecting 5+ services, processing 50K+ calls daily',
-        'Implemented Redis caching reducing database load by 60%'
+        'Architected and developed scalable backend infrastructure serving 1000+ concurrent users with 150+ API endpoints',
+        'Designed complex database schema with 45+ interconnected tables supporting employee lifecycle management',
+        'Built advanced API integration layer connecting 5+ external services (payroll systems, government databases, tax authorities)',
+        'Implemented sophisticated caching architecture with multi-layered Redis strategy'
       ]
     }
   ];
@@ -37,16 +37,16 @@
           </h2>
           
           <div class="timeline">
-            {#each experiences as exp, i}
+            {#each experiences as exp}
               <div class="timeline-item">
                 <div class="timeline-marker"></div>
                 <div class="timeline-content glass">
                   <div class="timeline-header">
-                    <h3>{exp.company}</h3>
-                    <span class="period">{exp.period}</span>
+                    <h3 class="company-name">{exp.company}</h3>
+                    <div class="period">{exp.period}</div>
                   </div>
                   <h4>{exp.role}</h4>
-                  <p>{exp.description}</p>
+                  <p class="description">{exp.description}</p>
                   <ul class="highlights">
                     {#each exp.highlights as highlight}
                       <li>{highlight}</li>
@@ -77,7 +77,8 @@
   
   .section-title {
     font-size: var(--text-3xl);
-    margin-bottom: 4rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -199,16 +200,18 @@
     color: var(--text-muted);
     font-weight: 500;
     background: var(--glass-bg);
-    padding: 0.375rem 1rem;
+    padding: 0.375rem 0.75rem;
+    margin-bottom: 0.2rem;
     border-radius: 20px;
     border: 1px solid var(--glass-border);
     white-space: nowrap;
   }
   
-  .timeline-content p {
+  .timeline-content .description {
     font-size: var(--text-base);
     color: var(--text-secondary);
     margin-bottom: 1rem;
+    line-height: 1.3;
   }
   
   .highlights {
@@ -307,8 +310,8 @@
     
     .section-title {
       font-size: var(--text-2xl);
-      margin-bottom: 2rem;
-      padding: 0 1rem;
+      margin-bottom: 1rem;
+      padding: 0 1rem 1rem;
     }
     
     .period {
@@ -323,6 +326,10 @@
     .highlights li {
       font-size: var(--text-sm);
       line-height: 1.6;
+    }
+
+    .timeline-content .company-name {
+      font-size: var(--text-xl);
     }
   }
 </style>

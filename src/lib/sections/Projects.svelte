@@ -4,23 +4,23 @@
   const projects = [
     {
       title: 'StickIO Bot',
-      description: 'AI-powered Telegram bot that turns ideas into vibrant sticker packs. Generates custom stickers with various styles and emotions, used by thousands of users',
-      technologies: ['Node.js', 'Telegram Bot API', 'AI/ML', 'Image Generation'],
+      description: `AI-powered Telegram bot that turns ideas into vibrant sticker packs. Generates custom stickers with various styles and emotions, used by thousands of users`,
+      technologies: ['Node.js', 'NestJS', 'Telegram Bot API', 'TypeScript'],
       link: 'https://t.me/stickio_bot',
       demo: 'https://t.me/stickio_bot',
       type: 'telegram'
     },
     {
-      title: 'Headless UI Collection',
-      description: 'Production-ready headless UI components for React. Unstyled, accessible components that integrate seamlessly with any design system',
+      title: 'UI Collection',
+      description: `Production-ready UI components for React. Unstyled, accessible components that integrate seamlessly with any design system`,
       technologies: ['React', 'TypeScript', 'Headless UI', 'Accessibility'],
       link: 'https://github.com/arslanov-artur/react-headless-ui-collection',
       demo: null
     },
     {
-      title: 'Messenger PWA',
-      description: 'Progressive Web App messenger with real-time messaging, offline support, and push notifications. Built with modern web technologies',
-      technologies: ['React', 'PWA', 'Service Workers', 'WebSockets'],
+      title: 'Messenger',
+      description: `Progressive Web App messenger with real-time messaging, offline support, and push notifications. Built with modern web technologies`,
+      technologies: ['TypeScript', 'PWA', 'Service Workers', 'WebSockets'],
       link: 'https://github.com/arslanov-artur/messenger-pwa',
       demo: null
     }
@@ -35,7 +35,7 @@
           </h2>
           
           <div class="projects-grid">
-            {#each projects as project, i}
+            {#each projects as project}
               <a href={project.link} target="_blank" rel="noopener noreferrer" class="project-card-link">
                 <div class="project-card glass">
                   <div class="project-header">
@@ -86,7 +86,8 @@
   
   .section-title {
     font-size: var(--text-3xl);
-    margin-bottom: 4rem;
+    padding-bottom: 1rem;
+    margin-bottom: 3rem;
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -134,7 +135,7 @@
     overflow: hidden;
     transform-origin: center;
     cursor: pointer !important;
-    min-height: 350px;
+    min-height: 420px;
     transform: translateZ(0);
     will-change: transform, box-shadow;
   }
@@ -196,7 +197,6 @@
     position: relative;
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     transition: all var(--transition-base);
   }

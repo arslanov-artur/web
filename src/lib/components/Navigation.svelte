@@ -18,8 +18,6 @@
       const element = document.querySelector(id);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
-        // Update current section immediately when clicking
-        currentSection = id;
       }
     }
     menuOpen = false; // Close mobile menu after clicking

@@ -56,22 +56,25 @@
   
     <div class="content" in:fade={{ duration: 1000 }}>
       <h1 class="name" in:fly={{ y: 30, duration: 800, delay: 200 }}>
-        Arthur Arslanov
+        Artur Arslanov
       </h1>
       
       <p class="title" in:fly={{ y: 20, duration: 800, delay: 400 }}>
-        Senior Fullstack Developer
+        Senior Software Engineer
       </p>
       
       <div class="tagline-wrapper" in:fly={{ y: 20, duration: 800, delay: 600 }}>
         <p class="tagline">
           <span class="tagline-item">5+ years building scalable systems</span>
+        </p>
+        <p class="tagline">
+          <span class="tagline-item">TypeScript</span>
           <span class="tagline-dot">•</span>
           <span class="tagline-item">React</span>
           <span class="tagline-dot">•</span>
-          <span class="tagline-item">TypeScript</span>
-          <span class="tagline-dot">•</span>
           <span class="tagline-item">Node.js</span>
+          <span class="tagline-dot">•</span>
+          <span class="tagline-item">Nest.js</span>
         </p>
       </div>
       

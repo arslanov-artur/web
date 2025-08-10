@@ -1,11 +1,31 @@
 <script lang="ts">
   import { fly, fade } from 'svelte/transition';
-  
+
   const skills = [
-    { category: 'Frontend', items: ['React', 'TypeScript', 'Next.js', 'Redux/Zustand', 'Material UI', 'Styled Components', 'Webpack', 'Vite'] },
-    { category: 'Backend', items: ['Node.js', 'NestJS', 'Express', 'PostgreSQL', 'MySQL', 'MongoDB', 'Redis', 'TypeORM'] },
-    { category: 'Architecture', items: ['Microservices', 'WebSockets', 'RabbitMQ', 'ElasticSearch', 'Docker/K8s', 'REST API', 'GraphQL', 'Event-Driven'] },
-    { category: 'DevOps & Testing', items: ['CI/CD', 'GitHub Actions', 'Jest', 'Cypress', 'AWS', 'Nginx', 'PM2', 'Monitoring'] }
+    {
+      category: 'Frontend',
+        items: [
+        'TypeScript',
+        'React',
+        'Next.js',
+        'Material UI',
+        'Ant Design',
+        'Styled Components',
+        'Svelte'
+      ]
+    },
+    {
+      category: 'Backend',
+      items: ['Node.js', 'NestJS', 'Express.js', 'REST API', 'GraphQL', 'Microservices Architecture']
+    },
+    {
+      category: 'Database',
+      items: ['PostgreSQL', 'MySQL', 'MongoDB', 'Redis', 'ElasticSearch', 'TypeORM', 'MikroORM']
+    },
+    {
+      category: 'AWS',
+      items: ['S3', 'Textract', 'SDK integration']
+    },
   ];
 </script>
 
@@ -19,21 +39,20 @@
           <div class="about-grid">
             <div class="about-text" in:fly={{ x: -30, duration: 800, delay: 200 }}>
               <p>
-                Senior Fullstack Developer with 5+ years of commercial experience solving complex technical 
-                challenges. I've built real-time collaboration systems, automated document processing pipelines, 
+                Senior Software Engineer with 5+ years of commercial experience solving complex technical
+                challenges. I've built real-time collaboration systems, automated document processing pipelines,
                 and designed scalable API architectures
               </p>
               <p>
-                Delivered measurable results: platforms handling 1000+ concurrent users, 3x improvement 
-                in speed, and 60% reduction in manual workflows through automation. Strong expertise in 
-                React, TypeScript, and Node.js ecosystem
+                Delivered measurable results: platforms handling 1000+ concurrent users, 3x improvement
+                in speed, and 60% reduction in manual workflows through automation
               </p>
               <p>
-                I have a strong mentoring background, helping junior developers improve their skills and 
+                I have a strong mentoring background, helping junior developers improve their skills and
                 coding proficiency
               </p>
             </div>
-            
+
             <div class="skills-container" in:fly={{ x: 30, duration: 800, delay: 400 }}>
               {#each skills as skillGroup, i}
                 <div class="skill-group" in:fade={{ duration: 600, delay: 600 + i * 100 }}>
@@ -45,6 +64,8 @@
                   </div>
                 </div>
               {/each}
+
+              <h4 class="text-align-center">And more</h4>
             </div>
           </div>
         </div>
