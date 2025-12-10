@@ -1,11 +1,45 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { fade, fly } from 'svelte/transition';
-  import { navigateToSection } from '../stores/navigation';
-  
+
   let mounted = false;
-  onMount(() => mounted = true);
-  
+  let mouseX = 0;
+  let mouseY = 0;
+  let windowWidth = 0;
+  let windowHeight = 0;
+
+  // Parallax multipliers for different elements
+  const parallaxLayers = [
+    { x: 0.02, y: 0.02 },  // Slowest
+    { x: 0.04, y: 0.04 },
+    { x: 0.06, y: 0.06 },  // Fastest
+  ];
+
+  function handleMouseMove(e: MouseEvent) {
+    mouseX = (e.clientX - windowWidth / 2) / windowWidth;
+    mouseY = (e.clientY - windowHeight / 2) / windowHeight;
+  }
+
+  function handleResize() {
+    windowWidth = window.innerWidth;
+    windowHeight = window.innerHeight;
+  }
+
+  onMount(() => {
+    mounted = true;
+    windowWidth = window.innerWidth;
+    windowHeight = window.innerHeight;
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('resize', handleResize);
+  });
+
+  onDestroy(() => {
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', handleResize);
+    }
+  });
+
   function handleSmoothScroll(e: MouseEvent) {
     e.preventDefault();
     const target = e.currentTarget as HTMLAnchorElement;
@@ -17,42 +51,35 @@
       }
     }
   }
+
+  $: transform1 = `translate(${mouseX * parallaxLayers[0].x * 100}px, ${mouseY * parallaxLayers[0].y * 100}px)`;
+  $: transform2 = `translate(${mouseX * parallaxLayers[1].x * 100}px, ${mouseY * parallaxLayers[1].y * 100}px)`;
+  $: transform3 = `translate(${mouseX * parallaxLayers[2].x * 100}px, ${mouseY * parallaxLayers[2].y * 100}px)`;
 </script>
 
 <section id="home" class="hero">
   <div class="mesh-gradient gradient-animated"></div>
-  <div class="geometric-shapes">
-    <!-- Triangles -->
-    <div class="shape triangle triangle-1"></div>
-    <div class="shape triangle triangle-2"></div>
-    <div class="shape triangle triangle-3"></div>
-    
-    <!-- Hexagons -->
-    <div class="shape hexagon hexagon-1"></div>
-    <div class="shape hexagon hexagon-2"></div>
-    
-    <!-- Squares -->
-    <div class="shape square square-1"></div>
-    <div class="shape square square-2"></div>
-    
-    <!-- Circles -->
-    <div class="shape circle circle-1"></div>
-    <div class="shape circle circle-2"></div>
-    
-    <!-- Additional Polygons -->
-    <div class="shape polygon polygon-1"></div>
-    <div class="shape polygon polygon-2"></div>
-    
-    <!-- Cross-screen shapes -->
-    <div class="shape cross-shape triangle-cross"></div>
-    <div class="shape cross-shape square-cross"></div>
-    <div class="shape cross-shape circle-cross"></div>
+
+  <!-- Interactive floating orbs that follow mouse -->
+  <div class="interactive-bg">
+    <div class="parallax-layer layer-1" style="transform: {transform1}">
+      <div class="floating-blob blob-1"></div>
+      <div class="floating-blob blob-2"></div>
+    </div>
+    <div class="parallax-layer layer-2" style="transform: {transform2}">
+      <div class="floating-blob blob-3"></div>
+      <div class="glow-ring ring-1"></div>
+    </div>
+    <div class="parallax-layer layer-3" style="transform: {transform3}">
+      <div class="glow-ring ring-2"></div>
+      <div class="floating-dot dot-1"></div>
+      <div class="floating-dot dot-2"></div>
+      <div class="floating-dot dot-3"></div>
+    </div>
   </div>
-  <div class="floating-orbs">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-  </div>
+
+  <!-- Grid lines -->
+  <div class="grid-overlay"></div>
   
     <div class="content" in:fade={{ duration: 1000 }}>
       <h1 class="name" in:fly={{ y: 30, duration: 800, delay: 200 }}>
@@ -94,454 +121,193 @@
     padding: 2rem;
     width: 100%;
     box-sizing: border-box;
+    overflow: hidden;
   }
-  
+
   .mesh-gradient {
     position: absolute;
     inset: 0;
     background: var(--gradient-hero);
-    opacity: 0.3;
+    opacity: 0.4;
+    filter: blur(100px);
+  }
+
+  :global([data-theme="light"]) .mesh-gradient {
+    opacity: 0.5;
     filter: blur(80px);
   }
-  
-  :global([data-theme="light"]) .mesh-gradient {
-    opacity: 0.4;
-    filter: blur(50px);
-  }
-  
-  .floating-orbs {
+
+  /* Interactive Background */
+  .interactive-bg {
     position: absolute;
     inset: 0;
     overflow: hidden;
     pointer-events: none;
   }
-  
-  .orb {
+
+  .parallax-layer {
+    position: absolute;
+    inset: 0;
+    transition: transform 0.1s ease-out;
+  }
+
+  /* Floating Blobs */
+  .floating-blob {
     position: absolute;
     border-radius: 50%;
-    filter: blur(40px);
+    filter: blur(60px);
+    opacity: 0.4;
+    animation: blob-morph 20s ease-in-out infinite;
+  }
+
+  :global([data-theme="light"]) .floating-blob {
     opacity: 0.3;
-    mix-blend-mode: screen;
-    /* Removed animation to improve scroll performance */
+    filter: blur(40px);
   }
-  
-  :global([data-theme="light"]) .orb {
-    filter: blur(20px);
-    opacity: 0.5;
-    mix-blend-mode: normal;
+
+  .blob-1 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(129, 140, 248, 0.8) 0%, transparent 70%);
+    top: -15%;
+    left: -10%;
   }
-  
-  .orb-1 {
+
+  .blob-2 {
     width: 400px;
     height: 400px;
-    background: radial-gradient(circle, rgba(129, 140, 248, 0.6) 0%, transparent 70%);
-    top: -100px;
-    left: -100px;
-    animation-delay: 0s;
+    background: radial-gradient(circle, rgba(244, 114, 182, 0.7) 0%, transparent 70%);
+    bottom: -10%;
+    right: -5%;
+    animation-delay: -7s;
   }
-  
-  :global([data-theme="light"]) .orb-1 {
-    background: radial-gradient(circle, rgba(129, 140, 248, 0.8) 0%, transparent 70%);
+
+  .blob-3 {
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(52, 211, 153, 0.6) 0%, transparent 70%);
+    top: 40%;
+    left: 60%;
+    animation-delay: -14s;
   }
-  
-  .orb-2 {
+
+  /* Glow Rings */
+  .glow-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid;
+    opacity: 0.3;
+    animation: ring-pulse 8s ease-in-out infinite;
+  }
+
+  .ring-1 {
     width: 300px;
     height: 300px;
-    background: radial-gradient(circle, rgba(244, 114, 182, 0.6) 0%, transparent 70%);
-    bottom: -100px;
-    right: -100px;
-    animation-delay: 7s;
+    border-color: var(--color-primary);
+    top: 20%;
+    right: 15%;
   }
-  
-  :global([data-theme="light"]) .orb-2 {
-    background: radial-gradient(circle, rgba(244, 114, 182, 0.8) 0%, transparent 70%);
+
+  .ring-2 {
+    width: 200px;
+    height: 200px;
+    border-color: var(--color-accent-1);
+    bottom: 25%;
+    left: 10%;
+    animation-delay: -4s;
   }
-  
-  .orb-3 {
-    width: 250px;
-    height: 250px;
-    background: radial-gradient(circle, rgba(52, 211, 153, 0.6) 0%, transparent 70%);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    animation-delay: 14s;
+
+  /* Floating Dots */
+  .floating-dot {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    opacity: 0.6;
+    animation: dot-float 15s ease-in-out infinite;
   }
-  
-  :global([data-theme="light"]) .orb-3 {
-    background: radial-gradient(circle, rgba(52, 211, 153, 0.8) 0%, transparent 70%);
+
+  .dot-1 {
+    top: 15%;
+    left: 20%;
   }
-  
-  /* Geometric Shapes Container */
-  .geometric-shapes {
+
+  .dot-2 {
+    top: 70%;
+    right: 25%;
+    animation-delay: -5s;
+    background: var(--color-accent-1);
+  }
+
+  .dot-3 {
+    top: 45%;
+    left: 75%;
+    animation-delay: -10s;
+    background: var(--color-accent-2);
+  }
+
+  /* Grid Overlay */
+  .grid-overlay {
     position: absolute;
     inset: 0;
-    overflow: hidden;
+    background-image:
+      linear-gradient(rgba(129, 140, 248, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(129, 140, 248, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
     pointer-events: none;
   }
-  
-  /* Base Shape Styles */
-  .shape {
-    position: absolute;
-    opacity: 0.15;
-    will-change: transform;
-    filter: blur(0.5px);
+
+  :global([data-theme="light"]) .grid-overlay {
+    background-image:
+      linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
   }
-  
-  /* Light theme adjustments */
-  :global([data-theme="light"]) .shape {
-    opacity: 0.12;
-  }
-  
-  /* Add depth with different blur levels */
-  .shape:nth-child(odd) {
-    filter: blur(1px);
-  }
-  
-  .shape:nth-child(3n) {
-    filter: blur(0px);
-    opacity: 0.2;
-  }
-  
-  :global([data-theme="light"]) .shape:nth-child(3n) {
-    opacity: 0.15;
-  }
-  
-  /* Enhanced colors for light theme */
-  :global([data-theme="light"]) .triangle {
-    filter: saturate(1.5);
-  }
-  
-  :global([data-theme="light"]) .hexagon {
-    filter: saturate(1.3);
-  }
-  
-  :global([data-theme="light"]) .square,
-  :global([data-theme="light"]) .circle {
-    filter: saturate(1.4);
-  }
-  
-  :global([data-theme="light"]) .polygon {
-    filter: saturate(1.2);
-  }
-  
-  /* Triangles */
-  .triangle {
-    width: 0;
-    height: 0;
-    border-left: 50px solid transparent;
-    border-right: 50px solid transparent;
-  }
-  
-  .triangle-1 {
-    border-bottom: 86px solid rgba(129, 140, 248, 0.5);
-    top: 10%;
-    left: 15%;
-    transform: rotate(15deg);
-    animation: float-rotate 20s ease-in-out infinite;
-  }
-  
-  .triangle-2 {
-    border-bottom: 60px solid rgba(244, 114, 182, 0.4);
-    bottom: 20%;
-    right: 10%;
-    transform: rotate(-30deg);
-    animation: float-rotate-reverse 25s ease-in-out infinite;
-  }
-  
-  .triangle-3 {
-    border-bottom: 40px solid rgba(52, 211, 153, 0.4);
-    top: 60%;
-    left: 5%;
-    transform: rotate(45deg);
-    animation: float-drift 30s ease-in-out infinite;
-  }
-  
-  /* Hexagons */
-  .hexagon {
-    width: 80px;
-    height: 45px;
-    position: relative;
-    background: rgba(129, 140, 248, 0.3);
-  }
-  
-  .hexagon::before,
-  .hexagon::after {
-    content: "";
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-left: 40px solid transparent;
-    border-right: 40px solid transparent;
-  }
-  
-  .hexagon::before {
-    top: -22px;
-    border-bottom: 22px solid rgba(129, 140, 248, 0.3);
-  }
-  
-  .hexagon::after {
-    bottom: -22px;
-    border-top: 22px solid rgba(129, 140, 248, 0.3);
-  }
-  
-  .hexagon-1 {
-    top: 30%;
-    right: 20%;
-    transform: scale(1.2) rotate(30deg);
-    animation: float-scale 22s ease-in-out infinite;
-  }
-  
-  .hexagon-2 {
-    bottom: 15%;
-    left: 25%;
-    transform: scale(0.8) rotate(-15deg);
-    background: rgba(244, 114, 182, 0.3);
-    animation: float-rotate 28s ease-in-out infinite;
-  }
-  
-  .hexagon-2::before {
-    border-bottom-color: rgba(244, 114, 182, 0.3);
-  }
-  
-  .hexagon-2::after {
-    border-top-color: rgba(244, 114, 182, 0.3);
-  }
-  
-  /* Squares */
-  .square {
-    background: transparent;
-    border: 2px solid;
-  }
-  
-  .square-1 {
-    width: 60px;
-    height: 60px;
-    border-color: rgba(129, 140, 248, 0.4);
-    top: 45%;
-    left: 10%;
-    transform: rotate(45deg);
-    animation: float-spin 35s linear infinite;
-  }
-  
-  .square-2 {
-    width: 40px;
-    height: 40px;
-    border-color: rgba(52, 211, 153, 0.4);
-    top: 15%;
-    right: 35%;
-    transform: rotate(15deg);
-    animation: float-drift 25s ease-in-out infinite;
-  }
-  
-  /* Circles */
-  .circle {
-    border-radius: 50%;
-    background: transparent;
-    border: 2px solid;
-  }
-  
-  .circle-1 {
-    width: 50px;
-    height: 50px;
-    border-color: rgba(244, 114, 182, 0.4);
-    bottom: 30%;
-    right: 15%;
-    animation: float-scale 20s ease-in-out infinite;
-  }
-  
-  .circle-2 {
-    width: 30px;
-    height: 30px;
-    border-color: rgba(129, 140, 248, 0.5);
-    top: 70%;
-    right: 40%;
-    animation: float-drift 18s ease-in-out infinite;
-  }
-  
-  /* Polygons (Pentagons) */
-  .polygon {
-    width: 60px;
-    height: 60px;
-    background: rgba(244, 114, 182, 0.2);
-    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
-  }
-  
-  .polygon-1 {
-    top: 20%;
-    left: 40%;
-    transform: scale(1.3) rotate(72deg);
-    animation: float-rotate-reverse 32s ease-in-out infinite;
-  }
-  
-  .polygon-2 {
-    bottom: 25%;
-    left: 60%;
-    transform: scale(0.9) rotate(-36deg);
-    background: rgba(52, 211, 153, 0.2);
-    animation: float-spin 40s linear infinite;
-  }
-  
-  /* Animations - Enhanced with screen movement */
-  @keyframes float-rotate {
-    0% {
-      transform: rotate(15deg) translateY(0) translateX(0);
+
+  /* Animations */
+  @keyframes blob-morph {
+    0%, 100% {
+      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+      transform: rotate(0deg) scale(1);
     }
     25% {
-      transform: rotate(25deg) translateY(-30px) translateX(40px);
+      border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
     }
     50% {
-      transform: rotate(5deg) translateY(-50px) translateX(-30px);
+      border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%;
+      transform: rotate(180deg) scale(1.1);
     }
     75% {
-      transform: rotate(20deg) translateY(20px) translateX(20px);
-    }
-    100% {
-      transform: rotate(15deg) translateY(0) translateX(0);
+      border-radius: 60% 40% 60% 30% / 70% 30% 50% 60%;
     }
   }
-  
-  @keyframes float-rotate-reverse {
-    0% {
-      transform: rotate(-30deg) translateX(0) translateY(0);
+
+  @keyframes ring-pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.3;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 0.15;
+    }
+  }
+
+  @keyframes dot-float {
+    0%, 100% {
+      transform: translate(0, 0);
     }
     25% {
-      transform: rotate(-40deg) translateX(50px) translateY(-20px);
+      transform: translate(20px, -30px);
     }
     50% {
-      transform: rotate(-35deg) translateX(-40px) translateY(-40px);
+      transform: translate(-10px, -50px);
     }
     75% {
-      transform: rotate(-25deg) translateX(30px) translateY(30px);
-    }
-    100% {
-      transform: rotate(-30deg) translateX(0) translateY(0);
+      transform: translate(30px, -20px);
     }
   }
-  
-  @keyframes float-drift {
-    0% {
-      transform: translate(0, 0) rotate(45deg);
-    }
-    20% {
-      transform: translate(40px, -30px) rotate(50deg);
-    }
-    40% {
-      transform: translate(-20px, -60px) rotate(40deg);
-    }
-    60% {
-      transform: translate(60px, 20px) rotate(48deg);
-    }
-    80% {
-      transform: translate(-30px, 40px) rotate(42deg);
-    }
-    100% {
-      transform: translate(0, 0) rotate(45deg);
-    }
-  }
-  
-  @keyframes float-scale {
-    0% {
-      transform: scale(1.2) rotate(30deg) translate(0, 0);
-    }
-    25% {
-      transform: scale(1.3) rotate(40deg) translate(-20px, 30px);
-    }
-    50% {
-      transform: scale(1.5) rotate(35deg) translate(30px, -20px);
-    }
-    75% {
-      transform: scale(1.2) rotate(25deg) translate(-10px, -10px);
-    }
-    100% {
-      transform: scale(1.2) rotate(30deg) translate(0, 0);
-    }
-  }
-  
-  @keyframes float-spin {
-    0% {
-      transform: rotate(0deg) translate(0, 0);
-    }
-    25% {
-      transform: rotate(90deg) translate(20px, -20px);
-    }
-    50% {
-      transform: rotate(180deg) translate(-30px, 10px);
-    }
-    75% {
-      transform: rotate(270deg) translate(10px, 30px);
-    }
-    100% {
-      transform: rotate(360deg) translate(0, 0);
-    }
-  }
-  
-  /* New cross-screen animation */
-  @keyframes cross-screen {
-    0% {
-      transform: translateX(-100vw) translateY(0) rotate(0deg);
-    }
-    50% {
-      transform: translateX(50vw) translateY(-20vh) rotate(180deg);
-    }
-    100% {
-      transform: translateX(120vw) translateY(10vh) rotate(360deg);
-    }
-  }
-  
-  /* Cross-screen shapes */
-  .cross-shape {
-    position: fixed;
-    opacity: 0.1;
-  }
-  
-  :global([data-theme="light"]) .cross-shape {
-    opacity: 0.15;
-  }
-  
-  .triangle-cross {
-    width: 0;
-    height: 0;
-    border-left: 40px solid transparent;
-    border-right: 40px solid transparent;
-    border-bottom: 70px solid rgba(129, 140, 248, 0.3);
-    top: 20vh;
-    animation: cross-screen 45s linear infinite;
-  }
-  
-  :global([data-theme="light"]) .triangle-cross {
-    border-bottom-color: rgba(99, 102, 241, 0.4);
-  }
-  
-  .square-cross {
-    width: 50px;
-    height: 50px;
-    background: transparent;
-    border: 3px solid rgba(244, 114, 182, 0.3);
-    top: 50vh;
-    transform: rotate(45deg);
-    animation: cross-screen 60s linear infinite;
-    animation-delay: -20s;
-  }
-  
-  :global([data-theme="light"]) .square-cross {
-    border-color: rgba(236, 72, 153, 0.4);
-    border-width: 4px;
-  }
-  
-  .circle-cross {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: rgba(52, 211, 153, 0.2);
-    top: 70vh;
-    animation: cross-screen 50s linear infinite;
-    animation-delay: -40s;
-  }
-  
-  :global([data-theme="light"]) .circle-cross {
-    background: rgba(16, 185, 129, 0.3);
-  }
-  
+
   .content {
     position: relative;
     text-align: center;
@@ -698,112 +464,76 @@
   @media (max-width: 768px) {
     .hero {
       padding: 1rem;
-      overflow: hidden;
     }
-    
-    /* Adjust geometric shapes for mobile */
-    .shape {
-      opacity: 0.1;
+
+    /* Reduce blob sizes on mobile */
+    .floating-blob {
+      opacity: 0.25;
+      filter: blur(40px);
     }
-    
-    :global([data-theme="light"]) .shape {
-      opacity: 0.05;
+
+    .blob-1 {
+      width: 300px;
+      height: 300px;
     }
-    
-    /* Reduce shape sizes on mobile */
-    .triangle-1 {
-      border-left-width: 30px;
-      border-right-width: 30px;
-      border-bottom-width: 52px;
+
+    .blob-2 {
+      width: 250px;
+      height: 250px;
     }
-    
-    .triangle-2 {
-      border-left-width: 25px;
-      border-right-width: 25px;
-      border-bottom-width: 43px;
+
+    .blob-3 {
+      width: 200px;
+      height: 200px;
     }
-    
-    .triangle-3 {
-      border-left-width: 20px;
-      border-right-width: 20px;
-      border-bottom-width: 35px;
+
+    .glow-ring {
+      opacity: 0.15;
     }
-    
-    .hexagon {
-      width: 50px;
-      height: 28px;
+
+    .ring-1 {
+      width: 180px;
+      height: 180px;
     }
-    
-    .hexagon::before,
-    .hexagon::after {
-      border-left-width: 25px;
-      border-right-width: 25px;
+
+    .ring-2 {
+      width: 120px;
+      height: 120px;
     }
-    
-    .hexagon::before {
-      top: -14px;
-      border-bottom-width: 14px;
+
+    .grid-overlay {
+      background-size: 40px 40px;
     }
-    
-    .hexagon::after {
-      bottom: -14px;
-      border-top-width: 14px;
-    }
-    
-    .square-1 {
-      width: 40px;
-      height: 40px;
-    }
-    
-    .square-2 {
-      width: 30px;
-      height: 30px;
-    }
-    
-    .circle-1 {
-      width: 35px;
-      height: 35px;
-    }
-    
-    .circle-2 {
-      width: 25px;
-      height: 25px;
-    }
-    
-    .polygon {
-      width: 40px;
-      height: 40px;
-    }
-    
+
     .content {
       padding: 0;
       max-width: 100%;
     }
-    
+
     .name {
       font-size: var(--text-3xl);
       word-wrap: break-word;
     }
-    
+
     .title {
       font-size: var(--text-xl);
     }
-    
+
     .tagline-wrapper {
       max-width: 100%;
     }
-    
+
     .tagline {
       font-size: var(--text-base);
     }
-    
+
     .cta-group {
       flex-direction: column;
       align-items: center;
       width: 100%;
       padding: 0 1rem;
     }
-    
+
     .btn-primary, .btn-secondary {
       width: 100%;
       max-width: 280px;

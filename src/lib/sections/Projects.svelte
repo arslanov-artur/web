@@ -139,27 +139,32 @@
     transform: translateZ(0);
     will-change: transform, box-shadow;
   }
-  
+
   .project-card::before {
     content: '';
     position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: var(--gradient-primary);
-    border-radius: 1rem;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: conic-gradient(from var(--border-angle, 0deg), #818CF8, #F472B6, #34D399, #818CF8);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
     opacity: 0;
-    z-index: -1;
-    transition: opacity var(--transition-base);
+    transition: opacity 0.3s ease;
+    animation: border-spin 4s linear infinite;
   }
-  
+
+  @keyframes border-spin {
+    to { --border-angle: 360deg; }
+  }
+
   .project-card:hover {
     transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 0 20px 40px rgba(129, 140, 248, 0.3);
-    border-color: transparent;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 0 20px 40px rgba(129, 140, 248, 0.2);
   }
-  
+
   .project-card:hover::before {
     opacity: 1;
   }

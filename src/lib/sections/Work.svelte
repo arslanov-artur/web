@@ -147,31 +147,35 @@
   .timeline-content {
     padding: 2.5rem;
     border-radius: 1rem;
-    transition: box-shadow var(--transition-base) var(--ease-out), border-color var(--transition-base) var(--ease-out);
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     max-width: 600px;
     transform-origin: center;
   }
-  
+
   .timeline-content::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 2px;
-    background: var(--gradient-primary);
-    transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, #818CF8, #F472B6, #34D399);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
-  
+
   .timeline-content:hover {
-    box-shadow: var(--shadow-lg), 0 10px 30px rgba(129, 140, 248, 0.2);
-    border-color: var(--color-primary);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg), 0 10px 30px rgba(129, 140, 248, 0.15);
   }
-  
+
   .timeline-content:hover::before {
-    left: 0;
+    opacity: 1;
   }
   
   .timeline-header {
