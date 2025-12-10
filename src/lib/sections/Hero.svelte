@@ -286,11 +286,6 @@
     transition: all 0.6s ease 0.3s;
   }
 
-  .highlight {
-    color: var(--text-primary);
-    font-weight: 600;
-  }
-
   /* Tech Stack */
   .tech-stack {
     display: flex;
@@ -408,20 +403,29 @@
     }
 
     .header {
-      padding: 0 0 3rem;
+      padding: 0 0 2rem;
+      justify-content: flex-end;
+      align-items: center;
     }
 
     .nav {
-      gap: 0.75rem;
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      justify-content: flex-end;
+      align-items: center;
     }
 
     .nav a:not(.nav-cta) {
-      display: none;
+      display: block;
+      font-size: var(--text-base);
+      color: var(--text-secondary);
+      padding: 0.25rem 0;
     }
 
     .nav-cta {
-      padding: 0.5rem 1.25rem;
-      font-size: var(--text-sm);
+      padding: 0.625rem 1.25rem;
+      font-size: var(--text-base);
       border-radius: 8px;
     }
 
@@ -458,13 +462,6 @@
       line-height: 1.6;
       opacity: 1 !important;
       transform: none !important;
-    }
-
-    .highlight {
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
 
     .tech-stack {

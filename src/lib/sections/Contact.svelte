@@ -1,9 +1,13 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { puzzleReveal } from '../utils/animations';
+  import { riseReveal, setupScrollAnimation, isMobile } from '../utils/animations';
 
   onMount(() => {
-    puzzleReveal('#contact .bento-card', { delay: 100, staggerDelay: 50 });
+    if (isMobile()) {
+      setupScrollAnimation('#contact', '#contact .bento-card', riseReveal, { delay: 50, staggerDelay: 60 });
+    } else {
+      riseReveal('#contact .bento-card', { delay: 100, staggerDelay: 70 });
+    }
   });
 
   const contactInfo = {
@@ -386,9 +390,14 @@
     }
 
     .bento-grid {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-auto-rows: auto;
       gap: 0.75rem;
+    }
+
+    .cta-card {
+      grid-column: span 5;
     }
   }
 
@@ -396,13 +405,13 @@
     .contact {
       height: auto;
       min-height: auto;
-      padding: 2.5rem 1.25rem;
+      padding: 2rem 1rem;
       overflow: visible;
     }
 
     .container {
       padding: 0;
-      text-align: left;
+      text-align: center;
     }
 
     .section-title {
@@ -412,23 +421,31 @@
       text-transform: uppercase;
       letter-spacing: 0.15em;
       color: var(--color-primary);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
       font-family: var(--font-sans);
+      text-align: left;
     }
 
     .bento-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin-bottom: 2.5rem;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-auto-rows: auto;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
     }
 
     .bento-card {
-      border-radius: 1.25rem;
+      border-radius: 0.875rem;
+      transition: transform 0.3s ease;
+    }
+
+    .bento-card:active {
+      transform: scale(0.98);
     }
 
     .cta-card {
-      padding: 2rem;
+      grid-column: span 6;
+      padding: 1.25rem;
       border: 1px solid transparent;
       background:
         linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
@@ -437,56 +454,56 @@
     }
 
     .cta-icon {
-      width: 56px;
-      height: 56px;
-      margin-bottom: 1.25rem;
-      border-radius: 16px;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 0.75rem;
+      border-radius: 12px;
     }
 
     .cta-card h3 {
-      font-size: var(--text-xl);
-      margin-bottom: 0.75rem;
+      font-size: var(--text-base);
+      margin-bottom: 0.35rem;
     }
 
     .cta-card p {
-      font-size: var(--text-sm);
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
+      font-size: 0.7rem;
+      margin-bottom: 1rem;
+      line-height: 1.4;
     }
 
     .cta-button {
-      padding: 1rem 1.5rem;
-      font-size: var(--text-base);
+      padding: 0.75rem 1rem;
+      font-size: var(--text-xs);
       width: 100%;
       justify-content: center;
-      border-radius: 12px;
+      border-radius: 8px;
       font-weight: 600;
     }
 
     .link-card {
-      padding: 1.25rem;
-      gap: 0.75rem;
-      flex-direction: row;
-      justify-content: flex-start;
+      grid-column: span 2;
+      padding: 0.75rem 0.5rem;
+      gap: 0.35rem;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     .link-icon svg {
-      width: 24px;
-      height: 24px;
+      width: 18px;
+      height: 18px;
     }
 
     .link-name {
-      font-size: var(--text-sm);
+      font-size: 0.6rem;
     }
 
     .link-arrow {
-      position: static;
-      opacity: 0.5;
-      margin-left: auto;
+      display: none;
     }
 
     .footer-text {
-      font-size: var(--text-sm);
+      font-size: 0.7rem;
       color: var(--text-muted);
     }
 

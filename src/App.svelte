@@ -25,6 +25,13 @@
 
   let mounted = false;
   let isMobile = false;
+  let scrollProgress = 0;
+
+  function updateScrollProgress() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    scrollProgress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  }
 
   // All sections for mobile scroll
   const allSections = [
@@ -92,6 +99,9 @@
     } else {
       // Setup intersection observer for mobile scroll animations
       setTimeout(observeSections, 100);
+      // Track scroll progress on mobile
+      window.addEventListener('scroll', updateScrollProgress, { passive: true });
+      updateScrollProgress();
     }
   });
 
@@ -102,6 +112,7 @@
       window.removeEventListener('keydown', handleKeyboard);
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('scroll', updateScrollProgress);
       document.body.style.overflow = '';
     }
   });
@@ -169,6 +180,7 @@
 {#if mounted}
   {#if isMobile}
     <!-- Mobile: Simple scroll layout -->
+    <div class="mobile-progress-bar" style="--progress: {scrollProgress}%"></div>
     <main class="mobile-container">
       {#each allSections as section (section.id)}
         <div class="mobile-section" id={section.id}>
@@ -241,11 +253,25 @@
 {/if}
 
 <style>
+  /* Mobile: Progress bar */
+  .mobile-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: var(--progress, 0%);
+    background: var(--gradient-primary);
+    z-index: 1000;
+    transition: width 0.1s ease-out;
+    box-shadow: 0 0 10px var(--color-primary);
+  }
+
   /* Mobile: Simple scroll */
   .mobile-container {
     min-height: 100vh;
     background-color: var(--bg-base);
     overflow-x: hidden;
+    padding-top: 0;
   }
 
   .mobile-section {
@@ -254,6 +280,12 @@
     opacity: 1;
     transform: none;
     display: block;
+    position: relative;
+    padding-bottom: 2rem;
+  }
+
+  .mobile-section:last-child {
+    padding-bottom: 0;
   }
 
   /* Desktop: Fullpage scroll */
@@ -406,56 +438,6 @@
     50% { opacity: 1; }
   }
 
-  /* Scroll hint */
-  .scroll-hint {
-    position: fixed;
-    bottom: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--text-muted);
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    z-index: 100;
-    opacity: 0.6;
-  }
-
-  .mouse {
-    width: 22px;
-    height: 34px;
-    border: 1.5px solid var(--text-muted);
-    border-radius: 11px;
-    position: relative;
-    opacity: 0.8;
-  }
-
-  .wheel {
-    width: 3px;
-    height: 6px;
-    background: var(--color-primary);
-    border-radius: 2px;
-    position: absolute;
-    top: 6px;
-    left: 50%;
-    transform: translateX(-50%);
-    animation: scroll-wheel 2s ease-in-out infinite;
-  }
-
-  @keyframes scroll-wheel {
-    0%, 100% {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-    50% {
-      opacity: 0;
-      transform: translateX(-50%) translateY(8px);
-    }
-  }
-
   @media (max-width: 768px) {
     .nav-indicators {
       right: 1rem;
@@ -478,16 +460,6 @@
     .col-dot {
       width: 5px;
       height: 5px;
-    }
-
-    .scroll-hint {
-      bottom: 1.5rem;
-      font-size: 10px;
-    }
-
-    .mouse {
-      width: 18px;
-      height: 28px;
     }
 
     .direction-hint {

@@ -627,3 +627,63 @@ html {
   animation: ripple 0.6s ease-out;
   pointer-events: none;
 }
+
+/* ============================================
+   MOBILE ENHANCEMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Smooth scrollbar on mobile */
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Better section spacing */
+  section {
+    padding: 3rem 1.25rem !important;
+  }
+
+  /* Glass cards more visible on mobile */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Better touch targets */
+  a, button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Improved card shadows on mobile */
+  .bento-card,
+  .card {
+    box-shadow: var(--shadow-md);
+  }
+}
+
+/* Mobile section dividers */
+@media (max-width: 768px) {
+  .mobile-section {
+    position: relative;
+  }
+
+  .mobile-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--gradient-primary);
+    border-radius: 2px;
+    opacity: 0.5;
+  }
+
+  .mobile-section:last-child::after {
+    display: none;
+  }
+}

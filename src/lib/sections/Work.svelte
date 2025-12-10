@@ -1,9 +1,13 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { puzzleReveal } from '../utils/animations';
+  import { chaoticReveal, setupScrollAnimation, isMobile } from '../utils/animations';
 
   onMount(() => {
-    puzzleReveal('#work .card', { delay: 100, staggerDelay: 50 });
+    if (isMobile()) {
+      setupScrollAnimation('#work', '#work .card', chaoticReveal, { delay: 50, staggerDelay: 30 });
+    } else {
+      chaoticReveal('#work .card', { delay: 50, staggerDelay: 35 });
+    }
   });
 </script>
 
@@ -119,22 +123,6 @@
     25% { transform: translate(2%, 3%) scale(1.02); }
     50% { transform: translate(-1%, 5%) scale(0.98); }
     75% { transform: translate(3%, -2%) scale(1.01); }
-  }
-
-  .bg-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
-  }
-
-  :global([data-theme="light"]) .bg-grid {
-    background-image:
-      linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
   }
 
   .container {
@@ -370,47 +358,41 @@
     }
 
     .bento-grid {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: auto;
       gap: 0.75rem;
       height: auto;
       max-height: none;
     }
 
     .card {
-      grid-column: auto !important;
-      grid-row: auto !important;
+      grid-column: auto;
+      grid-row: auto;
     }
 
-    /* Featured cards full width */
-    .c1, .c4, .c7 {
-      order: 0;
-    }
+    /* Featured cards span 4 */
+    .c1 { grid-column: span 4; }
+    .c4 { grid-column: span 4; }
+    .c7 { grid-column: span 4; }
 
-    /* Stats smaller */
+    /* Stats span 2 */
     .c3, .c6, .c10 {
-      display: flex;
-      flex-direction: row;
+      grid-column: span 2;
+      flex-direction: column;
       align-items: center;
-      gap: 0.75rem;
-      padding: 1rem 1.25rem;
+      justify-content: center;
     }
 
-    .c3 .stat-num, .c6 .stat-num {
-      font-size: var(--text-xl);
-    }
-
-    /* Skills in a row */
+    /* Skills span 1 */
     .c2, .c5, .c8, .c9 {
-      display: inline-flex;
-      width: auto;
-      padding: 0.75rem 1.25rem;
+      grid-column: span 1;
     }
   }
 
   @media (max-width: 600px) {
     .work {
-      padding: 2.5rem 1.25rem;
+      padding: 2rem 1rem;
     }
 
     .container {
@@ -424,22 +406,30 @@
       text-transform: uppercase;
       letter-spacing: 0.15em;
       color: var(--color-primary);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
       font-family: var(--font-sans);
     }
 
     .bento-grid {
-      gap: 1rem;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: auto;
+      gap: 0.5rem;
     }
 
     .card {
-      padding: 1.5rem;
-      border-radius: 1.25rem;
+      padding: 0.75rem;
+      border-radius: 0.875rem;
+      transition: transform 0.3s ease;
+    }
+
+    .card:active {
+      transform: scale(0.98);
     }
 
     /* Featured card */
     .c1 {
-      padding: 1.75rem;
+      grid-column: span 4;
+      padding: 1rem;
       border: 1px solid transparent;
       background:
         linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
@@ -447,45 +437,54 @@
     }
 
     .badge {
-      padding: 0.35rem 1rem;
-      font-size: var(--text-xs);
+      padding: 0.2rem 0.6rem;
+      font-size: 0.55rem;
     }
 
     .c1 h3 {
-      font-size: var(--text-xl);
-    }
-
-    .role {
       font-size: var(--text-base);
     }
 
+    .role {
+      font-size: var(--text-xs);
+    }
+
     .c1 .desc {
-      font-size: var(--text-sm);
-      line-height: 1.6;
+      font-size: 0.7rem;
+      line-height: 1.4;
     }
 
     /* Job cards */
     .c4, .c7 {
-      padding: 1.5rem;
+      grid-column: span 4;
+      padding: 1rem;
     }
 
     .c4 h4, .c7 h4 {
-      font-size: var(--text-lg);
+      font-size: var(--text-sm);
     }
 
     .period {
-      font-size: var(--text-xs);
-      padding: 0.3rem 0.75rem;
+      font-size: 0.55rem;
+      padding: 0.15rem 0.4rem;
     }
 
     .tags span {
-      font-size: var(--text-xs);
-      padding: 0.35rem 0.75rem;
+      font-size: 0.55rem;
+      padding: 0.2rem 0.4rem;
     }
 
     /* Stat cards */
-    .c3, .c6, .c10 {
-      padding: 1.25rem 1.5rem;
+    .c3, .c6 {
+      grid-column: span 2;
+      padding: 0.875rem;
+    }
+
+    .c10 {
+      grid-column: span 4;
+      flex-direction: row;
+      gap: 0.75rem;
+      padding: 0.875rem;
     }
 
     .stat-num {
@@ -498,17 +497,18 @@
 
     /* Skill cards */
     .c2, .c5, .c8, .c9 {
-      padding: 1rem 1.5rem;
+      grid-column: span 1;
+      padding: 0.75rem;
     }
 
     .skill {
-      font-size: var(--text-base);
+      font-size: var(--text-sm);
     }
 
     /* Accent card */
     .card-accent {
-      padding: 1.5rem;
-      border-radius: 1.25rem;
+      padding: 0.875rem;
+      border-radius: 0.875rem;
     }
 
     .accent-num {
@@ -521,10 +521,6 @@
 
     .blob-1, .blob-2 {
       display: none;
-    }
-
-    .bg-grid {
-      opacity: 0.3;
     }
   }
 </style>

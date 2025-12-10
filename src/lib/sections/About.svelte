@@ -1,9 +1,13 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { puzzleReveal } from '../utils/animations';
+  import { spiralReveal, setupScrollAnimation, isMobile } from '../utils/animations';
 
   onMount(() => {
-    puzzleReveal('.bento-card', { delay: 100, staggerDelay: 60 });
+    if (isMobile()) {
+      setupScrollAnimation('#about', '#about .bento-card', spiralReveal, { delay: 50, staggerDelay: 60 });
+    } else {
+      spiralReveal('#about .bento-card', { delay: 100, staggerDelay: 70 });
+    }
   });
 
   const highlights = [
@@ -322,8 +326,9 @@
     }
 
     .bento-grid {
-      display: flex !important;
-      flex-direction: column !important;
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: auto;
       gap: 0.75rem;
       height: auto !important;
     }
@@ -332,13 +337,17 @@
       height: auto !important;
       min-height: auto !important;
     }
+
+    .intro-card {
+      grid-column: span 2;
+    }
   }
 
   @media (max-width: 600px) {
     .about {
       height: auto;
       min-height: auto;
-      padding: 2.5rem 1.25rem;
+      padding: 2rem 1rem;
       overflow: visible;
     }
 
@@ -353,23 +362,30 @@
       text-transform: uppercase;
       letter-spacing: 0.15em;
       color: var(--color-primary);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
       font-family: var(--font-sans);
     }
 
     .bento-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: auto;
+      gap: 0.6rem;
     }
 
     .bento-card {
-      border-radius: 1.25rem;
-      padding: 1.5rem;
+      border-radius: 0.875rem;
+      padding: 0.875rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .bento-card:active {
+      transform: scale(0.98);
     }
 
     .intro-card {
-      padding: 1.75rem;
+      grid-column: span 2;
+      padding: 1.25rem;
       border: 1px solid transparent;
       background:
         linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
@@ -377,8 +393,8 @@
     }
 
     .intro-card h3 {
-      font-size: var(--text-xl);
-      margin-bottom: 1rem;
+      font-size: var(--text-base);
+      margin-bottom: 0.5rem;
       background: var(--gradient-primary);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -386,16 +402,18 @@
     }
 
     .intro-card p {
-      font-size: var(--text-base);
-      margin-bottom: 1rem;
-      line-height: 1.7;
+      font-size: var(--text-sm);
+      margin-bottom: 0.5rem;
+      line-height: 1.5;
     }
 
     .stat-card {
-      padding: 1.25rem;
-      flex-direction: row;
-      justify-content: flex-start;
-      gap: 1rem;
+      padding: 0.875rem;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.25rem;
+      min-height: auto;
     }
 
     .stat-value {
@@ -405,29 +423,36 @@
 
     .stat-label {
       font-size: var(--text-xs);
+      text-align: center;
+      line-height: 1.2;
     }
 
     .skill-card {
-      padding: 1.25rem;
-      gap: 1rem;
+      padding: 0.625rem;
+      gap: 0.35rem;
+      min-height: auto;
+    }
+
+    .skill-header {
+      gap: 0.4rem;
     }
 
     .skill-header h4 {
-      font-size: var(--text-base);
+      font-size: var(--text-xs);
     }
 
     .skill-icon {
-      font-size: var(--text-xl);
+      font-size: var(--text-sm);
     }
 
     .skill-items {
-      gap: 0.5rem;
+      gap: 0.2rem;
     }
 
     .skill-tag {
-      padding: 0.4rem 0.75rem;
-      font-size: var(--text-xs);
-      border-radius: 8px;
+      padding: 0.15rem 0.35rem;
+      font-size: 0.6rem;
+      border-radius: 4px;
     }
 
     .blob-1, .blob-2 {

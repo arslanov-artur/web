@@ -1,9 +1,13 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { puzzleReveal } from '../utils/animations';
+  import { flipReveal, setupScrollAnimation, isMobile } from '../utils/animations';
 
   onMount(() => {
-    puzzleReveal('#publications .bento-card', { delay: 100, staggerDelay: 70 });
+    if (isMobile()) {
+      setupScrollAnimation('#publications', '#publications .bento-card', flipReveal, { delay: 50, staggerDelay: 90 });
+    } else {
+      flipReveal('#publications .bento-card', { delay: 100, staggerDelay: 100 });
+    }
   });
 
   const publications = [
@@ -333,9 +337,18 @@
     }
 
     .bento-grid {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: auto;
       gap: 0.75rem;
+    }
+
+    .featured-card {
+      grid-column: span 2;
+    }
+
+    .pub-card {
+      grid-column: span 2;
     }
   }
 
@@ -343,7 +356,7 @@
     .publications {
       height: auto;
       min-height: auto;
-      padding: 2.5rem 1.25rem;
+      padding: 2rem 1rem;
       overflow: visible;
     }
 
@@ -358,23 +371,30 @@
       text-transform: uppercase;
       letter-spacing: 0.15em;
       color: var(--color-primary);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
       font-family: var(--font-sans);
     }
 
     .bento-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: auto;
+      gap: 0.5rem;
     }
 
     .bento-card {
-      padding: 1.5rem;
-      border-radius: 1.25rem;
+      padding: 0.875rem;
+      border-radius: 0.875rem;
+      transition: transform 0.3s ease;
+    }
+
+    .bento-card:active {
+      transform: scale(0.98);
     }
 
     .featured-card {
-      padding: 1.75rem;
+      grid-column: span 2;
+      padding: 1rem;
       border: 1px solid transparent;
       background:
         linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
@@ -382,31 +402,32 @@
     }
 
     .featured-badge {
-      padding: 0.4rem 1rem;
-      font-size: var(--text-xs);
+      padding: 0.25rem 0.6rem;
+      font-size: 0.55rem;
     }
 
     .featured-card h3 {
-      font-size: var(--text-lg);
-      margin: 1rem 0 0.75rem;
-      line-height: 1.4;
+      font-size: var(--text-sm);
+      margin: 0.5rem 0 0.35rem;
+      line-height: 1.3;
     }
 
     .featured-card .description {
-      font-size: var(--text-sm);
-      line-height: 1.6;
+      font-size: 0.7rem;
+      line-height: 1.4;
     }
 
     .read-more {
-      font-size: var(--text-sm);
-      margin-top: 1rem;
+      font-size: 0.7rem;
+      margin-top: 0.5rem;
     }
 
     .stat-card {
-      padding: 1.25rem;
-      flex-direction: row;
-      justify-content: flex-start;
-      gap: 1rem;
+      padding: 0.875rem;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.25rem;
     }
 
     .stat-value {
@@ -416,16 +437,18 @@
 
     .stat-label {
       font-size: var(--text-xs);
+      text-align: center;
     }
 
     .pub-card {
-      padding: 1.5rem;
-      gap: 1rem;
+      grid-column: span 2;
+      padding: 1rem;
+      gap: 0.5rem;
     }
 
     .pub-card h4 {
-      font-size: var(--text-base);
-      line-height: 1.5;
+      font-size: var(--text-xs);
+      line-height: 1.3;
     }
 
     .blob-1, .blob-2 {
