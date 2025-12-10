@@ -13,22 +13,20 @@
 
 <section id="publications" class="publications">
   <div class="container">
-    <div class="content">
-      <h2 class="section-title">Publications</h2>
+    <h2 class="section-title">Publications</h2>
 
-      <div class="publications-list">
-        {#each publications as post}
-          <a href={post.link} target="_blank" rel="noopener noreferrer" class="publication-item glass">
-            <svg class="linkedin-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-            </svg>
-            <span class="publication-title">{post.title}</span>
-            <svg class="arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </a>
-        {/each}
-      </div>
+    <div class="publications-list">
+      {#each publications as post, i}
+        <a href={post.link} target="_blank" rel="noopener noreferrer" class="publication-item glass" style="--delay: {i * 0.1}s">
+          <svg class="linkedin-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+          </svg>
+          <span class="publication-title">{post.title}</span>
+          <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      {/each}
     </div>
   </div>
 </section>
@@ -36,22 +34,25 @@
 <style>
   .publications {
     background-color: var(--bg-base);
+    height: 95vh;
+    max-height: 95vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
   }
 
   .container {
     max-width: 600px;
     margin: 0 auto;
     padding: 0 2rem;
-  }
-
-  .content {
-    text-align: center;
+    width: 100%;
   }
 
   .section-title {
     font-size: var(--text-3xl);
-    padding-bottom: 1rem;
     margin-bottom: 2rem;
+    text-align: center;
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -68,22 +69,22 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 1rem 1.5rem;
-    border-radius: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: 1rem;
     text-decoration: none;
     color: inherit;
     transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     position: relative;
-    overflow: visible;
+    overflow: hidden;
   }
 
   .publication-item::before {
     content: '';
     position: absolute;
-    inset: -1px;
+    inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(135deg, #818CF8, #F472B6);
+    background: var(--gradient-border);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
@@ -94,7 +95,7 @@
 
   .publication-item:hover {
     transform: translateX(4px);
-    box-shadow: 0 4px 12px rgba(129, 140, 248, 0.15);
+    box-shadow: var(--shadow-lg), 0 0 30px rgba(129, 140, 248, 0.1);
   }
 
   .publication-item:hover::before {
@@ -104,7 +105,7 @@
   .linkedin-icon {
     flex-shrink: 0;
     color: var(--text-muted);
-    transition: color var(--transition-base);
+    transition: color 0.2s ease;
   }
 
   .publication-item:hover .linkedin-icon {
@@ -116,25 +117,20 @@
     font-size: var(--text-base);
     font-weight: 500;
     color: var(--text-primary);
-    text-align: left;
   }
 
   .arrow-icon {
     flex-shrink: 0;
     color: var(--text-muted);
-    transition: all var(--transition-base);
+    transition: all 0.2s ease;
   }
 
   .publication-item:hover .arrow-icon {
     color: var(--color-primary);
-    transform: translateX(2px);
+    transform: translateX(4px);
   }
 
-  @media (max-width: 768px) {
-    .publications {
-      padding: 3rem 1rem;
-    }
-
+  @media (max-width: 600px) {
     .container {
       padding: 0 1rem;
     }
@@ -145,7 +141,7 @@
     }
 
     .publication-item {
-      padding: 0.875rem 1.25rem;
+      padding: 1rem 1.25rem;
     }
 
     .publication-title {

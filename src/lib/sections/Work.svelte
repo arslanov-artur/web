@@ -1,6 +1,4 @@
 <script lang="ts">
-  let sectionElement: HTMLElement;
-  
   const experiences = [
     {
       company: 'SalaryGuide',
@@ -15,10 +13,9 @@
       period: 'Jun 2023 - Aug 2025',
       description: 'London based LegalTech startup specializing in contract automation platform',
       highlights: [
-        'Implemented performance optimizations using virtualization and memoization, improving render times from 2.4s to 800ms, resulting in 40% better user engagement',
-        'Built document processing pipeline using RabbitMQ queues and ElasticSearch indexing, processing 8000+ contracts monthly with 82% automation accuracy',
-        'Mentored 2 junior developers, contributing to 25% improvement in code review approval time and 30% reduction in frontend bugs',
-        'Optimized real-time collaboration features with WebSocket connections, reducing document editing latency by 35%'
+        'Performance optimizations: 2.4s → 800ms render times, 40% better engagement',
+        'Document pipeline: 8000+ contracts/month, 82% automation accuracy',
+        'Mentored 2 junior devs, 25% faster reviews, 30% fewer bugs'
       ]
     },
     {
@@ -27,140 +24,95 @@
       period: 'Oct 2019 - Jun 2023',
       description: 'Comprehensive staffing platform for automated HR management',
       highlights: [
-        'Architected scalable NestJS backend infrastructure serving 1000+ concurrent users with 150+ API endpoints, achieving 99% uptime',
-        'Designed MySQL database schema with 45+ interconnected tables, optimizing query performance with sub 200ms response times',
-        'Built API integration layer connecting 5+ external services, processing 50000+ API calls daily with 98% success rate',
-        'Implemented multi-layered Redis caching strategy, improving database load by 60% and API response times by 45%'
+        'NestJS backend: 1000+ concurrent users, 150+ API endpoints, 99% uptime',
+        'MySQL schema: 45+ tables, sub 200ms response times',
+        'Redis caching: 60% less DB load, 45% faster API responses'
       ]
     }
   ];
 </script>
 
-<section id="work" bind:this={sectionElement} class="work">
-    <div class="container">
-        <div class="content">
-          <h2 class="section-title">
-            Work Experience
-          </h2>
-          
-          <div class="timeline">
-            {#each experiences as exp}
-              <div class="timeline-item">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content glass">
-                  <div class="timeline-header">
-                    <h3 class="company-name">{exp.company}</h3>
-                    <div class="period">{exp.period}</div>
-                  </div>
-                  <h4>{exp.role}</h4>
-                  <p class="description">{exp.description}</p>
-                  <ul class="highlights">
-                    {#each exp.highlights as highlight}
-                      <li>{highlight}</li>
-                    {/each}
-                  </ul>
-                </div>
-              </div>
-            {/each}
+<section id="work" class="work">
+  <div class="container">
+    <h2 class="section-title">Work Experience</h2>
+
+    <div class="work-grid">
+      {#each experiences as exp, i}
+        <div class="work-card glass" style="--delay: {i * 0.1}s">
+          <div class="card-header">
+            <div class="company-info">
+              <h3 class="company-name">{exp.company}</h3>
+              <span class="role">{exp.role}</span>
+            </div>
+            <span class="period">{exp.period}</span>
           </div>
+
+          <p class="description">{exp.description}</p>
+
+          {#if exp.highlights.length > 0}
+            <ul class="highlights">
+              {#each exp.highlights as highlight}
+                <li>{highlight}</li>
+              {/each}
+            </ul>
+          {/if}
         </div>
+      {/each}
     </div>
+  </div>
 </section>
 
 <style>
   .work {
     background-color: var(--bg-base);
+    height: 95vh;
+    max-height: 95vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
   }
-  
+
   .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
+    width: 100%;
   }
-  
-  .content {
-    text-align: center;
-  }
-  
+
   .section-title {
     font-size: var(--text-3xl);
-    padding-bottom: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  
-  .timeline {
-    position: relative;
-    padding: 2rem 0;
-  }
-  
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2px;
-    height: 100%;
-    background: var(--glass-border);
-  }
-  
-  .timeline-item {
-    position: relative;
-    width: 50%;
-    padding: 2rem;
-    text-align: left;
-  }
-  
-  .timeline-item:nth-child(odd) {
-    left: 0;
-    padding-right: 6rem;
-  }
-  
-  .timeline-item:nth-child(even) {
-    left: 50%;
-    padding-left: 6rem;
-  }
-  
-  .timeline-marker {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background: var(--gradient-primary);
-    border-radius: 50%;
-    top: 2rem;
-    z-index: 1;
-    box-shadow: 0 0 0 4px var(--bg-base), 0 0 0 6px var(--color-primary);
-    /* Removed animation to improve scroll performance */
-  }
-  
-  .timeline-item:nth-child(odd) .timeline-marker {
-    right: -10px;
-  }
-  
-  .timeline-item:nth-child(even) .timeline-marker {
-    left: -10px;
-  }
-  
-  .timeline-content {
-    padding: 2.5rem;
-    border-radius: 1rem;
-    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-    position: relative;
-    overflow: visible;
-    max-width: 600px;
-    transform-origin: center;
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
   }
 
-  .timeline-content::before {
+  .work-card {
+    padding: 1.5rem;
+    border-radius: 1.25rem;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .work-card::before {
     content: '';
     position: absolute;
-    inset: -1px;
+    inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(135deg, #818CF8, #F472B6, #34D399);
+    background: var(--gradient-border);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
@@ -169,178 +121,129 @@
     transition: opacity 0.3s ease;
   }
 
-  .timeline-content:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg), 0 10px 30px rgba(129, 140, 248, 0.15);
-  }
-
-  .timeline-content:hover::before {
+  .work-card:hover::before {
     opacity: 1;
   }
-  
-  .timeline-header {
+
+  .work-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg), 0 0 30px rgba(129, 140, 248, 0.1);
+  }
+
+  .card-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 0.5rem;
-    gap: 1rem;
-    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+    gap: 0.5rem;
   }
-  
-  .timeline-content h3 {
-    font-size: var(--text-2xl);
-    color: var(--color-primary);
-    font-family: var(--font-display);
+
+  .company-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .company-name {
+    font-size: var(--text-lg);
     font-weight: 600;
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  
-  .timeline-content h4 {
-    font-size: var(--text-lg);
+
+  .role {
+    font-size: var(--text-sm);
     color: var(--text-primary);
-    margin-bottom: 1rem;
-    font-family: var(--font-sans);
     font-weight: 500;
   }
-  
+
   .period {
-    font-size: var(--text-base);
+    font-size: var(--text-xs);
     color: var(--text-muted);
-    font-weight: 500;
     background: var(--glass-bg);
-    padding: 0.375rem 0.75rem;
-    margin-bottom: 0.2rem;
+    padding: 0.25rem 0.625rem;
     border-radius: 20px;
     border: 1px solid var(--glass-border);
     white-space: nowrap;
+    flex-shrink: 0;
   }
-  
-  .timeline-content .description {
-    font-size: var(--text-base);
+
+  .description {
+    font-size: var(--text-sm);
     color: var(--text-secondary);
-    margin-bottom: 1rem;
-    line-height: 1.3;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
   }
-  
+
   .highlights {
     list-style: none;
     padding: 0;
+    margin: 0;
+    flex: 1;
   }
-  
+
   .highlights li {
     position: relative;
-    padding-left: 1.5rem;
-    margin-bottom: 0.5rem;
-    font-size: var(--text-sm);
+    padding-left: 1rem;
+    margin-bottom: 0.375rem;
+    font-size: var(--text-xs);
     color: var(--text-muted);
+    line-height: 1.5;
   }
-  
+
   .highlights li::before {
     content: '▸';
     position: absolute;
     left: 0;
     color: var(--color-primary);
-    animation: slide-in-left 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
   }
-  
-  .highlights li {
-    opacity: 0;
-    animation: slide-in-left 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  }
-  
-  .timeline-item:nth-child(1) .highlights li:nth-child(1) { animation-delay: 0.3s; }
-  .timeline-item:nth-child(1) .highlights li:nth-child(2) { animation-delay: 0.4s; }
-  .timeline-item:nth-child(1) .highlights li:nth-child(3) { animation-delay: 0.5s; }
-  .timeline-item:nth-child(1) .highlights li:nth-child(4) { animation-delay: 0.6s; }
-  
-  .timeline-item:nth-child(2) .highlights li:nth-child(1) { animation-delay: 0.5s; }
-  .timeline-item:nth-child(2) .highlights li:nth-child(2) { animation-delay: 0.6s; }
-  .timeline-item:nth-child(2) .highlights li:nth-child(3) { animation-delay: 0.7s; }
-  .timeline-item:nth-child(2) .highlights li:nth-child(4) { animation-delay: 0.8s; }
-  
-  @media (max-width: 768px) {
-    .work {
-      padding: 3rem 0;
-    }
-    
-    .container {
-      padding: 0;
-      max-width: 100%;
-    }
-    
-    .timeline {
-      padding: 0;
-      margin: 0;
-    }
-    
-    .timeline::before {
-      left: 16px;
-      width: 2px;
-      background: linear-gradient(180deg, transparent, var(--color-primary) 20%, var(--color-primary) 80%, transparent);
-    }
-    
-    .timeline-item {
-      width: 100%;
-      padding: 1rem 0 1rem 40px !important;
-      left: 0 !important;
-      margin: 0;
-    }
-    
-    .timeline-marker {
-      left: 8px !important;
-      right: auto !important;
-      width: 16px;
-      height: 16px;
-      border: 2px solid var(--bg-base);
-      box-shadow: 0 0 0 2px var(--color-primary);
-      top: 1.5rem;
-    }
-    
-    .timeline-content {
-      padding: 1.25rem;
-      margin-right: 1rem;
-      border-radius: 0.75rem;
-    }
-    
-    .timeline-header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.25rem;
-    }
-    
-    .timeline-content h3 {
-      font-size: var(--text-lg);
-    }
-    
-    .timeline-content h4 {
-      font-size: var(--text-base);
-    }
-    
-    .section-title {
-      font-size: var(--text-2xl);
-      margin-bottom: 1rem;
-      padding: 0 1rem 1rem;
-    }
-    
-    .period {
-      order: -1;
-      font-size: var(--text-xs);
-    }
-    
-    .highlights {
-      margin-left: -0.5rem;
-    }
-    
-    .highlights li {
-      font-size: var(--text-sm);
-      line-height: 1.6;
+
+  @media (max-width: 900px) {
+    .work-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      max-height: 70vh;
+      overflow-y: auto;
+      padding-right: 0.5rem;
     }
 
-    .timeline-content .company-name {
-      font-size: var(--text-xl);
+    .work-grid::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .work-grid::-webkit-scrollbar-track {
+      background: var(--glass-bg);
+      border-radius: 2px;
+    }
+
+    .work-grid::-webkit-scrollbar-thumb {
+      background: var(--color-primary);
+      border-radius: 2px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .container {
+      padding: 0 1rem;
+    }
+
+    .section-title {
+      font-size: var(--text-2xl);
+      margin-bottom: 1.5rem;
+    }
+
+    .work-card {
+      padding: 1.25rem;
+    }
+
+    .card-header {
+      flex-direction: column;
+    }
+
+    .period {
+      align-self: flex-start;
     }
   }
 </style>

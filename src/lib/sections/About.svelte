@@ -81,6 +81,12 @@
 <style>
   .about {
     background-color: var(--bg-base);
+    height: 95vh;
+    max-height: 95vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
   }
 
   .container {

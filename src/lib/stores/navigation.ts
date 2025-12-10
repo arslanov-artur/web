@@ -5,54 +5,54 @@ export const isTransitioning = writable(false);
 export const transitionDirection = writable<'up' | 'down'>('down');
 export const totalSections = 6;
 
-let scrollAccumulator = 0;
-let lastScrollTime = Date.now();
-const SCROLL_THRESHOLD = 50;
 const TRANSITION_DURATION = 800;
+const COOLDOWN_AFTER_TRANSITION = 300;
+
+let lastNavigationTime = 0;
+let isInCooldown = false;
 
 export function navigateToSection(index: number) {
-  if (get(isTransitioning) || index < 0 || index >= totalSections) return;
+  if (get(isTransitioning) || isInCooldown || index < 0 || index >= totalSections) return;
 
   const current = get(currentSection);
   if (index === current) return;
 
+  lastNavigationTime = Date.now();
   transitionDirection.set(index > current ? 'down' : 'up');
   isTransitioning.set(true);
   currentSection.set(index);
 
   setTimeout(() => {
     isTransitioning.set(false);
-    scrollAccumulator = 0;
+    // Add cooldown period after transition
+    isInCooldown = true;
+    setTimeout(() => {
+      isInCooldown = false;
+    }, COOLDOWN_AFTER_TRANSITION);
   }, TRANSITION_DURATION);
 }
 
 export function handleWheel(event: WheelEvent) {
   event.preventDefault();
 
-  if (get(isTransitioning)) return;
+  // Block during transition and cooldown
+  if (get(isTransitioning) || isInCooldown) return;
 
-  const now = Date.now();
-  if (now - lastScrollTime > 200) {
-    scrollAccumulator = 0;
-  }
+  // Only respond to significant scroll delta
+  const delta = event.deltaY;
+  if (Math.abs(delta) < 30) return;
 
-  scrollAccumulator += event.deltaY;
-  lastScrollTime = now;
+  const current = get(currentSection);
+  const direction = delta > 0 ? 1 : -1;
+  const next = current + direction;
 
-  if (Math.abs(scrollAccumulator) >= SCROLL_THRESHOLD) {
-    const direction = scrollAccumulator > 0 ? 1 : -1;
-    scrollAccumulator = 0;
-
-    const current = get(currentSection);
-    const next = current + direction;
-    if (next >= 0 && next < totalSections) {
-      navigateToSection(next);
-    }
+  if (next >= 0 && next < totalSections) {
+    navigateToSection(next);
   }
 }
 
 export function handleKeyboard(event: KeyboardEvent) {
-  if (get(isTransitioning)) return;
+  if (get(isTransitioning) || isInCooldown) return;
 
   const current = get(currentSection);
 
@@ -85,16 +85,15 @@ export function handleKeyboard(event: KeyboardEvent) {
 
 // Touch support
 let touchStartY = 0;
-let touchEndY = 0;
 
 export function handleTouchStart(event: TouchEvent) {
   touchStartY = event.touches[0].clientY;
 }
 
 export function handleTouchEnd(event: TouchEvent) {
-  if (get(isTransitioning)) return;
+  if (get(isTransitioning) || isInCooldown) return;
 
-  touchEndY = event.changedTouches[0].clientY;
+  const touchEndY = event.changedTouches[0].clientY;
   const diff = touchStartY - touchEndY;
 
   if (Math.abs(diff) > 50) {
