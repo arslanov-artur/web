@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import ThemeToggle from '../components/ThemeToggle.svelte';
 
   let mounted = false;
   let ready = false;
@@ -34,11 +35,11 @@
     <div class="container" class:ready>
       <!-- Header -->
       <header class="header">
-        <a href="/" class="logo">A.</a>
         <nav class="nav">
           <a href="#about">About</a>
           <a href="#work">Work</a>
           <a href="#contact" class="nav-cta">Contact</a>
+          <ThemeToggle />
         </nav>
       </header>
 
@@ -54,38 +55,29 @@
           </div>
         </div>
 
-        <div class="info">
-          <p class="bio">
-            Building digital products with precision and care.
-            <span class="highlight">5+ years</span> crafting scalable solutions.
-          </p>
+        <p class="bio">
+          Building digital products with precision and care.
+          <span class="highlight">6+ years</span> crafting scalable solutions.
+        </p>
 
-          <div class="meta">
-            <span class="meta-item">
-              <span class="meta-label">Based in</span>
-              <span class="meta-value">Berlin</span>
-            </span>
-            <span class="meta-item">
-              <span class="meta-label">Stack</span>
-              <span class="meta-value">TS / React / Node</span>
-            </span>
-          </div>
+        <div class="tech-stack">
+          <span class="stack-item">TypeScript</span>
+          <span class="stack-item">React</span>
+          <span class="stack-item">Node.js</span>
+          <span class="stack-item">PostgreSQL</span>
         </div>
       </main>
 
       <!-- Footer -->
       <footer class="footer">
-        <div class="name-block">
-          <span class="name">Artur Arslanov</span>
-          <span class="status">
-            <span class="status-dot"></span>
-            Available
-          </span>
+        <div class="scroll-hint">
+          <div class="scroll-line"></div>
+          <span>Scroll to explore</span>
         </div>
 
         <a href="#work" class="cta">
           View Work
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M7 17L17 7M17 7H7M17 7v10"/>
           </svg>
         </a>
@@ -102,6 +94,7 @@
     position: relative;
     background: var(--bg-base);
     overflow: hidden;
+    padding: 1rem 2rem 2rem;
   }
 
   /* Dynamic background */
@@ -166,15 +159,16 @@
     height: 100%;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 4rem;
+    padding: 1rem 4rem 0;
     display: flex;
     flex-direction: column;
   }
 
   .container.ready .word,
   .container.ready .bio,
-  .container.ready .meta,
-  .container.ready .footer {
+  .container.ready .tech-stack,
+  .container.ready .footer,
+  .container.ready .scroll-hint {
     opacity: 1;
     transform: translateY(0);
   }
@@ -182,24 +176,18 @@
   /* Header */
   .header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-    padding: 1.5rem 0;
+    padding: 0.5rem 0;
     flex-shrink: 0;
     opacity: 0;
     animation: fadeIn 0.6s ease 0.2s forwards;
+    position: relative;
+    z-index: 10;
   }
 
   @keyframes fadeIn {
     to { opacity: 1; }
-  }
-
-  .logo {
-    font-size: var(--text-2xl);
-    font-weight: 700;
-    color: var(--text-primary);
-    text-decoration: none;
-    letter-spacing: -0.03em;
   }
 
   .nav {
@@ -249,20 +237,19 @@
   }
 
   .line {
-    overflow: hidden;
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: 1rem;
   }
 
   .word {
-    font-size: clamp(3.5rem, 12vw, 10rem);
+    font-size: clamp(3rem, 10vw, 8rem);
     font-weight: 600;
     letter-spacing: -0.04em;
-    line-height: 0.9;
+    line-height: 1;
     color: var(--text-primary);
     opacity: 0;
-    transform: translateY(100%);
+    transform: translateY(50px);
     transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -278,15 +265,9 @@
     transition: background 1.5s ease;
   }
 
-  /* Info */
-  .info {
-    max-width: 500px;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
+  /* Bio */
   .bio {
+    max-width: 500px;
     font-size: var(--text-lg);
     color: var(--text-secondary);
     line-height: 1.6;
@@ -298,79 +279,75 @@
 
   .highlight {
     color: var(--text-primary);
-    font-weight: 500;
+    font-weight: 600;
   }
 
-  .meta {
+  /* Tech Stack */
+  .tech-stack {
     display: flex;
-    gap: 2rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
     opacity: 0;
     transform: translateY(20px);
     transition: all 0.6s ease 0.4s;
   }
 
-  .meta-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .meta-label {
-    font-size: 11px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  .meta-value {
+  .stack-item {
     font-size: var(--text-sm);
-    color: var(--text-primary);
     font-weight: 500;
+    color: var(--text-primary);
+    padding: 0.5rem 1rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    transition: all 0.3s ease;
+  }
+
+  .stack-item:hover {
+    background: rgba(129, 140, 248, 0.1);
+    border-color: rgba(129, 140, 248, 0.3);
+    color: var(--color-primary);
+    transform: translateY(-2px);
   }
 
   /* Footer */
   .footer {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    padding: 1.5rem 0;
+    gap: 1.25rem;
+    padding-bottom: 2rem;
+    margin-top: auto;
     flex-shrink: 0;
-    border-top: 1px solid var(--glass-border);
     opacity: 0;
     transform: translateY(20px);
     transition: all 0.6s ease 0.5s;
   }
 
-  .name-block {
+  .scroll-hint {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    gap: 0.75rem;
   }
 
-  .name {
-    font-size: var(--text-sm);
-    color: var(--text-secondary);
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--text-muted), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
   }
 
-  .status {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: var(--text-xs);
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+
+  .scroll-hint span {
+    font-size: 10px;
     color: var(--text-muted);
-  }
-
-  .status-dot {
-    width: 6px;
-    height: 6px;
-    background: #22c55e;
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
   }
 
   .cta {
@@ -430,26 +407,29 @@
       height: 0.6rem;
     }
 
-    .info {
-      max-width: 100%;
-      gap: 0.75rem;
-    }
-
     .bio {
       font-size: var(--text-base);
+      max-width: 100%;
+    }
+
+    .tech-stack {
+      gap: 0.5rem;
+    }
+
+    .stack-item {
+      padding: 0.4rem 0.8rem;
+      font-size: var(--text-xs);
     }
 
     .footer {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1rem;
-      padding: 1rem 0;
+      gap: 1.5rem;
+      padding: 1.5rem 0;
     }
 
     .cta {
       width: 100%;
       justify-content: center;
-      padding: 0.75rem 1.25rem;
+      padding: 0.875rem 1.5rem;
     }
 
     .blob-1 {

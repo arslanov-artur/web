@@ -38,10 +38,6 @@
 
 <style>
   .theme-toggle {
-    position: fixed;
-    top: 2rem;
-    right: 2rem;
-    z-index: 1000;
     background: none;
     border: none;
     padding: 0;
@@ -88,10 +84,4 @@
     height: 14px;
   }
   
-  @media (max-width: 768px) {
-    .theme-toggle {
-      top: 2rem;
-      right: 1rem;
-    }
-  }
 </style>

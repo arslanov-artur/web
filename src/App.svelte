@@ -126,7 +126,6 @@
   {#if mounted}
     <CustomCursor />
     <Navigation />
-    <ThemeToggle />
 
     <div class="sections-viewport">
       {#key `${$currentPosition.row}-${$currentPosition.col}`}
@@ -185,15 +184,6 @@
       {/if}
     </div>
 
-    <!-- Scroll hint (only on first section) -->
-    {#if $currentPosition.row === 0 && $currentPosition.col === 0}
-      <div class="scroll-hint">
-        <div class="mouse">
-          <div class="wheel"></div>
-        </div>
-        <span>Scroll to explore</span>
-      </div>
-    {/if}
   {/if}
 </main>
 
