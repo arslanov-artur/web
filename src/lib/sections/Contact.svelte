@@ -24,6 +24,7 @@
   <div class="bg-grid"></div>
 
   <div class="container">
+    <h2 class="section-title">Contact</h2>
     <div class="bento-grid">
       <!-- Main CTA card -->
       <div class="bento-card cta-card glass">
@@ -179,6 +180,10 @@
     padding: 0 2rem;
     width: 100%;
     text-align: center;
+  }
+
+  .section-title {
+    display: none;
   }
 
   .bento-grid {
@@ -390,6 +395,18 @@
 
     .container {
       padding: 0;
+      text-align: left;
+    }
+
+    .section-title {
+      display: block;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--color-primary);
+      margin-bottom: 1.5rem;
+      font-family: var(--font-sans);
     }
 
     .bento-grid {
@@ -405,6 +422,11 @@
 
     .cta-card {
       padding: 2rem;
+      border: 1px solid transparent;
+      background:
+        linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
+        var(--gradient-primary) border-box;
+      text-align: center;
     }
 
     .cta-icon {

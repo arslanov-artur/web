@@ -2,7 +2,7 @@
   import { fly, fade } from 'svelte/transition';
 
   const highlights = [
-    { value: '5+', label: 'Years Experience' },
+    { value: '6+', label: 'Years Experience' },
     { value: '1000+', label: 'Concurrent Users' },
     { value: '60%', label: 'Workflow Automation' },
     { value: '3x', label: 'Speed Improvement' }
@@ -40,6 +40,7 @@
   <div class="bg-grid"></div>
 
   <div class="container">
+    <h2 class="section-title">About</h2>
     <div class="bento-grid">
       <!-- Main intro card - spans 2 columns -->
       <div class="bento-card intro-card glass">
@@ -158,6 +159,10 @@
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 2rem;
+  }
+
+  .section-title {
+    display: none;
   }
 
   .bento-grid {
@@ -336,6 +341,17 @@
       padding: 0;
     }
 
+    .section-title {
+      display: block;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--color-primary);
+      margin-bottom: 1.5rem;
+      font-family: var(--font-sans);
+    }
+
     .bento-grid {
       display: flex;
       flex-direction: column;
@@ -349,6 +365,10 @@
 
     .intro-card {
       padding: 1.75rem;
+      border: 1px solid transparent;
+      background:
+        linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
+        var(--gradient-primary) border-box;
     }
 
     .intro-card h3 {

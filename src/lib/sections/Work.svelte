@@ -7,6 +7,7 @@
   <div class="bg-blob blob-2"></div>
 
   <div class="container">
+    <h2 class="section-title">Experience</h2>
     <div class="bento-grid">
       <div class="card c1 glass">
         <span class="badge">Now</span>
@@ -137,6 +138,10 @@
     margin: 0 auto;
     padding: 0 2rem;
     width: 100%;
+  }
+
+  .section-title {
+    display: none;
   }
 
   /* CHAOTIC grid */
@@ -406,6 +411,17 @@
       padding: 0;
     }
 
+    .section-title {
+      display: block;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--color-primary);
+      margin-bottom: 1.5rem;
+      font-family: var(--font-sans);
+    }
+
     .bento-grid {
       gap: 1rem;
     }
@@ -418,6 +434,10 @@
     /* Featured card */
     .c1 {
       padding: 1.75rem;
+      border: 1px solid transparent;
+      background:
+        linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
+        var(--gradient-primary) border-box;
     }
 
     .badge {

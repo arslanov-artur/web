@@ -1,16 +1,26 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import ThemeToggle from '../components/ThemeToggle.svelte';
+  import { navigateToSection } from '../stores/navigation';
 
   let mounted = false;
   let ready = false;
   let colorIndex = 0;
+  let isMobile = false;
 
   // Vibrant colors inspired by dotsandlines.io
   const accentColors = ['#818cf8', '#f472b6', '#34d399', '#fbbf24', '#f97316'];
 
+  function handleNavClick(e: MouseEvent, sectionIndex: number) {
+    if (!isMobile) {
+      e.preventDefault();
+      navigateToSection(sectionIndex);
+    }
+  }
+
   onMount(() => {
     mounted = true;
+    isMobile = window.innerWidth < 768;
     setTimeout(() => ready = true, 100);
 
     const colorInterval = setInterval(() => {
@@ -36,9 +46,9 @@
       <!-- Header -->
       <header class="header">
         <nav class="nav">
-          <a href="#about">About</a>
-          <a href="#work">Work</a>
-          <a href="#contact" class="nav-cta">Contact</a>
+          <a href="#about" on:click={(e) => handleNavClick(e, 1)}>About</a>
+          <a href="#work" on:click={(e) => handleNavClick(e, 2)}>Work</a>
+          <a href="#contact" class="nav-cta" on:click={(e) => handleNavClick(e, 5)}>Contact</a>
           <ThemeToggle />
         </nav>
       </header>
@@ -47,17 +57,16 @@
       <main class="main">
         <div class="headline">
           <div class="line">
-            <span class="word">Software</span>
+            <span class="word">Artur</span>
           </div>
           <div class="line">
-            <span class="word">Engineer</span>
+            <span class="word">Arslanov</span>
             <span class="accent-dot" style="background: {currentColor}"></span>
           </div>
         </div>
 
         <p class="bio">
           Building digital products with precision and care.
-          <span class="highlight">6+ years</span> crafting scalable solutions.
         </p>
 
         <div class="tech-stack">
@@ -75,7 +84,7 @@
           <span>Scroll to explore</span>
         </div>
 
-        <a href="#work" class="cta">
+        <a href="#work" class="cta" on:click={(e) => handleNavClick(e, 2)}>
           View Work
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M7 17L17 7M17 7H7M17 7v10"/>

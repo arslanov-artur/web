@@ -13,7 +13,7 @@
 
   const pubStats = [
     { value: '1M+', label: 'LinkedIn Views', featured: true },
-    { value: '2', label: 'Viral Posts' }
+    { value: '2+', label: 'Viral Posts' }
   ];
 </script>
 
@@ -25,6 +25,7 @@
   <div class="bg-grid"></div>
 
   <div class="container">
+    <h2 class="section-title">Writing</h2>
     <div class="bento-grid">
       <!-- Featured publication -->
       <a href={publications[0].link} target="_blank" rel="noopener noreferrer" class="bento-card featured-card glass">
@@ -149,6 +150,10 @@
     margin: 0 auto;
     padding: 0 2rem;
     width: 100%;
+  }
+
+  .section-title {
+    display: none;
   }
 
   .bento-grid {
@@ -339,6 +344,17 @@
       padding: 0;
     }
 
+    .section-title {
+      display: block;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--color-primary);
+      margin-bottom: 1.5rem;
+      font-family: var(--font-sans);
+    }
+
     .bento-grid {
       display: flex;
       flex-direction: column;
@@ -352,6 +368,10 @@
 
     .featured-card {
       padding: 1.75rem;
+      border: 1px solid transparent;
+      background:
+        linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
+        var(--gradient-primary) border-box;
     }
 
     .featured-badge {
