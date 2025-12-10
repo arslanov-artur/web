@@ -91,18 +91,13 @@
       </p>
       
       <div class="tagline-wrapper" in:fly={{ y: 20, duration: 800, delay: 600 }}>
-        <p class="tagline">
-          <span class="tagline-item">5+ years building scalable systems</span>
-        </p>
-        <p class="tagline">
-          <span class="tagline-item">TypeScript</span>
-          <span class="tagline-dot">•</span>
-          <span class="tagline-item">React</span>
-          <span class="tagline-dot">•</span>
-          <span class="tagline-item">Node.js</span>
-          <span class="tagline-dot">•</span>
-          <span class="tagline-item">Nest.js</span>
-        </p>
+        <p class="tagline-main">Crafting digital experiences that scale</p>
+        <div class="tech-pills">
+          <span class="tech-pill">TypeScript</span>
+          <span class="tech-pill">React</span>
+          <span class="tech-pill">Node.js</span>
+          <span class="tech-pill">NestJS</span>
+        </div>
       </div>
       
       <div class="cta-group" in:fly={{ y: 20, duration: 800, delay: 800 }}>
@@ -362,49 +357,40 @@
   }
   
   .tagline-wrapper {
-    margin-bottom: 2rem;
-    overflow: hidden;
+    margin-bottom: 2.5rem;
   }
-  
-  .tagline {
-    font-size: var(--text-lg);
-    color: var(--text-muted);
-    max-width: 700px;
-    margin: 0 auto;
+
+  .tagline-main {
+    font-size: var(--text-xl);
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  .tech-pills {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.75rem;
   }
-  
-  .tagline-item {
-    display: inline-block;
-    animation: slide-in-left 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
-  }
-  
-  .tagline-item:nth-child(1) { animation-delay: 0.7s; }
-  .tagline-item:nth-child(3) { animation-delay: 0.8s; }
-  .tagline-item:nth-child(5) { animation-delay: 0.9s; }
-  .tagline-item:nth-child(7) { animation-delay: 1s; }
-  .tagline-item:nth-child(9) { animation-delay: 1.1s; }
-  
-  .tagline-dot {
-    color: var(--color-primary);
-    font-weight: bold;
-    animation: fade-in-up 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
-  }
-  
-  .tagline-dot:nth-child(2) { animation-delay: 0.75s; }
-  .tagline-dot:nth-child(4) { animation-delay: 0.85s; }
-  .tagline-dot:nth-child(6) { animation-delay: 0.95s; }
-  .tagline-dot:nth-child(8) { animation-delay: 1.05s; }
-  
-  .tagline {
-    font-size: var(--text-lg);
+
+  .tech-pill {
+    padding: 0.5rem 1.25rem;
+    border-radius: 100px;
+    font-size: var(--text-sm);
+    font-weight: 500;
     color: var(--text-muted);
-    max-width: 600px;
-    margin: 0 auto;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    transition: all 0.3s ease;
+  }
+
+  .tech-pill:hover {
+    color: var(--text-primary);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 20px rgba(129, 140, 248, 0.15);
   }
   
   .cta-group {
@@ -416,54 +402,40 @@
   }
   
   .btn-primary, .btn-secondary {
-    padding: 1rem 2.5rem;
-    border-radius: 50px;
-    font-weight: 500;
-    transition: all var(--transition-base) var(--ease-out);
+    padding: 0.875rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: var(--text-sm);
+    letter-spacing: 0.02em;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     border: none;
     cursor: pointer;
-    font-size: var(--text-base);
     text-decoration: none;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
   }
-  
+
   .btn-primary {
-    background: var(--gradient-primary);
+    background: var(--color-primary);
     color: white;
-    box-shadow: var(--glow-primary);
-    position: relative;
-    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(129, 140, 248, 0.4);
   }
-  
-  .btn-primary::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transition: left 0.5s;
-  }
-  
+
   .btn-primary:hover {
-    box-shadow: var(--glow-primary), var(--shadow-lg);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(129, 140, 248, 0.5);
   }
-  
-  .btn-primary:hover::before {
-    left: 100%;
-  }
-  
+
   .btn-secondary {
-    background: var(--glass-bg);
+    background: transparent;
     color: var(--text-primary);
-    /* Removed backdrop-filter to improve scroll performance */
     border: 1px solid var(--glass-border);
   }
-  
+
   .btn-secondary:hover {
-    background: var(--bg-overlay);
-    border-color: var(--color-primary);
+    border-color: var(--text-muted);
+    background: var(--glass-bg);
   }
   
   @media (max-width: 768px) {
@@ -532,18 +504,31 @@
       font-size: var(--text-base);
     }
 
+    .tagline-main {
+      font-size: var(--text-lg);
+    }
+
+    .tech-pills {
+      gap: 0.5rem;
+    }
+
+    .tech-pill {
+      padding: 0.375rem 1rem;
+      font-size: var(--text-xs);
+    }
+
     .cta-group {
       flex-direction: column;
       align-items: center;
       width: 100%;
       padding: 0 1rem;
+      margin-top: 2rem;
     }
 
     .btn-primary, .btn-secondary {
       width: 100%;
-      max-width: 280px;
-      font-size: var(--text-base);
-      padding: 0.875rem 2rem;
+      max-width: 240px;
+      justify-content: center;
     }
   }
 </style>
