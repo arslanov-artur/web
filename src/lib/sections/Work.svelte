@@ -8,7 +8,7 @@
 
   <div class="container">
     <div class="bento-grid">
-      <!-- Big featured -->
+      <!-- Row 1 -->
       <div class="card card-featured glass">
         <span class="badge">Now</span>
         <h3>SalaryGuide</h3>
@@ -16,19 +16,12 @@
         <p class="desc">Transparent salary data for paid media and SEO professionals</p>
       </div>
 
-      <!-- Tiny stats cluster -->
-      <div class="card card-mini glass">
-        <span class="mini-num">6+</span>
-        <span class="mini-txt">yrs</span>
+      <div class="card card-stat stat-1 glass">
+        <span class="stat-num">6+</span>
+        <span class="stat-txt">yrs</span>
       </div>
 
-      <div class="card card-mini glass">
-        <span class="mini-num">50+</span>
-        <span class="mini-txt">projects</span>
-      </div>
-
-      <!-- Juro wide -->
-      <div class="card card-job-wide glass">
+      <div class="card card-job card-juro glass">
         <div class="card-head">
           <h4>Juro</h4>
           <span class="period">2023 - 2025</span>
@@ -38,12 +31,20 @@
         <div class="tags"><span>8000+ contracts/mo</span></div>
       </div>
 
-      <!-- Skills scattered -->
-      <div class="card card-skill glass"><span>TypeScript</span></div>
-      <div class="card card-skill glass"><span>React</span></div>
+      <!-- Row 2 -->
+      <div class="skills-area">
+        <div class="card card-skill glass"><span>TypeScript</span></div>
+        <div class="card card-skill glass"><span>React</span></div>
+        <div class="card card-skill glass"><span>Node</span></div>
+        <div class="card card-skill glass"><span>SQL</span></div>
+      </div>
 
-      <!-- Ancor tall -->
-      <div class="card card-job-tall glass">
+      <div class="card card-stat stat-2 glass">
+        <span class="stat-num">50+</span>
+        <span class="stat-txt">projects</span>
+      </div>
+
+      <div class="card card-job card-ancor glass">
         <div class="card-head">
           <h4>Ancor</h4>
           <span class="period">2019 - 2023</span>
@@ -53,10 +54,6 @@
         <div class="tags"><span>1000+ users</span></div>
       </div>
 
-      <div class="card card-skill glass"><span>Node</span></div>
-      <div class="card card-skill glass"><span>SQL</span></div>
-
-      <!-- Accent -->
       <div class="card card-accent glass">
         <span class="accent-num">99%</span>
         <span class="accent-txt">uptime</span>
@@ -144,11 +141,11 @@
     width: 100%;
   }
 
-  /* Chaotic 6-column grid */
+  /* Bento grid - 2 rows */
   .bento-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1.4fr 0.6fr 0.7fr 0.7fr;
-    grid-template-rows: 1fr 0.5fr 0.5fr;
+    grid-template-columns: 1.5fr 1fr 0.6fr 1.2fr 1.2fr;
+    grid-template-rows: 1fr auto;
     gap: 0.75rem;
   }
 
@@ -186,8 +183,8 @@
 
   /* Featured - big anchor */
   .card-featured {
-    grid-column: 1 / 4;
-    grid-row: 1 / 3;
+    grid-column: 1 / 3;
+    grid-row: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -231,9 +228,9 @@
     margin: 0;
   }
 
-  /* Mini stats */
-  .card-mini {
-    grid-column: 4;
+  /* Stat cards */
+  .card-stat {
+    grid-column: 3;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -242,7 +239,10 @@
     padding: 1rem;
   }
 
-  .mini-num {
+  .stat-1 { grid-row: 1; }
+  .stat-2 { grid-row: 2; }
+
+  .stat-num {
     font-size: var(--text-2xl);
     font-weight: 700;
     background: var(--gradient-primary);
@@ -251,21 +251,29 @@
     background-clip: text;
   }
 
-  .mini-txt {
+  .stat-txt {
     font-size: var(--text-xs);
     color: var(--text-muted);
     text-transform: uppercase;
   }
 
-  /* Juro - wide top right */
-  .card-job-wide {
-    grid-column: 5 / 7;
-    grid-row: 1;
+  /* Job cards */
+  .card-job {
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 0.4rem;
     padding: 1.25rem;
+  }
+
+  .card-juro {
+    grid-column: 4 / 6;
+    grid-row: 1;
+  }
+
+  .card-ancor {
+    grid-column: 4;
+    grid-row: 2;
   }
 
   .card-head {
@@ -275,8 +283,7 @@
     gap: 0.5rem;
   }
 
-  .card-job-wide h4,
-  .card-job-tall h4 {
+  .card-job h4 {
     font-size: var(--text-lg);
     color: var(--text-primary);
     font-weight: 600;
@@ -307,16 +314,26 @@
     border-radius: 8px;
   }
 
-  /* Skill cards - scattered & colorful */
-  .card-skill {
+  /* Skills area */
+  .skills-area {
+    grid-column: 1 / 3;
+    grid-row: 2;
     display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-content: start;
+  }
+
+  /* Skill cards - compact */
+  .card-skill {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem;
+    padding: 0.5rem 0.75rem;
   }
 
   .card-skill span {
-    font-size: var(--text-base);
+    font-size: var(--text-sm);
     font-weight: 700;
     background: var(--gradient-primary);
     -webkit-background-clip: text;
@@ -324,25 +341,10 @@
     background-clip: text;
   }
 
-  .card-skill:nth-of-type(1) { grid-column: 5; grid-row: 2; }
-  .card-skill:nth-of-type(2) { grid-column: 6; grid-row: 2; }
-  .card-skill:nth-of-type(3) { grid-column: 1; grid-row: 3; }
-  .card-skill:nth-of-type(4) { grid-column: 2; grid-row: 3; }
-
-  /* Ancor - bottom middle */
-  .card-job-tall {
-    grid-column: 3 / 5;
-    grid-row: 3;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 0.5rem;
-  }
-
   /* Accent stat */
   .card-accent {
-    grid-column: 5 / 7;
-    grid-row: 3;
+    grid-column: 5;
+    grid-row: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -374,23 +376,14 @@
     }
 
     .card-featured,
-    .card-job-wide,
-    .card-job-tall,
-    .card-accent {
+    .card-job,
+    .card-accent,
+    .skills-area {
       grid-column: span 2;
       grid-row: auto;
     }
 
-    .card-mini,
-    .card-skill {
-      grid-column: auto;
-      grid-row: auto;
-    }
-
-    .card-skill:nth-of-type(1),
-    .card-skill:nth-of-type(2),
-    .card-skill:nth-of-type(3),
-    .card-skill:nth-of-type(4) {
+    .card-stat {
       grid-column: auto;
       grid-row: auto;
     }
