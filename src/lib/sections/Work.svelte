@@ -7,76 +7,59 @@
   <div class="bg-blob blob-2"></div>
 
   <div class="container">
-    <div class="masonry">
-      <!-- Col 1 -->
-      <div class="col">
-        <div class="card card-featured glass">
-          <span class="badge">Now</span>
-          <h3>SalaryGuide</h3>
-          <p class="role">Senior Software Engineer</p>
-          <p class="desc">Transparent salary data for paid media and SEO professionals</p>
-        </div>
-        <div class="card card-stat glass">
-          <span class="stat-num">6+</span>
-          <span class="stat-txt">Years</span>
-        </div>
+    <div class="bento-grid">
+      <!-- Big featured -->
+      <div class="card card-featured glass">
+        <span class="badge">Now</span>
+        <h3>SalaryGuide</h3>
+        <p class="role">Senior Software Engineer</p>
+        <p class="desc">Transparent salary data for paid media and SEO professionals</p>
       </div>
 
-      <!-- Col 2 -->
-      <div class="col">
-        <div class="card card-job glass">
-          <div class="card-head">
-            <h4>Juro</h4>
-            <span class="period">2023 - 2025</span>
-          </div>
-          <p class="role">Senior Software Engineer</p>
-          <p class="desc">LegalTech — contract automation platform</p>
-          <div class="tags">
-            <span>8000+ contracts/mo</span>
-          </div>
-        </div>
-        <div class="card card-stat glass accent">
-          <span class="stat-num">50+</span>
-          <span class="stat-txt">Projects</span>
-        </div>
+      <!-- Tiny stats cluster -->
+      <div class="card card-mini glass">
+        <span class="mini-num">6+</span>
+        <span class="mini-txt">yrs</span>
       </div>
 
-      <!-- Col 3 -->
-      <div class="col">
-        <div class="card card-stat glass">
-          <span class="stat-num">3x</span>
-          <span class="stat-txt">Faster</span>
-        </div>
-        <div class="card card-job glass">
-          <div class="card-head">
-            <h4>Ancor</h4>
-            <span class="period">2019 - 2023</span>
-          </div>
-          <p class="role">Software Engineer</p>
-          <p class="desc">Staffing platform for HR automation</p>
-          <div class="tags">
-            <span>1000+ users</span>
-          </div>
-        </div>
+      <div class="card card-mini glass">
+        <span class="mini-num">50+</span>
+        <span class="mini-txt">projects</span>
       </div>
 
-      <!-- Col 4 -->
-      <div class="col">
-        <div class="card card-title glass">
-          <h2>Work</h2>
+      <!-- Juro wide -->
+      <div class="card card-job-wide glass">
+        <div class="card-head">
+          <h4>Juro</h4>
+          <span class="period">2023 - 2025</span>
         </div>
-        <div class="card card-stack glass">
-          <div class="stack-items">
-            <span>TypeScript</span>
-            <span>React</span>
-            <span>Node.js</span>
-            <span>PostgreSQL</span>
-          </div>
+        <p class="role">Senior Software Engineer</p>
+        <p class="desc">LegalTech — contract automation platform</p>
+        <div class="tags"><span>8000+ contracts/mo</span></div>
+      </div>
+
+      <!-- Skills scattered -->
+      <div class="card card-skill glass"><span>TypeScript</span></div>
+      <div class="card card-skill glass"><span>React</span></div>
+
+      <!-- Ancor tall -->
+      <div class="card card-job-tall glass">
+        <div class="card-head">
+          <h4>Ancor</h4>
+          <span class="period">2019 - 2023</span>
         </div>
-        <div class="card card-stat glass">
-          <span class="stat-num">99.9%</span>
-          <span class="stat-txt">Uptime</span>
-        </div>
+        <p class="role">Software Engineer</p>
+        <p class="desc">Staffing platform for HR automation</p>
+        <div class="tags"><span>1000+ users</span></div>
+      </div>
+
+      <div class="card card-skill glass"><span>Node</span></div>
+      <div class="card card-skill glass"><span>SQL</span></div>
+
+      <!-- Accent -->
+      <div class="card card-accent glass">
+        <span class="accent-num">99%</span>
+        <span class="accent-txt">uptime</span>
       </div>
     </div>
   </div>
@@ -155,24 +138,18 @@
   .container {
     position: relative;
     z-index: 1;
-    max-width: 1000px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 2rem;
     width: 100%;
   }
 
-  /* 4-column masonry */
-  .masonry {
-    display: flex;
-    gap: 1.25rem;
-    align-items: flex-start;
-  }
-
-  .col {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
+  /* Chaotic 6-column grid */
+  .bento-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.4fr 0.6fr 0.7fr 0.7fr;
+    grid-template-rows: 1fr 0.5fr 0.5fr;
+    gap: 0.75rem;
   }
 
   /* Card base */
@@ -203,15 +180,19 @@
   }
 
   .card:hover {
-    transform: translateY(-3px);
+    transform: scale(1.02);
     box-shadow: var(--shadow-lg), 0 0 20px rgba(129, 140, 248, 0.1);
   }
 
-  /* Featured card */
+  /* Featured - big anchor */
   .card-featured {
+    grid-column: 1 / 4;
+    grid-row: 1 / 3;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 2rem;
   }
 
   .badge {
@@ -250,43 +231,41 @@
     margin: 0;
   }
 
-  /* Stat cards */
-  .card-stat {
+  /* Mini stats */
+  .card-mini {
+    grid-column: 4;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    padding: 1.25rem;
+    gap: 0.25rem;
+    padding: 1rem;
   }
 
-  .card-stat.accent {
-    background: linear-gradient(135deg, rgba(129, 140, 248, 0.1), rgba(244, 114, 182, 0.1));
-  }
-
-  .stat-num {
+  .mini-num {
     font-size: var(--text-2xl);
     font-weight: 700;
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    line-height: 1;
   }
 
-  .stat-txt {
+  .mini-txt {
     font-size: var(--text-xs);
     color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-top: 0.25rem;
   }
 
-  /* Job cards */
-  .card-job {
+  /* Juro - wide top right */
+  .card-job-wide {
+    grid-column: 5 / 7;
+    grid-row: 1;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 1.25rem;
   }
 
   .card-head {
@@ -296,7 +275,8 @@
     gap: 0.5rem;
   }
 
-  .card-job h4 {
+  .card-job-wide h4,
+  .card-job-tall h4 {
     font-size: var(--text-lg);
     color: var(--text-primary);
     font-weight: 600;
@@ -317,7 +297,6 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-top: 0.25rem;
   }
 
   .tags span {
@@ -328,53 +307,92 @@
     border-radius: 8px;
   }
 
-  /* Title card */
-  .card-title {
+  /* Skill cards - scattered & colorful */
+  .card-skill {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1.75rem 1.25rem;
+    padding: 0.5rem;
   }
 
-  .card-title h2 {
-    font-size: var(--text-3xl);
+  .card-skill span {
+    font-size: var(--text-base);
+    font-weight: 700;
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin: 0;
-    font-weight: 700;
   }
 
-  /* Stack card */
-  .card-stack {
-    padding: 1.25rem;
-  }
+  .card-skill:nth-of-type(1) { grid-column: 5; grid-row: 2; }
+  .card-skill:nth-of-type(2) { grid-column: 6; grid-row: 2; }
+  .card-skill:nth-of-type(3) { grid-column: 1; grid-row: 3; }
+  .card-skill:nth-of-type(4) { grid-column: 2; grid-row: 3; }
 
-  .stack-items {
+  /* Ancor - bottom middle */
+  .card-job-tall {
+    grid-column: 3 / 5;
+    grid-row: 3;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
     gap: 0.5rem;
   }
 
-  .stack-items span {
-    font-size: var(--text-xs);
-    color: var(--text-secondary);
-    background: var(--glass-bg);
-    padding: 0.35rem 0.6rem;
-    border-radius: 8px;
-    border: 1px solid var(--glass-border);
+  /* Accent stat */
+  .card-accent {
+    grid-column: 5 / 7;
+    grid-row: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    background: var(--gradient-primary);
+    padding: 1rem;
+  }
+
+  .accent-num {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: white;
+    line-height: 1;
+  }
+
+  .accent-txt {
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.8);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
   }
 
   /* Responsive */
   @media (max-width: 900px) {
-    .masonry {
-      flex-wrap: wrap;
+    .bento-grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: auto;
     }
 
-    .col {
-      flex: 1 1 45%;
-      min-width: 200px;
+    .card-featured,
+    .card-job-wide,
+    .card-job-tall,
+    .card-accent {
+      grid-column: span 2;
+      grid-row: auto;
+    }
+
+    .card-mini,
+    .card-skill {
+      grid-column: auto;
+      grid-row: auto;
+    }
+
+    .card-skill:nth-of-type(1),
+    .card-skill:nth-of-type(2),
+    .card-skill:nth-of-type(3),
+    .card-skill:nth-of-type(4) {
+      grid-column: auto;
+      grid-row: auto;
     }
   }
 
@@ -383,28 +401,20 @@
       padding: 0 1rem;
     }
 
-    .masonry {
-      gap: 1rem;
-    }
-
-    .col {
-      flex: 1 1 100%;
-      gap: 1rem;
+    .bento-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
     }
 
     .card {
+      padding: 1rem;
+    }
+
+    .card-featured {
       padding: 1.25rem;
     }
 
     .card-featured h3 {
-      font-size: var(--text-xl);
-    }
-
-    .card-title h2 {
-      font-size: var(--text-2xl);
-    }
-
-    .stat-num {
       font-size: var(--text-xl);
     }
   }

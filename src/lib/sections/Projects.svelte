@@ -36,8 +36,6 @@
   <div class="bg-grid"></div>
 
   <div class="container">
-    <h2 class="section-title">Featured Projects</h2>
-
     <div class="bento-grid">
       <!-- Featured project -->
       <a href={projects[0].link} target="_blank" rel="noopener noreferrer" class="bento-card featured-card glass">
@@ -166,16 +164,6 @@
     width: 100%;
   }
 
-  .section-title {
-    font-size: var(--text-3xl);
-    margin-bottom: 2.5rem;
-    text-align: center;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
   .bento-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -212,7 +200,7 @@
   }
 
   .bento-card:hover {
-    transform: translateY(-4px);
+    transform: scale(1.02);
     box-shadow: var(--shadow-lg), 0 0 30px rgba(129, 140, 248, 0.1);
   }
 
@@ -356,11 +344,6 @@
   @media (max-width: 600px) {
     .container {
       padding: 0 1rem;
-    }
-
-    .section-title {
-      font-size: var(--text-2xl);
-      margin-bottom: 2rem;
     }
 
     .bento-card {
