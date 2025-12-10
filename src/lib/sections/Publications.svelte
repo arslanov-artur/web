@@ -1,4 +1,11 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+  import { puzzleReveal } from '../utils/animations';
+
+  onMount(() => {
+    puzzleReveal('#publications .bento-card', { delay: 100, staggerDelay: 70 });
+  });
+
   const publications = [
     {
       title: 'Your Tech Stack Doesn\'t Matter',

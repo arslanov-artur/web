@@ -1,4 +1,11 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+  import { puzzleReveal } from '../utils/animations';
+
+  onMount(() => {
+    puzzleReveal('#contact .bento-card', { delay: 100, staggerDelay: 50 });
+  });
+
   const contactInfo = {
     email: 'arthur.arslanoov@gmail.com',
     github: 'https://github.com/arslanov-artur',

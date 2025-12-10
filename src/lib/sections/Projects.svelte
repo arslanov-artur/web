@@ -1,4 +1,11 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+  import { puzzleReveal } from '../utils/animations';
+
+  onMount(() => {
+    puzzleReveal('#projects .bento-card', { delay: 100, staggerDelay: 70 });
+  });
+
   const projects = [
     {
       title: 'StickIO Bot',

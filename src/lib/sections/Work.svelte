@@ -1,4 +1,10 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+  import { puzzleReveal } from '../utils/animations';
+
+  onMount(() => {
+    puzzleReveal('#work .card', { delay: 100, staggerDelay: 50 });
+  });
 </script>
 
 <section id="work" class="work">

@@ -1,5 +1,10 @@
 <script lang="ts">
-  import { fly, fade } from 'svelte/transition';
+  import { onMount } from 'svelte';
+  import { puzzleReveal } from '../utils/animations';
+
+  onMount(() => {
+    puzzleReveal('.bento-card', { delay: 100, staggerDelay: 60 });
+  });
 
   const highlights = [
     { value: '6+', label: 'Years Experience' },
