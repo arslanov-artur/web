@@ -19,7 +19,7 @@
 
       <div class="card c3 glass">
         <span class="stat-num">6+</span>
-        <span class="stat-txt">yrs</span>
+        <span class="stat-txt">YOE</span>
       </div>
 
       <div class="card c4 glass">
@@ -35,8 +35,8 @@
       <div class="card c5 glass"><span class="skill">React</span></div>
 
       <div class="card c6 glass">
-        <span class="stat-num">50+</span>
-        <span class="stat-txt">projects</span>
+        <span class="stat-num">2</span>
+        <span class="stat-txt">devs mentored</span>
       </div>
 
       <div class="card c7 glass">
@@ -151,11 +151,11 @@
 
   /* Chaotic positioning - center filled, corners have gaps */
   .c1 { grid-column: 2 / 6; grid-row: 1 / 4; }      /* SalaryGuide */
-  .c2 { grid-column: 6 / 7; grid-row: 1 / 2; }      /* TypeScript */
+  .c2 { grid-column: 8 / 9; grid-row: 3 / 4; }      /* TypeScript */
   .c3 { grid-column: 7 / 9; grid-row: 1 / 3; }      /* 6+ yrs */
-  .c4 { grid-column: 9 / 13; grid-row: 1 / 4; }     /* Juro */
+  .c4 { grid-column: 9 / 13; grid-row: 2 / 4; }     /* Juro */
   .c5 { grid-column: 6 / 7; grid-row: 2 / 3; }      /* React */
-  .c6 { grid-column: 1 / 3; grid-row: 4 / 7; }      /* 50+ projects */
+  .c6 { grid-column: 1 / 3; grid-row: 4 / 6; }      /* 2 devs mentored */
   .c7 { grid-column: 3 / 7; grid-row: 4 / 7; }      /* Ancor */
   .c8 { grid-column: 6 / 7; grid-row: 3 / 4; }      /* Node */
   .c9 { grid-column: 7 / 8; grid-row: 3 / 4; }      /* SQL */
