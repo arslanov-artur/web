@@ -1,87 +1,83 @@
 <script lang="ts">
-  const experiences = [
-    {
-      company: 'SalaryGuide',
-      role: 'Senior Software Engineer',
-      period: 'Aug 2025 - Present',
-      description: 'Transparent salary data for paid media and SEO professionals',
-      highlights: [],
-      featured: true
-    },
-    {
-      company: 'Juro',
-      role: 'Senior Software Engineer',
-      period: 'Jun 2023 - Aug 2025',
-      description: 'London based LegalTech startup specializing in contract automation platform',
-      highlights: [
-        '2.4s → 800ms render times',
-        '8000+ contracts/month processed',
-        'Mentored 2 junior devs'
-      ]
-    },
-    {
-      company: 'Ancor',
-      role: 'Software Engineer',
-      period: 'Oct 2019 - Jun 2023',
-      description: 'Comprehensive staffing platform for automated HR management',
-      highlights: [
-        '1000+ concurrent users',
-        '150+ API endpoints',
-        '99.9% uptime'
-      ]
-    }
-  ];
-
-  const workStats = [
-    { value: '6+', label: 'Years Coding' },
-    { value: '50+', label: 'Projects Shipped' }
-  ];
 </script>
 
 <section id="work" class="work">
-  <div class="container">
-    <h2 class="section-title">Work Experience</h2>
+  <div class="bg-gradient"></div>
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
 
-    <div class="bento-grid">
-      <!-- Featured job - spans 2 columns -->
-      <div class="bento-card featured-card glass">
-        <div class="featured-badge">Current</div>
-        <div class="card-content">
-          <h3>{experiences[0].company}</h3>
-          <span class="role">{experiences[0].role}</span>
-          <p class="description">{experiences[0].description}</p>
+  <div class="container">
+    <div class="masonry">
+      <!-- Col 1 -->
+      <div class="col">
+        <div class="card card-featured glass">
+          <span class="badge">Now</span>
+          <h3>SalaryGuide</h3>
+          <p class="role">Senior Software Engineer</p>
+          <p class="desc">Transparent salary data for paid media and SEO professionals</p>
         </div>
-        <span class="period">{experiences[0].period}</span>
+        <div class="card card-stat glass">
+          <span class="stat-num">6+</span>
+          <span class="stat-txt">Years</span>
+        </div>
       </div>
 
-      <!-- Stats -->
-      {#each workStats as stat}
-        <div class="bento-card stat-card glass">
-          <span class="stat-value">{stat.value}</span>
-          <span class="stat-label">{stat.label}</span>
-        </div>
-      {/each}
-
-      <!-- Other jobs -->
-      {#each experiences.slice(1) as exp}
-        <div class="bento-card job-card glass">
-          <div class="card-header">
-            <div>
-              <h4>{exp.company}</h4>
-              <span class="role">{exp.role}</span>
-            </div>
-            <span class="period">{exp.period}</span>
+      <!-- Col 2 -->
+      <div class="col">
+        <div class="card card-job glass">
+          <div class="card-head">
+            <h4>Juro</h4>
+            <span class="period">2023 - 2025</span>
           </div>
-          <p class="description">{exp.description}</p>
-          {#if exp.highlights.length > 0}
-            <div class="highlights">
-              {#each exp.highlights as highlight}
-                <span class="highlight-tag">{highlight}</span>
-              {/each}
-            </div>
-          {/if}
+          <p class="role">Senior Software Engineer</p>
+          <p class="desc">LegalTech — contract automation platform</p>
+          <div class="tags">
+            <span>8000+ contracts/mo</span>
+          </div>
         </div>
-      {/each}
+        <div class="card card-stat glass accent">
+          <span class="stat-num">50+</span>
+          <span class="stat-txt">Projects</span>
+        </div>
+      </div>
+
+      <!-- Col 3 -->
+      <div class="col">
+        <div class="card card-stat glass">
+          <span class="stat-num">3x</span>
+          <span class="stat-txt">Faster</span>
+        </div>
+        <div class="card card-job glass">
+          <div class="card-head">
+            <h4>Ancor</h4>
+            <span class="period">2019 - 2023</span>
+          </div>
+          <p class="role">Software Engineer</p>
+          <p class="desc">Staffing platform for HR automation</p>
+          <div class="tags">
+            <span>1000+ users</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Col 4 -->
+      <div class="col">
+        <div class="card card-title glass">
+          <h2>Work</h2>
+        </div>
+        <div class="card card-stack glass">
+          <div class="stack-items">
+            <span>TypeScript</span>
+            <span>React</span>
+            <span>Node.js</span>
+            <span>PostgreSQL</span>
+          </div>
+        </div>
+        <div class="card card-stat glass">
+          <span class="stat-num">99.9%</span>
+          <span class="stat-txt">Uptime</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -89,46 +85,105 @@
 <style>
   .work {
     background-color: var(--bg-base);
-    height: 95vh;
-    max-height: 95vh;
+    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    position: relative;
+  }
+
+  /* Background elements */
+  .bg-gradient {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 40%, rgba(244, 114, 182, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 10% 60%, rgba(251, 191, 36, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .bg-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.1;
+    pointer-events: none;
+    animation: float 20s ease-in-out infinite;
+  }
+
+  .blob-1 {
+    top: -10%;
+    right: -5%;
+    width: 35vw;
+    height: 35vw;
+    background: #f472b6;
+  }
+
+  .blob-2 {
+    bottom: -15%;
+    left: -10%;
+    width: 40vw;
+    height: 40vw;
+    background: #fbbf24;
+    animation-delay: -10s;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(2%, 3%) scale(1.02); }
+    50% { transform: translate(-1%, 5%) scale(0.98); }
+    75% { transform: translate(3%, -2%) scale(1.01); }
+  }
+
+  .bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  :global([data-theme="light"]) .bg-grid {
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
   }
 
   .container {
+    position: relative;
+    z-index: 1;
     max-width: 1000px;
     margin: 0 auto;
     padding: 0 2rem;
     width: 100%;
   }
 
-  .section-title {
-    font-size: var(--text-3xl);
-    margin-bottom: 2.5rem;
-    text-align: center;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  /* 4-column masonry */
+  .masonry {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
   }
 
-  .bento-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+  .col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     gap: 1.25rem;
   }
 
-  .bento-card {
+  /* Card base */
+  .card {
     padding: 1.5rem;
     border-radius: 1.25rem;
-    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     position: relative;
-    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .bento-card::before {
+  .card::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -143,28 +198,25 @@
     transition: opacity 0.3s ease;
   }
 
-  .bento-card:hover::before {
+  .card:hover::before {
     opacity: 1;
   }
 
-  .bento-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg), 0 0 30px rgba(129, 140, 248, 0.1);
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg), 0 0 20px rgba(129, 140, 248, 0.1);
   }
 
   /* Featured card */
-  .featured-card {
-    grid-column: span 2;
-    grid-row: span 2;
+  .card-featured {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 0.5rem;
   }
 
-  .featured-badge {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
+  .badge {
+    display: inline-block;
+    width: fit-content;
     padding: 0.25rem 0.75rem;
     background: var(--gradient-primary);
     color: white;
@@ -175,44 +227,44 @@
     letter-spacing: 0.05em;
   }
 
-  .featured-card h3 {
+  .card-featured h3 {
     font-size: var(--text-2xl);
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 0.5rem;
+    margin: 0;
   }
 
-  .featured-card .role {
-    font-size: var(--text-base);
+  .role {
+    font-size: var(--text-sm);
     color: var(--text-primary);
     font-weight: 500;
-    display: block;
-    margin-bottom: 1rem;
+    margin: 0;
   }
 
-  .featured-card .description {
-    font-size: var(--text-base);
-    color: var(--text-secondary);
-    line-height: 1.6;
-  }
-
-  .featured-card .period {
+  .desc {
     font-size: var(--text-sm);
     color: var(--text-muted);
+    line-height: 1.5;
+    margin: 0;
   }
 
   /* Stat cards */
-  .stat-card {
+  .card-stat {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     text-align: center;
+    padding: 1.25rem;
   }
 
-  .stat-value {
+  .card-stat.accent {
+    background: linear-gradient(135deg, rgba(129, 140, 248, 0.1), rgba(244, 114, 182, 0.1));
+  }
+
+  .stat-num {
     font-size: var(--text-2xl);
     font-weight: 700;
     background: var(--gradient-primary);
@@ -220,88 +272,109 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
     line-height: 1;
-    margin-bottom: 0.5rem;
   }
 
-  .stat-label {
+  .stat-txt {
     font-size: var(--text-xs);
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    margin-top: 0.25rem;
   }
 
   /* Job cards */
-  .job-card {
-    grid-column: span 2;
+  .card-job {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
   }
 
-  .card-header {
+  .card-head {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
+    align-items: center;
+    gap: 0.5rem;
   }
 
-  .job-card h4 {
+  .card-job h4 {
     font-size: var(--text-lg);
     color: var(--text-primary);
     font-weight: 600;
     margin: 0;
   }
 
-  .role {
-    font-size: var(--text-sm);
-    color: var(--text-secondary);
-  }
-
   .period {
     font-size: var(--text-xs);
     color: var(--text-muted);
     background: var(--glass-bg);
-    padding: 0.25rem 0.625rem;
-    border-radius: 20px;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
     border: 1px solid var(--glass-border);
     white-space: nowrap;
   }
 
-  .description {
-    font-size: var(--text-sm);
-    color: var(--text-muted);
-    line-height: 1.5;
-    margin: 0;
-  }
-
-  .highlights {
+  .tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-top: auto;
+    margin-top: 0.25rem;
   }
 
-  .highlight-tag {
-    padding: 0.25rem 0.625rem;
-    border-radius: 15px;
+  .tags span {
+    font-size: var(--text-xs);
+    color: var(--color-primary);
+    background: rgba(129, 140, 248, 0.1);
+    padding: 0.25rem 0.6rem;
+    border-radius: 8px;
+  }
+
+  /* Title card */
+  .card-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.75rem 1.25rem;
+  }
+
+  .card-title h2 {
+    font-size: var(--text-3xl);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+    font-weight: 700;
+  }
+
+  /* Stack card */
+  .card-stack {
+    padding: 1.25rem;
+  }
+
+  .stack-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .stack-items span {
     font-size: var(--text-xs);
     color: var(--text-secondary);
-    background: var(--bg-subtle);
+    background: var(--glass-bg);
+    padding: 0.35rem 0.6rem;
+    border-radius: 8px;
     border: 1px solid var(--glass-border);
   }
 
+  /* Responsive */
   @media (max-width: 900px) {
-    .bento-grid {
-      grid-template-columns: repeat(2, 1fr);
+    .masonry {
+      flex-wrap: wrap;
     }
 
-    .featured-card {
-      grid-column: span 2;
-      grid-row: span 1;
-    }
-
-    .job-card {
-      grid-column: span 2;
+    .col {
+      flex: 1 1 45%;
+      min-width: 200px;
     }
   }
 
@@ -310,20 +383,28 @@
       padding: 0 1rem;
     }
 
-    .section-title {
-      font-size: var(--text-2xl);
-      margin-bottom: 2rem;
+    .masonry {
+      gap: 1rem;
     }
 
-    .bento-card {
+    .col {
+      flex: 1 1 100%;
+      gap: 1rem;
+    }
+
+    .card {
       padding: 1.25rem;
     }
 
-    .featured-card h3 {
+    .card-featured h3 {
       font-size: var(--text-xl);
     }
 
-    .stat-value {
+    .card-title h2 {
+      font-size: var(--text-2xl);
+    }
+
+    .stat-num {
       font-size: var(--text-xl);
     }
   }

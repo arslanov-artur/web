@@ -19,6 +19,12 @@
 </script>
 
 <section id="contact" class="contact">
+  <!-- Consistent background -->
+  <div class="bg-gradient"></div>
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+  <div class="bg-grid"></div>
+
   <div class="container">
     <h2 class="section-title">Get In Touch</h2>
 
@@ -55,15 +61,78 @@
 <style>
   .contact {
     background-color: var(--bg-base);
-    height: 95vh;
-    max-height: 95vh;
+    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    position: relative;
+  }
+
+  /* Background elements */
+  .bg-gradient {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 30%, rgba(129, 140, 248, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 70%, rgba(251, 191, 36, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .bg-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.1;
+    pointer-events: none;
+    animation: float 20s ease-in-out infinite;
+  }
+
+  .blob-1 {
+    top: -10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50vw;
+    height: 50vw;
+    background: #818cf8;
+  }
+
+  .blob-2 {
+    bottom: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 45vw;
+    height: 45vw;
+    background: #fbbf24;
+    animation-delay: -10s;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateX(-50%) translate(0, 0) scale(1); }
+    25% { transform: translateX(-50%) translate(2%, 3%) scale(1.02); }
+    50% { transform: translateX(-50%) translate(-1%, 5%) scale(0.98); }
+    75% { transform: translateX(-50%) translate(3%, -2%) scale(1.01); }
+  }
+
+  .bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  :global([data-theme="light"]) .bg-grid {
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
   }
 
   .container {
+    position: relative;
+    z-index: 1;
     max-width: 700px;
     margin: 0 auto;
     padding: 0 2rem;

@@ -1,7 +1,6 @@
 import { writable, get } from 'svelte/store';
 
 // Linear section order with transition directions
-// Each section knows what direction to animate when moving TO it from the previous
 export const sections = [
   { id: 'home', name: 'Hero', transitionIn: 'down' },
   { id: 'about', name: 'About', transitionIn: 'down' },
@@ -19,9 +18,15 @@ export const transitionDirection = writable<TransitionDirection>('down');
 export const totalSections = sections.length;
 
 const TRANSITION_DURATION = 500;
-const COOLDOWN_AFTER_TRANSITION = 150;
+const COOLDOWN_AFTER_TRANSITION = 200;
 
 let isInCooldown = false;
+
+// Scroll accumulation for smoother trackpad handling
+let scrollAccumulator = 0;
+let lastScrollTime = 0;
+const SCROLL_THRESHOLD = 80;
+const SCROLL_RESET_DELAY = 150;
 
 function getTransitionDirection(fromIndex: number, toIndex: number): TransitionDirection {
   if (toIndex > fromIndex) {
@@ -66,13 +71,27 @@ export function handleWheel(event: WheelEvent) {
 
   if (get(isTransitioning) || isInCooldown) return;
 
-  // Only respond to vertical scroll (standard mouse wheel)
+  const now = Date.now();
   const delta = event.deltaY;
-  if (Math.abs(delta) < 30) return;
+
+  // Reset accumulator if too much time has passed
+  if (now - lastScrollTime > SCROLL_RESET_DELAY) {
+    scrollAccumulator = 0;
+  }
+  lastScrollTime = now;
+
+  // Accumulate scroll delta
+  scrollAccumulator += delta;
+
+  // Only trigger when threshold is reached
+  if (Math.abs(scrollAccumulator) < SCROLL_THRESHOLD) return;
 
   const current = get(currentSection);
-  const direction = delta > 0 ? 1 : -1;
+  const direction = scrollAccumulator > 0 ? 1 : -1;
   const next = current + direction;
+
+  // Reset accumulator after triggering
+  scrollAccumulator = 0;
 
   if (next >= 0 && next < totalSections) {
     navigateToSection(next);
@@ -113,24 +132,37 @@ export function handleKeyboard(event: KeyboardEvent) {
   }
 }
 
-// Touch support
+// Touch support with velocity detection
 let touchStartY = 0;
+let touchStartX = 0;
+let touchStartTime = 0;
 
 export function handleTouchStart(event: TouchEvent) {
   touchStartY = event.touches[0].clientY;
+  touchStartX = event.touches[0].clientX;
+  touchStartTime = Date.now();
 }
 
 export function handleTouchEnd(event: TouchEvent) {
   if (get(isTransitioning) || isInCooldown) return;
 
   const touchEndY = event.changedTouches[0].clientY;
-  const diff = touchStartY - touchEndY;
+  const touchEndX = event.changedTouches[0].clientX;
+  const elapsed = Date.now() - touchStartTime;
 
-  if (Math.abs(diff) > 50) {
+  const diffY = touchStartY - touchEndY;
+  const diffX = touchStartX - touchEndX;
+
+  // Calculate velocity (faster swipes need less distance)
+  const velocityY = Math.abs(diffY) / elapsed;
+  const minDistance = velocityY > 0.5 ? 30 : 60;
+
+  // Only trigger if vertical swipe is dominant
+  if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > minDistance) {
     const current = get(currentSection);
-    if (diff > 0 && current < totalSections - 1) {
+    if (diffY > 0 && current < totalSections - 1) {
       navigateToSection(current + 1);
-    } else if (diff < 0 && current > 0) {
+    } else if (diffY < 0 && current > 0) {
       navigateToSection(current - 1);
     }
   }

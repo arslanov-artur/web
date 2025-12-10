@@ -62,7 +62,7 @@
     }
   });
 
-  // Transition based on direction - experimental animations
+  // Smooth slide + fade transition inspired by premium agency sites
   function slideTransition(node: Element, { direction, duration = 500 }: { direction: 'up' | 'down' | 'left' | 'right', duration?: number }) {
     const isVertical = direction === 'up' || direction === 'down';
     const isPositive = direction === 'down' || direction === 'right';
@@ -71,31 +71,16 @@
       duration,
       easing: cubicOut,
       css: (t: number) => {
-        // Smooth eased value
-        const eased = t;
-
-        // 3D rotation effect
-        const rotateAxis = isVertical ? 'X' : 'Y';
-        const rotateAmount = (1 - eased) * (isPositive ? -15 : 15);
-
-        // Slide distance (smaller, more subtle)
-        const slideAmount = (1 - eased) * (isPositive ? 30 : -30);
+        // Smooth slide with scale for depth effect
+        const slideAmount = (1 - t) * (isPositive ? 6 : -6);
+        const scale = 0.98 + (t * 0.02);
         const translate = isVertical
-          ? `translateY(${slideAmount}vh)`
-          : `translateX(${slideAmount}vw)`;
-
-        // Scale from slightly smaller
-        const scale = 0.92 + (0.08 * eased);
-
-        // Blur during transition
-        const blur = (1 - eased) * 8;
+          ? `translateY(${slideAmount}%)`
+          : `translateX(${slideAmount}%)`;
 
         return `
-          transform: ${translate} rotate${rotateAxis}(${rotateAmount}deg) scale(${scale});
-          opacity: ${eased};
-          filter: blur(${blur}px);
-          transform-style: preserve-3d;
-          perspective: 1200px;
+          transform: ${translate} scale(${scale});
+          opacity: ${t};
         `;
       }
     };
@@ -236,20 +221,18 @@
     justify-content: center;
     overflow-y: auto;
     overflow-x: hidden;
-    will-change: transform, opacity, filter;
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
+    will-change: transform, opacity;
   }
 
   .section-wrapper > :global(section) {
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  /* Navigation indicators */
+  /* Navigation indicators - premium style */
   .nav-indicators {
     position: fixed;
     right: 2rem;
@@ -265,55 +248,51 @@
   .vertical-dots {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.75rem;
+    padding: 0.75rem 0.5rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    border: 1px solid var(--glass-border);
   }
 
   .row-dot {
     position: relative;
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
-    background: transparent;
-    border: 1.5px solid var(--text-muted);
+    background: var(--text-muted);
+    opacity: 0.4;
     cursor: pointer;
     padding: 0;
-    transition: all 0.3s ease;
+    border: none;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   .row-dot:hover {
-    border-color: var(--color-primary);
-    transform: scale(1.2);
+    opacity: 0.8;
+    transform: scale(1.3);
   }
 
   .row-dot.active {
-    border-color: var(--color-primary);
+    opacity: 1;
+    background: var(--color-primary);
+    box-shadow: 0 0 12px var(--color-primary);
   }
 
   .row-dot.has-cols.active {
     width: auto;
     height: auto;
-    padding: 4px 8px;
+    padding: 6px 10px;
     border-radius: 20px;
-    gap: 4px;
+    gap: 6px;
+    background: var(--color-primary);
   }
 
   .dot-inner {
-    position: absolute;
-    inset: 2px;
-    border-radius: 50%;
-    background: var(--gradient-primary);
-    transform: scale(0);
-    transition: transform 0.3s ease;
-  }
-
-  .row-dot.active:not(.has-cols) .dot-inner {
-    transform: scale(1);
-  }
-
-  .row-dot.has-cols .dot-inner {
     display: none;
   }
 
@@ -326,13 +305,13 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--text-muted);
+    background: rgba(255, 255, 255, 0.4);
     transition: all 0.3s ease;
   }
 
   .col-dot.active {
-    background: var(--gradient-primary);
-    transform: scale(1.3);
+    background: white;
+    transform: scale(1.2);
   }
 
   /* Direction hints */
@@ -364,37 +343,40 @@
   /* Scroll hint */
   .scroll-hint {
     position: fixed;
-    bottom: 2rem;
+    bottom: 2.5rem;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
     color: var(--text-muted);
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
     z-index: 100;
-    animation: float-hint 2s ease-in-out infinite;
+    opacity: 0.6;
   }
 
   .mouse {
-    width: 24px;
-    height: 38px;
-    border: 2px solid var(--text-muted);
-    border-radius: 12px;
+    width: 22px;
+    height: 34px;
+    border: 1.5px solid var(--text-muted);
+    border-radius: 11px;
     position: relative;
+    opacity: 0.8;
   }
 
   .wheel {
-    width: 4px;
-    height: 8px;
+    width: 3px;
+    height: 6px;
     background: var(--color-primary);
     border-radius: 2px;
     position: absolute;
     top: 6px;
     left: 50%;
     transform: translateX(-50%);
-    animation: scroll-wheel 1.5s ease-in-out infinite;
+    animation: scroll-wheel 2s ease-in-out infinite;
   }
 
   @keyframes scroll-wheel {
@@ -403,37 +385,28 @@
       transform: translateX(-50%) translateY(0);
     }
     50% {
-      opacity: 0.3;
-      transform: translateX(-50%) translateY(10px);
-    }
-  }
-
-  @keyframes float-hint {
-    0%, 100% {
-      transform: translateX(-50%) translateY(0);
-    }
-    50% {
-      transform: translateX(-50%) translateY(-8px);
+      opacity: 0;
+      transform: translateX(-50%) translateY(8px);
     }
   }
 
   @media (max-width: 768px) {
     .nav-indicators {
       right: 1rem;
-      gap: 0.5rem;
     }
 
     .vertical-dots {
-      gap: 0.75rem;
+      gap: 0.5rem;
+      padding: 0.5rem 0.375rem;
     }
 
     .row-dot {
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
     }
 
     .row-dot.has-cols.active {
-      padding: 3px 6px;
+      padding: 4px 8px;
     }
 
     .col-dot {
@@ -443,12 +416,12 @@
 
     .scroll-hint {
       bottom: 1.5rem;
-      font-size: var(--text-xs);
+      font-size: 10px;
     }
 
     .mouse {
-      width: 20px;
-      height: 32px;
+      width: 18px;
+      height: 28px;
     }
 
     .direction-hint {

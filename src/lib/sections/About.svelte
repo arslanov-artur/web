@@ -33,6 +33,12 @@
 </script>
 
 <section id="about" class="about">
+  <!-- Consistent background -->
+  <div class="bg-gradient"></div>
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+  <div class="bg-grid"></div>
+
   <div class="container">
     <h2 class="section-title">About Me</h2>
 
@@ -81,15 +87,76 @@
 <style>
   .about {
     background-color: var(--bg-base);
-    height: 95vh;
-    max-height: 95vh;
+    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    position: relative;
+  }
+
+  /* Background elements */
+  .bg-gradient {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 60% 30%, rgba(52, 211, 153, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 20% 70%, rgba(129, 140, 248, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .bg-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.1;
+    pointer-events: none;
+    animation: float 20s ease-in-out infinite;
+  }
+
+  .blob-1 {
+    top: -10%;
+    left: -5%;
+    width: 35vw;
+    height: 35vw;
+    background: #34d399;
+  }
+
+  .blob-2 {
+    bottom: -15%;
+    right: -10%;
+    width: 40vw;
+    height: 40vw;
+    background: #818cf8;
+    animation-delay: -10s;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(2%, 3%) scale(1.02); }
+    50% { transform: translate(-1%, 5%) scale(0.98); }
+    75% { transform: translate(3%, -2%) scale(1.01); }
+  }
+
+  .bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  :global([data-theme="light"]) .bg-grid {
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
   }
 
   .container {
+    position: relative;
+    z-index: 1;
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 2rem;
