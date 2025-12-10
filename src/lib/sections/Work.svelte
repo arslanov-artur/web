@@ -351,45 +351,154 @@
 
   /* Responsive */
   @media (max-width: 900px) {
+    .work {
+      height: auto;
+      min-height: auto;
+      padding: 2rem 1rem;
+      overflow: visible;
+    }
+
     .bento-grid {
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      height: auto;
+      max-height: none;
     }
 
-    .card-featured,
-    .card-job,
-    .card-accent,
-    .skills-area {
-      grid-column: span 2;
-      grid-row: auto;
+    .card {
+      grid-column: auto !important;
+      grid-row: auto !important;
     }
 
-    .card-stat {
-      grid-column: auto;
-      grid-row: auto;
+    /* Featured cards full width */
+    .c1, .c4, .c7 {
+      order: 0;
+    }
+
+    /* Stats smaller */
+    .c3, .c6, .c10 {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+    }
+
+    .c3 .stat-num, .c6 .stat-num {
+      font-size: var(--text-xl);
+    }
+
+    /* Skills in a row */
+    .c2, .c5, .c8, .c9 {
+      display: inline-flex;
+      width: auto;
+      padding: 0.75rem 1.25rem;
     }
   }
 
   @media (max-width: 600px) {
+    .work {
+      padding: 2.5rem 1.25rem;
+    }
+
     .container {
-      padding: 0 1rem;
+      padding: 0;
     }
 
     .bento-grid {
-      grid-template-columns: 1fr 1fr;
-      gap: 0.5rem;
+      gap: 1rem;
     }
 
     .card {
-      padding: 1rem;
+      padding: 1.5rem;
+      border-radius: 1.25rem;
     }
 
-    .card-featured {
-      padding: 1.25rem;
+    /* Featured card */
+    .c1 {
+      padding: 1.75rem;
     }
 
-    .card-featured h3 {
+    .badge {
+      padding: 0.35rem 1rem;
+      font-size: var(--text-xs);
+    }
+
+    .c1 h3 {
       font-size: var(--text-xl);
+    }
+
+    .role {
+      font-size: var(--text-base);
+    }
+
+    .c1 .desc {
+      font-size: var(--text-sm);
+      line-height: 1.6;
+    }
+
+    /* Job cards */
+    .c4, .c7 {
+      padding: 1.5rem;
+    }
+
+    .c4 h4, .c7 h4 {
+      font-size: var(--text-lg);
+    }
+
+    .period {
+      font-size: var(--text-xs);
+      padding: 0.3rem 0.75rem;
+    }
+
+    .tags span {
+      font-size: var(--text-xs);
+      padding: 0.35rem 0.75rem;
+    }
+
+    /* Stat cards */
+    .c3, .c6, .c10 {
+      padding: 1.25rem 1.5rem;
+    }
+
+    .stat-num {
+      font-size: var(--text-xl);
+    }
+
+    .stat-txt {
+      font-size: var(--text-xs);
+    }
+
+    /* Skill cards */
+    .c2, .c5, .c8, .c9 {
+      padding: 1rem 1.5rem;
+    }
+
+    .skill {
+      font-size: var(--text-base);
+    }
+
+    /* Accent card */
+    .card-accent {
+      padding: 1.5rem;
+      border-radius: 1.25rem;
+    }
+
+    .accent-num {
+      font-size: var(--text-xl);
+    }
+
+    .accent-txt {
+      font-size: var(--text-xs);
+    }
+
+    .blob-1, .blob-2 {
+      display: none;
+    }
+
+    .bg-grid {
+      opacity: 0.3;
     }
   }
 </style>

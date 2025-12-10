@@ -329,14 +329,14 @@ section {
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 6rem 2rem;
+  padding: 4rem 2rem;
   box-sizing: border-box;
   overflow: visible;
 }
 
 /* Better section spacing */
 section + section {
-  margin-top: 2rem;
+  margin-top: 0;
 }
 
 /* Allow sections to be scrollable when content is too long */
@@ -347,11 +347,15 @@ section > * {
 
 @media (max-width: 768px) {
   section {
-    padding: 4rem 1rem;
+    min-height: auto !important;
+    height: auto !important;
+    padding: 2rem 1rem;
+    align-items: flex-start;
+    display: block !important;
   }
 
   section + section {
-    margin-top: 1rem;
+    margin-top: 0;
   }
 }
 

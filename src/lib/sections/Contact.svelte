@@ -366,35 +366,107 @@
   }
 
   @media (max-width: 700px) {
-    .bento-grid {
-      grid-template-columns: repeat(3, 1fr);
+    .contact {
+      height: auto;
+      min-height: auto;
+      padding: 2rem 1rem;
+      overflow: visible;
     }
 
-    .cta-card {
-      grid-column: span 3;
+    .bento-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
     }
   }
 
   @media (max-width: 500px) {
+    .contact {
+      height: auto;
+      min-height: auto;
+      padding: 2.5rem 1.25rem;
+      overflow: visible;
+    }
+
     .container {
-      padding: 0 1rem;
+      padding: 0;
     }
 
     .bento-grid {
-      grid-template-columns: repeat(2, 1fr);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .bento-card {
+      border-radius: 1.25rem;
     }
 
     .cta-card {
-      grid-column: span 2;
-      padding: 1.5rem;
+      padding: 2rem;
+    }
+
+    .cta-icon {
+      width: 56px;
+      height: 56px;
+      margin-bottom: 1.25rem;
+      border-radius: 16px;
+    }
+
+    .cta-card h3 {
+      font-size: var(--text-xl);
+      margin-bottom: 0.75rem;
+    }
+
+    .cta-card p {
+      font-size: var(--text-sm);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .cta-button {
+      padding: 1rem 1.5rem;
+      font-size: var(--text-base);
+      width: 100%;
+      justify-content: center;
+      border-radius: 12px;
+      font-weight: 600;
     }
 
     .link-card {
-      padding: 1rem;
+      padding: 1.25rem;
+      gap: 0.75rem;
+      flex-direction: row;
+      justify-content: flex-start;
+    }
+
+    .link-icon svg {
+      width: 24px;
+      height: 24px;
     }
 
     .link-name {
-      font-size: var(--text-xs);
+      font-size: var(--text-sm);
+    }
+
+    .link-arrow {
+      position: static;
+      opacity: 0.5;
+      margin-left: auto;
+    }
+
+    .footer-text {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+    }
+
+    .blob-1, .blob-2 {
+      display: none;
+    }
+
+    .bg-grid {
+      opacity: 0.3;
     }
   }
 </style>

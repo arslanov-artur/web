@@ -382,66 +382,122 @@
 
   /* Responsive */
   @media (max-width: 768px) {
+    .hero {
+      height: auto !important;
+      min-height: auto !important;
+      padding: 1.5rem 1.25rem 2.5rem;
+      overflow: visible;
+      display: block;
+    }
+
     .container {
-      padding: 0 1.25rem;
+      padding: 0;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
     }
 
     .header {
-      padding: 1rem 0;
+      padding: 0 0 3rem;
+    }
+
+    .nav {
+      gap: 0.75rem;
     }
 
     .nav a:not(.nav-cta) {
       display: none;
     }
 
+    .nav-cta {
+      padding: 0.5rem 1.25rem;
+      font-size: var(--text-sm);
+      border-radius: 8px;
+    }
+
     .main {
-      gap: 1.5rem;
+      gap: 1.75rem;
+      flex: none;
+      justify-content: flex-start;
+    }
+
+    .headline {
+      gap: 0.25rem;
+    }
+
+    .line {
+      gap: 0.5rem;
     }
 
     .word {
-      font-size: clamp(2.5rem, 14vw, 4rem);
+      font-size: clamp(2.75rem, 13vw, 4rem);
+      letter-spacing: -0.03em;
+      opacity: 1 !important;
+      transform: none !important;
     }
 
     .accent-dot {
       width: 0.6rem;
       height: 0.6rem;
+      align-self: center;
     }
 
     .bio {
       font-size: var(--text-base);
       max-width: 100%;
+      line-height: 1.6;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    .highlight {
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .tech-stack {
       gap: 0.5rem;
+      opacity: 1 !important;
+      transform: none !important;
     }
 
     .stack-item {
-      padding: 0.4rem 0.8rem;
-      font-size: var(--text-xs);
+      padding: 0.5rem 1rem;
+      font-size: var(--text-sm);
+      background: var(--bg-elevated);
+      border-color: var(--glass-border);
     }
 
     .footer {
-      gap: 1.5rem;
-      padding: 1.5rem 0;
+      gap: 0;
+      padding: 2.5rem 0 0;
+      margin-top: 0 !important;
+      opacity: 1;
+      transform: none;
+    }
+
+    .scroll-hint {
+      display: none;
     }
 
     .cta {
       width: 100%;
       justify-content: center;
-      padding: 0.875rem 1.5rem;
+      padding: 1rem 1.5rem;
+      font-size: var(--text-base);
+      border-radius: 12px;
+      font-weight: 600;
     }
 
-    .blob-1 {
-      width: 70vw;
-      height: 70vw;
-      top: -25%;
-      right: -20%;
+    .blob-1, .blob-2 {
+      display: none;
     }
 
-    .blob-2 {
-      width: 60vw;
-      height: 60vw;
+    .bg-grid {
+      opacity: 0.3;
     }
   }
 </style>

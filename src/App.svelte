@@ -24,6 +24,41 @@
   import { theme } from './lib/stores/theme';
 
   let mounted = false;
+  let isMobile = false;
+
+  // All sections for mobile scroll
+  const allSections = [
+    { id: 'home', component: Hero },
+    { id: 'about', component: About },
+    { id: 'work', component: Work },
+    { id: 'projects', component: Projects },
+    { id: 'publications', component: Publications },
+    { id: 'contact', component: Contact }
+  ];
+
+  function checkMobile() {
+    isMobile = window.innerWidth < 768;
+  }
+
+  // Intersection observer for mobile scroll animations
+  function observeSections() {
+    if (typeof IntersectionObserver === 'undefined') return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    document.querySelectorAll('.mobile-section').forEach((section) => {
+      observer.observe(section);
+    });
+  }
 
   // Map components to grid positions
   const componentMap: Record<string, any> = {
@@ -43,17 +78,26 @@
   onMount(() => {
     mounted = true;
     theme.init();
+    checkMobile();
 
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('keydown', handleKeyboard);
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    window.addEventListener('resize', checkMobile);
 
-    document.body.style.overflow = 'hidden';
+    // Only add fullpage scroll handlers on desktop
+    if (!isMobile) {
+      window.addEventListener('wheel', handleWheel, { passive: false });
+      window.addEventListener('keydown', handleKeyboard);
+      window.addEventListener('touchstart', handleTouchStart, { passive: true });
+      window.addEventListener('touchend', handleTouchEnd, { passive: true });
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Setup intersection observer for mobile scroll animations
+      setTimeout(observeSections, 100);
+    }
   });
 
   onDestroy(() => {
     if (typeof window !== 'undefined') {
+      window.removeEventListener('resize', checkMobile);
       window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('keydown', handleKeyboard);
       window.removeEventListener('touchstart', handleTouchStart);
@@ -122,72 +166,97 @@
   $: hasHorizontalNav = currentRow && currentRow.length > 1;
 </script>
 
-<main class="fullpage-container">
-  {#if mounted}
-    <CustomCursor />
-    <Navigation />
-
-    <div class="sections-viewport">
-      {#key `${$currentPosition.row}-${$currentPosition.col}`}
-        <div
-          class="section-wrapper"
-          in:slideTransition={{ direction: $transitionDirection, duration: 500 }}
-          out:slideTransition={{ direction: getOutDirection($transitionDirection), duration: 500 }}
-        >
-          <svelte:component this={currentComponent} />
+{#if mounted}
+  {#if isMobile}
+    <!-- Mobile: Simple scroll layout -->
+    <main class="mobile-container">
+      {#each allSections as section (section.id)}
+        <div class="mobile-section" id={section.id}>
+          <svelte:component this={section.component} />
         </div>
-      {/key}
-    </div>
+      {/each}
+    </main>
+  {:else}
+    <!-- Desktop: Fullpage scroll -->
+    <main class="fullpage-container">
+      <CustomCursor />
+      <Navigation />
 
-    <!-- Navigation indicators -->
-    <div class="nav-indicators">
-      <!-- Vertical dots (rows) -->
-      <div class="vertical-dots">
-        {#each grid as row, rowIndex}
-          <button
-            class="row-dot"
-            class:active={$currentPosition.row === rowIndex}
-            class:has-cols={row.length > 1}
-            on:click={() => {
-              if (!$isTransitioning) {
-                const direction = rowIndex > $currentPosition.row ? 'down' : 'up';
-                navigateToPosition({ row: rowIndex, col: 0 }, direction);
-              }
-            }}
-            aria-label="Go to row {rowIndex + 1}"
+      <div class="sections-viewport">
+        {#key `${$currentPosition.row}-${$currentPosition.col}`}
+          <div
+            class="section-wrapper"
+            in:slideTransition={{ direction: $transitionDirection, duration: 500 }}
+            out:slideTransition={{ direction: getOutDirection($transitionDirection), duration: 500 }}
           >
-            <span class="dot-inner"></span>
-            {#if row.length > 1 && $currentPosition.row === rowIndex}
-              <div class="col-indicators">
-                {#each row as _, colIndex}
-                  <span
-                    class="col-dot"
-                    class:active={$currentPosition.col === colIndex}
-                  ></span>
-                {/each}
-              </div>
-            {/if}
-          </button>
-        {/each}
+            <svelte:component this={currentComponent} />
+          </div>
+        {/key}
       </div>
 
-      <!-- Direction hints -->
-      {#if hasHorizontalNav}
-        <div class="direction-hint horizontal">
-          {#if $currentPosition.col > 0}
-            <span class="hint-arrow left">←</span>
-          {/if}
-          {#if $currentPosition.col < currentRow.length - 1}
-            <span class="hint-arrow right">→</span>
-          {/if}
+      <!-- Navigation indicators -->
+      <div class="nav-indicators">
+        <div class="vertical-dots">
+          {#each grid as row, rowIndex}
+            <button
+              class="row-dot"
+              class:active={$currentPosition.row === rowIndex}
+              class:has-cols={row.length > 1}
+              on:click={() => {
+                if (!$isTransitioning) {
+                  const direction = rowIndex > $currentPosition.row ? 'down' : 'up';
+                  navigateToPosition({ row: rowIndex, col: 0 }, direction);
+                }
+              }}
+              aria-label="Go to row {rowIndex + 1}"
+            >
+              <span class="dot-inner"></span>
+              {#if row.length > 1 && $currentPosition.row === rowIndex}
+                <div class="col-indicators">
+                  {#each row as _, colIndex}
+                    <span
+                      class="col-dot"
+                      class:active={$currentPosition.col === colIndex}
+                    ></span>
+                  {/each}
+                </div>
+              {/if}
+            </button>
+          {/each}
         </div>
-      {/if}
-    </div>
 
+        {#if hasHorizontalNav}
+          <div class="direction-hint horizontal">
+            {#if $currentPosition.col > 0}
+              <span class="hint-arrow left">←</span>
+            {/if}
+            {#if $currentPosition.col < currentRow.length - 1}
+              <span class="hint-arrow right">→</span>
+            {/if}
+          </div>
+        {/if}
+      </div>
+    </main>
   {/if}
-</main>
+{/if}
 
 <style>
+  /* Mobile: Simple scroll */
+  .mobile-container {
+    min-height: 100vh;
+    background-color: var(--bg-base);
+    overflow-x: hidden;
+  }
+
+  .mobile-section {
+    min-height: auto !important;
+    height: auto !important;
+    opacity: 1;
+    transform: none;
+    display: block;
+  }
+
+  /* Desktop: Fullpage scroll */
   .fullpage-container {
     position: fixed;
     inset: 0;
@@ -220,6 +289,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  /* Override for mobile sections */
+  .mobile-section > :global(section) {
+    height: auto !important;
+    min-height: auto !important;
+    display: block !important;
   }
 
   /* Navigation indicators - premium style */

@@ -327,35 +327,104 @@
   }
 
   @media (max-width: 900px) {
+    .projects {
+      height: auto;
+      min-height: auto;
+      padding: 2rem 1rem;
+      overflow: visible;
+    }
+
     .bento-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .featured-card {
-      grid-column: span 2;
-      grid-row: span 1;
-    }
-
-    .project-card {
-      grid-column: span 2;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
     }
   }
 
   @media (max-width: 600px) {
+    .projects {
+      height: auto;
+      min-height: auto;
+      padding: 2.5rem 1.25rem;
+      overflow: visible;
+    }
+
     .container {
-      padding: 0 1rem;
+      padding: 0;
+    }
+
+    .bento-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
     }
 
     .bento-card {
-      padding: 1.25rem;
+      padding: 1.5rem;
+      border-radius: 1.25rem;
+    }
+
+    .featured-card {
+      padding: 1.75rem;
+    }
+
+    .featured-badge {
+      padding: 0.4rem 1rem;
+      font-size: var(--text-xs);
     }
 
     .featured-card h3 {
       font-size: var(--text-xl);
+      margin: 1rem 0 0.75rem;
+    }
+
+    .featured-card .description {
+      font-size: var(--text-base);
+      line-height: 1.6;
+    }
+
+    .stat-card {
+      padding: 1.25rem;
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: 1rem;
     }
 
     .stat-value {
       font-size: var(--text-xl);
+      margin-bottom: 0;
+    }
+
+    .stat-label {
+      font-size: var(--text-xs);
+    }
+
+    .project-card {
+      padding: 1.5rem;
+      gap: 1rem;
+    }
+
+    .project-card h4 {
+      font-size: var(--text-lg);
+    }
+
+    .description {
+      font-size: var(--text-sm);
+      line-height: 1.6;
+    }
+
+    .tech-tag {
+      font-size: var(--text-xs);
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+    }
+
+    .blob-1, .blob-2 {
+      display: none;
+    }
+
+    .bg-grid {
+      opacity: 0.3;
     }
   }
 </style>

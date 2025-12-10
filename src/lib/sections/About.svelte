@@ -304,48 +304,113 @@
   }
 
   @media (max-width: 900px) {
-    .bento-grid {
-      grid-template-columns: repeat(2, 1fr);
+    .about {
+      height: auto !important;
+      min-height: auto !important;
+      padding: 2rem 1rem;
+      overflow: visible;
     }
 
-    .intro-card {
-      grid-column: span 2;
-      grid-row: span 1;
+    .bento-grid {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 0.75rem;
+      height: auto !important;
+    }
+
+    .bento-card {
+      height: auto !important;
+      min-height: auto !important;
     }
   }
 
   @media (max-width: 600px) {
+    .about {
+      height: auto;
+      min-height: auto;
+      padding: 2.5rem 1.25rem;
+      overflow: visible;
+    }
+
     .container {
-      padding: 0 1rem;
+      padding: 0;
     }
 
     .bento-grid {
-      grid-template-columns: 1fr 1fr;
+      display: flex;
+      flex-direction: column;
       gap: 1rem;
     }
 
+    .bento-card {
+      border-radius: 1.25rem;
+      padding: 1.5rem;
+    }
+
     .intro-card {
-      grid-column: span 2;
+      padding: 1.75rem;
+    }
+
+    .intro-card h3 {
+      font-size: var(--text-xl);
+      margin-bottom: 1rem;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .intro-card p {
+      font-size: var(--text-base);
+      margin-bottom: 1rem;
+      line-height: 1.7;
     }
 
     .stat-card {
-      padding: 1.25rem 1rem;
+      padding: 1.25rem;
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: 1rem;
     }
 
     .stat-value {
       font-size: var(--text-xl);
+      margin-bottom: 0;
+    }
+
+    .stat-label {
+      font-size: var(--text-xs);
     }
 
     .skill-card {
-      grid-column: span 2;
-    }
-
-    .bento-card {
       padding: 1.25rem;
+      gap: 1rem;
     }
 
-    .intro-card p {
-      font-size: var(--text-sm);
+    .skill-header h4 {
+      font-size: var(--text-base);
+    }
+
+    .skill-icon {
+      font-size: var(--text-xl);
+    }
+
+    .skill-items {
+      gap: 0.5rem;
+    }
+
+    .skill-tag {
+      padding: 0.4rem 0.75rem;
+      font-size: var(--text-xs);
+      border-radius: 8px;
+    }
+
+    .blob-1, .blob-2 {
+      display: none;
+    }
+
+    .bg-grid {
+      opacity: 0.3;
     }
   }
 </style>
