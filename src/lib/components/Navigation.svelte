@@ -4,6 +4,7 @@
     { name: 'About', href: '#about' },
     { name: 'Work', href: '#work' },
     { name: 'Projects', href: '#projects' },
+    { name: 'Publications', href: '#publications' },
     { name: 'Contact', href: '#contact' }
   ];
   

@@ -3,15 +3,22 @@
   
   const experiences = [
     {
+      company: 'SalaryGuide',
+      role: 'Senior Software Engineer',
+      period: 'Aug 2025 - Present',
+      description: 'Transparent salary data for paid media and SEO professionals',
+      highlights: []
+    },
+    {
       company: 'Juro',
       role: 'Senior Software Engineer',
-      period: 'Jun 2023 - Present',
-      description: 'London based LegalTech startup specializing in AI-driven contract automation platform',
+      period: 'Jun 2023 - Aug 2025',
+      description: 'London based LegalTech startup specializing in contract automation platform',
       highlights: [
         'Implemented performance optimizations using virtualization and memoization, improving render times from 2.4s to 800ms, resulting in 40% better user engagement',
-        'Built document processing pipeline, processing 8000+ contracts monthly with 82% automation accuracy, reducing manual review time by 60%',
+        'Built document processing pipeline using RabbitMQ queues and ElasticSearch indexing, processing 8000+ contracts monthly with 82% automation accuracy',
         'Mentored 2 junior developers, contributing to 25% improvement in code review approval time and 30% reduction in frontend bugs',
-        'Optimized real-time collaboration features, reducing document editing latency by 35% and supporting 25+ concurrent users without conflicts'
+        'Optimized real-time collaboration features with WebSocket connections, reducing document editing latency by 35%'
       ]
     },
     {
@@ -20,10 +27,10 @@
       period: 'Oct 2019 - Jun 2023',
       description: 'Comprehensive staffing platform for automated HR management',
       highlights: [
-        'Architected and developed scalable backend infrastructure serving 1000+ concurrent users with 150+ API endpoints',
-        'Designed complex database schema with 45+ interconnected tables supporting employee lifecycle management',
-        'Built advanced API integration layer connecting 5+ external services (payroll systems, government databases, tax authorities)',
-        'Implemented sophisticated caching architecture with multi-layered Redis strategy'
+        'Architected scalable NestJS backend infrastructure serving 1000+ concurrent users with 150+ API endpoints, achieving 99% uptime',
+        'Designed MySQL database schema with 45+ interconnected tables, optimizing query performance with sub 200ms response times',
+        'Built API integration layer connecting 5+ external services, processing 50000+ API calls daily with 98% success rate',
+        'Implemented multi-layered Redis caching strategy, improving database load by 60% and API response times by 45%'
       ]
     }
   ];

@@ -4,6 +4,7 @@
   import About from './lib/sections/About.svelte';
   import Work from './lib/sections/Work.svelte';
   import Projects from './lib/sections/Projects.svelte';
+  import Publications from './lib/sections/Publications.svelte';
   import Contact from './lib/sections/Contact.svelte';
   import Navigation from './lib/components/Navigation.svelte';
   import ThemeToggle from './lib/components/ThemeToggle.svelte';
@@ -43,6 +44,7 @@
       <About />
       <Work />
       <Projects />
+      <Publications />
       <Contact />
     </div>
     

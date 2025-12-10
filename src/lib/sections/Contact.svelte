@@ -4,7 +4,7 @@
   const contactInfo = {
     email: 'arthur.arslanoov@gmail.com',
     github: 'https://github.com/arslanov-artur',
-    linkedin: 'https://linkedin.com/in/arthur-arslanov',
+    linkedin: 'https://linkedin.com/in/artur-arslanov',
     telegramChannel: 'https://t.me/js_arthur',
     telegramAccount: 'https://t.me/arthur_arslanov',
     whatsapp: 'https://wa.me/+4915257550122'
