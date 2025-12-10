@@ -411,21 +411,26 @@
     .nav {
       display: flex;
       flex-direction: row;
-      gap: 1rem;
+      gap: 1.25rem;
       justify-content: flex-end;
       align-items: center;
     }
 
     .nav a:not(.nav-cta) {
-      display: block;
-      font-size: var(--text-base);
+      display: flex;
+      align-items: center;
+      font-size: var(--text-sm);
       color: var(--text-secondary);
-      padding: 0.25rem 0;
+      height: 38px;
+      padding: 0;
     }
 
     .nav-cta {
-      padding: 0.625rem 1.25rem;
-      font-size: var(--text-base);
+      display: flex;
+      align-items: center;
+      height: 38px;
+      padding: 0 1rem;
+      font-size: var(--text-sm);
       border-radius: 8px;
     }
 

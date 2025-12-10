@@ -81,6 +81,7 @@
     justify-content: center;
     overflow: hidden;
     position: relative;
+    z-index: 1;
   }
 
   /* Background elements */
@@ -351,42 +352,58 @@
   /* Responsive */
   @media (max-width: 900px) {
     .work {
-      height: auto;
-      min-height: auto;
-      padding: 2rem 1rem;
+      height: auto !important;
+      min-height: auto !important;
+      max-height: none !important;
+      padding: 2rem 1rem 3rem;
       overflow: visible;
     }
 
     .bento-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-auto-rows: auto;
-      gap: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
       height: auto;
-      max-height: none;
     }
 
     .card {
-      grid-column: auto;
-      grid-row: auto;
+      width: 100%;
     }
 
-    /* Featured cards span 4 */
-    .c1 { grid-column: span 4; }
-    .c4 { grid-column: span 4; }
-    .c7 { grid-column: span 4; }
+    /* Skill + stat row wrapper simulation with order */
+    .c1 { order: 1; }
+    .c2 { order: 2; }
+    .c3 { order: 3; }
+    .c4 { order: 4; }
+    .c5 { order: 5; }
+    .c6 { order: 6; }
+    .c7 { order: 7; }
+    .c8 { order: 8; }
+    .c9 { order: 9; }
+    .c10 { order: 10; }
 
-    /* Stats span 2 */
-    .c3, .c6, .c10 {
-      grid-column: span 2;
-      flex-direction: column;
+    /* Skill and stat cards inline */
+    .c2, .c3, .c5, .c6, .c8, .c9 {
+      display: inline-flex;
+      width: calc(50% - 0.25rem);
       align-items: center;
       justify-content: center;
+      padding: 1rem;
     }
 
-    /* Skills span 1 */
-    .c2, .c5, .c8, .c9 {
-      grid-column: span 1;
+    .c3, .c6 {
+      flex-direction: column;
+    }
+
+    /* Create row pairs */
+    .bento-grid {
+      flex-wrap: wrap;
+      flex-direction: row;
+    }
+
+    .c1, .c4, .c7, .c10 {
+      width: 100%;
+      flex-shrink: 0;
     }
   }
 
@@ -411,8 +428,8 @@
     }
 
     .bento-grid {
-      grid-template-columns: repeat(4, 1fr);
-      grid-auto-rows: auto;
+      display: flex;
+      flex-wrap: wrap;
       gap: 0.5rem;
     }
 
@@ -428,7 +445,7 @@
 
     /* Featured card */
     .c1 {
-      grid-column: span 4;
+      width: 100%;
       padding: 1rem;
       border: 1px solid transparent;
       background:
@@ -454,9 +471,9 @@
       line-height: 1.4;
     }
 
-    /* Job cards */
-    .c4, .c7 {
-      grid-column: span 4;
+    /* Job cards - full width */
+    .c4, .c7, .c10 {
+      width: 100%;
       padding: 1rem;
     }
 
@@ -474,17 +491,17 @@
       padding: 0.2rem 0.4rem;
     }
 
-    /* Stat cards */
-    .c3, .c6 {
-      grid-column: span 2;
+    /* Skill and stat cards - half width */
+    .c2, .c3, .c5, .c6, .c8, .c9 {
+      width: calc(50% - 0.25rem);
       padding: 0.875rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .c10 {
-      grid-column: span 4;
-      flex-direction: row;
-      gap: 0.75rem;
-      padding: 0.875rem;
+    .c3, .c6 {
+      flex-direction: column;
     }
 
     .stat-num {
@@ -495,12 +512,6 @@
       font-size: var(--text-xs);
     }
 
-    /* Skill cards */
-    .c2, .c5, .c8, .c9 {
-      grid-column: span 1;
-      padding: 0.75rem;
-    }
-
     .skill {
       font-size: var(--text-sm);
     }
@@ -509,6 +520,8 @@
     .card-accent {
       padding: 0.875rem;
       border-radius: 0.875rem;
+      flex-direction: row;
+      gap: 0.75rem;
     }
 
     .accent-num {

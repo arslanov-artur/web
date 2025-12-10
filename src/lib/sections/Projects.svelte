@@ -107,6 +107,7 @@
     justify-content: center;
     overflow: hidden;
     position: relative;
+    z-index: 1;
   }
 
   /* Background elements */
@@ -344,25 +345,25 @@
 
   @media (max-width: 900px) {
     .projects {
-      height: auto;
-      min-height: auto;
+      height: auto !important;
+      min-height: auto !important;
+      max-height: none !important;
       padding: 2rem 1rem;
       overflow: visible;
     }
 
     .bento-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-auto-rows: auto;
-      gap: 0.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
 
-    .featured-card {
-      grid-column: span 2;
+    .featured-card, .project-card {
+      width: 100%;
     }
 
-    .project-card {
-      grid-column: span 2;
+    .stat-card {
+      width: calc(50% - 0.25rem);
     }
   }
 
@@ -390,9 +391,8 @@
     }
 
     .bento-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-auto-rows: auto;
+      display: flex;
+      flex-wrap: wrap;
       gap: 0.5rem;
     }
 
@@ -402,12 +402,25 @@
       transition: transform 0.3s ease;
     }
 
+    .featured-card, .project-card {
+      width: 100%;
+    }
+
+    .stat-card {
+      width: calc(50% - 0.25rem);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 0.875rem;
+    }
+
     .bento-card:active {
       transform: scale(0.98);
     }
 
     .featured-card {
-      grid-column: span 2;
+      width: 100%;
       padding: 1rem;
       border: 1px solid transparent;
       background:
@@ -449,7 +462,7 @@
     }
 
     .project-card {
-      grid-column: span 2;
+      width: 100%;
       padding: 1rem;
       gap: 0.5rem;
     }

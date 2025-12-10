@@ -321,6 +321,7 @@
     .about {
       height: auto !important;
       min-height: auto !important;
+      max-height: none !important;
       padding: 2rem 1rem;
       overflow: visible;
     }

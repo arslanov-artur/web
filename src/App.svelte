@@ -323,11 +323,20 @@
     justify-content: center;
   }
 
-  /* Override for mobile sections */
-  .mobile-section > :global(section) {
+  /* Override for mobile sections - force all children to auto height */
+  .mobile-section > :global(*),
+  .mobile-section > :global(section),
+  .mobile-section :global(section) {
     height: auto !important;
     min-height: auto !important;
+    max-height: none !important;
     display: block !important;
+    overflow: visible !important;
+  }
+
+  .mobile-section :global(.bento-grid) {
+    height: auto !important;
+    max-height: none !important;
   }
 
   /* Navigation indicators - premium style */

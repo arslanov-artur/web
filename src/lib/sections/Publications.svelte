@@ -330,8 +330,9 @@
 
   @media (max-width: 900px) {
     .publications {
-      height: auto;
-      min-height: auto;
+      height: auto !important;
+      min-height: auto !important;
+      max-height: none !important;
       padding: 2rem 1rem;
       overflow: visible;
     }
