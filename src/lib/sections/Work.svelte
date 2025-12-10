@@ -8,53 +8,51 @@
 
   <div class="container">
     <div class="bento-grid">
-      <!-- Row 1 -->
-      <div class="card card-featured glass">
+      <div class="card c1 glass">
         <span class="badge">Now</span>
         <h3>SalaryGuide</h3>
         <p class="role">Senior Software Engineer</p>
         <p class="desc">Transparent salary data for paid media and SEO professionals</p>
       </div>
 
-      <div class="card card-stat stat-1 glass">
+      <div class="card c2 glass"><span class="skill">TypeScript</span></div>
+
+      <div class="card c3 glass">
         <span class="stat-num">6+</span>
         <span class="stat-txt">yrs</span>
       </div>
 
-      <div class="card card-job card-juro glass">
+      <div class="card c4 glass">
         <div class="card-head">
           <h4>Juro</h4>
           <span class="period">2023 - 2025</span>
         </div>
         <p class="role">Senior Software Engineer</p>
-        <p class="desc">LegalTech — contract automation platform</p>
+        <p class="desc">LegalTech — contract automation</p>
         <div class="tags"><span>8000+ contracts/mo</span></div>
       </div>
 
-      <!-- Row 2 -->
-      <div class="skills-area">
-        <div class="card card-skill glass"><span>TypeScript</span></div>
-        <div class="card card-skill glass"><span>React</span></div>
-        <div class="card card-skill glass"><span>Node</span></div>
-        <div class="card card-skill glass"><span>SQL</span></div>
-      </div>
+      <div class="card c5 glass"><span class="skill">React</span></div>
 
-      <div class="card card-stat stat-2 glass">
+      <div class="card c6 glass">
         <span class="stat-num">50+</span>
         <span class="stat-txt">projects</span>
       </div>
 
-      <div class="card card-job card-ancor glass">
+      <div class="card c7 glass">
         <div class="card-head">
           <h4>Ancor</h4>
           <span class="period">2019 - 2023</span>
         </div>
         <p class="role">Software Engineer</p>
-        <p class="desc">Staffing platform for HR automation</p>
+        <p class="desc">Staffing platform for HR</p>
         <div class="tags"><span>1000+ users</span></div>
       </div>
 
-      <div class="card card-accent glass">
+      <div class="card c8 glass"><span class="skill">Node</span></div>
+      <div class="card c9 glass"><span class="skill">SQL</span></div>
+
+      <div class="card c10 card-accent">
         <span class="accent-num">99%</span>
         <span class="accent-txt">uptime</span>
       </div>
@@ -141,13 +139,27 @@
     width: 100%;
   }
 
-  /* Bento grid - 2 rows */
+  /* CHAOTIC grid */
   .bento-grid {
     display: grid;
-    grid-template-columns: 1.5fr 1fr 0.6fr 1.2fr 1.2fr;
-    grid-template-rows: 1fr auto;
-    gap: 0.75rem;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: 0.6rem;
+    height: 70vh;
+    max-height: 600px;
   }
+
+  /* Chaotic positioning - center filled, corners have gaps */
+  .c1 { grid-column: 2 / 6; grid-row: 1 / 4; }      /* SalaryGuide */
+  .c2 { grid-column: 6 / 7; grid-row: 1 / 2; }      /* TypeScript */
+  .c3 { grid-column: 7 / 9; grid-row: 1 / 3; }      /* 6+ yrs */
+  .c4 { grid-column: 9 / 13; grid-row: 1 / 4; }     /* Juro */
+  .c5 { grid-column: 6 / 7; grid-row: 2 / 3; }      /* React */
+  .c6 { grid-column: 1 / 3; grid-row: 4 / 7; }      /* 50+ projects */
+  .c7 { grid-column: 3 / 7; grid-row: 4 / 7; }      /* Ancor */
+  .c8 { grid-column: 6 / 7; grid-row: 3 / 4; }      /* Node */
+  .c9 { grid-column: 7 / 8; grid-row: 3 / 4; }      /* SQL */
+  .c10 { grid-column: 7 / 10; grid-row: 4 / 6; }    /* 99% accent */
 
   /* Card base */
   .card {
@@ -181,10 +193,8 @@
     box-shadow: var(--shadow-lg), 0 0 20px rgba(129, 140, 248, 0.1);
   }
 
-  /* Featured - big anchor */
-  .card-featured {
-    grid-column: 1 / 3;
-    grid-row: 1;
+  /* Featured card (c1) */
+  .c1 {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -205,7 +215,7 @@
     letter-spacing: 0.05em;
   }
 
-  .card-featured h3 {
+  .c1 h3 {
     font-size: var(--text-2xl);
     background: var(--gradient-primary);
     -webkit-background-clip: text;
@@ -228,19 +238,14 @@
     margin: 0;
   }
 
-  /* Stat cards */
-  .card-stat {
-    grid-column: 3;
+  /* Stat cards (c3, c6) */
+  .c3, .c6 {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 0.25rem;
-    padding: 1rem;
   }
-
-  .stat-1 { grid-row: 1; }
-  .stat-2 { grid-row: 2; }
 
   .stat-num {
     font-size: var(--text-2xl);
@@ -257,23 +262,12 @@
     text-transform: uppercase;
   }
 
-  /* Job cards */
-  .card-job {
+  /* Job cards (c4, c7) */
+  .c4, .c7 {
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 0.4rem;
-    padding: 1.25rem;
-  }
-
-  .card-juro {
-    grid-column: 4 / 6;
-    grid-row: 1;
-  }
-
-  .card-ancor {
-    grid-column: 4;
-    grid-row: 2;
   }
 
   .card-head {
@@ -283,7 +277,7 @@
     gap: 0.5rem;
   }
 
-  .card-job h4 {
+  .c4 h4, .c7 h4 {
     font-size: var(--text-lg);
     color: var(--text-primary);
     font-weight: 600;
@@ -314,26 +308,15 @@
     border-radius: 8px;
   }
 
-  /* Skills area */
-  .skills-area {
-    grid-column: 1 / 3;
-    grid-row: 2;
+  /* Skill cards (c2, c5, c8, c9) */
+  .c2, .c5, .c8, .c9 {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    align-content: start;
-  }
-
-  /* Skill cards - compact */
-  .card-skill {
-    display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem 0.75rem;
   }
 
-  .card-skill span {
-    font-size: var(--text-sm);
+  .skill {
+    font-size: var(--text-base);
     font-weight: 700;
     background: var(--gradient-primary);
     -webkit-background-clip: text;
@@ -343,8 +326,6 @@
 
   /* Accent stat */
   .card-accent {
-    grid-column: 5;
-    grid-row: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
