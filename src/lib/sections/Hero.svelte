@@ -1,19 +1,11 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
-  import { fade, fly } from 'svelte/transition';
 
   let mounted = false;
   let mouseX = 0;
   let mouseY = 0;
   let windowWidth = 0;
   let windowHeight = 0;
-
-  // Parallax multipliers for different elements
-  const parallaxLayers = [
-    { x: 0.02, y: 0.02 },  // Slowest
-    { x: 0.04, y: 0.04 },
-    { x: 0.06, y: 0.06 },  // Fastest
-  ];
 
   function handleMouseMove(e: MouseEvent) {
     mouseX = (e.clientX - windowWidth / 2) / windowWidth;
@@ -40,273 +32,290 @@
     }
   });
 
-  function handleSmoothScroll(e: MouseEvent) {
-    e.preventDefault();
-    const target = e.currentTarget as HTMLAnchorElement;
-    const id = target.getAttribute('href');
-    if (id && id.startsWith('#')) {
-      const element = document.querySelector(id);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  }
-
-  $: transform1 = `translate(${mouseX * parallaxLayers[0].x * 100}px, ${mouseY * parallaxLayers[0].y * 100}px)`;
-  $: transform2 = `translate(${mouseX * parallaxLayers[1].x * 100}px, ${mouseY * parallaxLayers[1].y * 100}px)`;
-  $: transform3 = `translate(${mouseX * parallaxLayers[2].x * 100}px, ${mouseY * parallaxLayers[2].y * 100}px)`;
+  $: transform1 = `translate(${mouseX * 20}px, ${mouseY * 20}px)`;
+  $: transform2 = `translate(${mouseX * 40}px, ${mouseY * 40}px)`;
+  $: transform3 = `translate(${mouseX * 60}px, ${mouseY * 60}px)`;
 </script>
 
 <section id="home" class="hero">
-  <div class="mesh-gradient gradient-animated"></div>
-
-  <!-- Interactive floating orbs that follow mouse -->
-  <div class="interactive-bg">
-    <div class="parallax-layer layer-1" style="transform: {transform1}">
-      <div class="floating-blob blob-1"></div>
-      <div class="floating-blob blob-2"></div>
-    </div>
-    <div class="parallax-layer layer-2" style="transform: {transform2}">
-      <div class="floating-blob blob-3"></div>
-      <div class="glow-ring ring-1"></div>
-    </div>
-    <div class="parallax-layer layer-3" style="transform: {transform3}">
-      <div class="glow-ring ring-2"></div>
-      <div class="floating-dot dot-1"></div>
-      <div class="floating-dot dot-2"></div>
-      <div class="floating-dot dot-3"></div>
-    </div>
+  <!-- Animated gradient orbs -->
+  <div class="orb-container">
+    <div class="orb orb-1" style="transform: {transform1}"></div>
+    <div class="orb orb-2" style="transform: {transform2}"></div>
+    <div class="orb orb-3" style="transform: {transform3}"></div>
+    <div class="orb orb-4"></div>
   </div>
 
-  <!-- Grid lines -->
+  <!-- Geometric shapes -->
+  <div class="shapes-container">
+    <div class="shape shape-1" style="transform: {transform1} rotate(45deg)"></div>
+    <div class="shape shape-2" style="transform: {transform2} rotate(-30deg)"></div>
+    <div class="shape shape-3" style="transform: {transform3}"></div>
+  </div>
+
+  <!-- Floating particles -->
+  <div class="particles">
+    {#each Array(12) as _, i}
+      <div class="particle" style="--i: {i}; --delay: {i * 0.5}s"></div>
+    {/each}
+  </div>
+
+  <!-- Grid overlay -->
   <div class="grid-overlay"></div>
-  
-    <div class="content" in:fade={{ duration: 1000 }}>
-      <h1 class="name" in:fly={{ y: 30, duration: 800, delay: 200 }}>
-        Artur Arslanov
+
+  <!-- Noise texture -->
+  <div class="noise"></div>
+
+  {#if mounted}
+    <div class="content">
+      <h1 class="name">
+        <span class="char" style="--i: 0">A</span><span class="char" style="--i: 1">r</span><span class="char" style="--i: 2">t</span><span class="char" style="--i: 3">u</span><span class="char" style="--i: 4">r</span><span class="char space" style="--i: 5">&nbsp;</span><span class="char" style="--i: 6">A</span><span class="char" style="--i: 7">r</span><span class="char" style="--i: 8">s</span><span class="char" style="--i: 9">l</span><span class="char" style="--i: 10">a</span><span class="char" style="--i: 11">n</span><span class="char" style="--i: 12">o</span><span class="char" style="--i: 13">v</span>
       </h1>
-      
-      <p class="title" in:fly={{ y: 20, duration: 800, delay: 400 }}>
+
+      <p class="title">
         Senior Software Engineer
       </p>
-      
-      <div class="tagline-wrapper" in:fly={{ y: 20, duration: 800, delay: 600 }}>
-        <p class="tagline-main">Crafting digital experiences that scale</p>
-        <div class="tech-pills">
-          <span class="tech-pill">TypeScript</span>
-          <span class="tech-pill">React</span>
-          <span class="tech-pill">Node.js</span>
-          <span class="tech-pill">NestJS</span>
-        </div>
+
+      <div class="tagline-wrapper">
+        <p class="tagline">
+          <span class="tagline-item">5+ years building scalable systems</span>
+        </p>
+        <p class="tagline tech-line">
+          <span class="tech">TypeScript</span>
+          <span class="dot">•</span>
+          <span class="tech">React</span>
+          <span class="dot">•</span>
+          <span class="tech">Node.js</span>
+          <span class="dot">•</span>
+          <span class="tech">NestJS</span>
+        </p>
       </div>
-      
-      <div class="cta-group" in:fly={{ y: 20, duration: 800, delay: 800 }}>
-        <a href="#work" class="btn-primary" on:click={handleSmoothScroll}>
+
+      <div class="cta-group">
+        <a href="#work" class="btn-primary">
           View Work
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
         </a>
-        <a href="#contact" class="btn-secondary" on:click={handleSmoothScroll}>
+        <a href="#contact" class="btn-secondary">
           Get in Touch
         </a>
       </div>
     </div>
+  {/if}
 </section>
 
 <style>
   .hero {
-    padding: 2rem;
     width: 100%;
     height: 95vh;
     max-height: 95vh;
-    box-sizing: border-box;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    background: var(--bg-base);
   }
 
-  .mesh-gradient {
-    position: absolute;
-    inset: 0;
-    background: var(--gradient-hero);
-    opacity: 0.4;
-    filter: blur(100px);
-  }
+  /* ===== COOL BACKGROUND ===== */
 
-  :global([data-theme="light"]) .mesh-gradient {
-    opacity: 0.5;
-    filter: blur(80px);
-  }
-
-  /* Interactive Background */
-  .interactive-bg {
+  .orb-container {
     position: absolute;
     inset: 0;
     overflow: hidden;
     pointer-events: none;
   }
 
-  .parallax-layer {
-    position: absolute;
-    inset: 0;
-    transition: transform 0.1s ease-out;
-  }
-
-  /* Floating Blobs */
-  .floating-blob {
+  .orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(60px);
+    filter: blur(80px);
+    opacity: 0.6;
+    mix-blend-mode: screen;
+    will-change: transform;
+    transition: transform 0.3s ease-out;
+  }
+
+  :global([data-theme="light"]) .orb {
+    mix-blend-mode: multiply;
     opacity: 0.4;
-    animation: blob-morph 20s ease-in-out infinite;
   }
 
-  :global([data-theme="light"]) .floating-blob {
-    opacity: 0.3;
-    filter: blur(40px);
+  .orb-1 {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(129, 140, 248, 0.8) 0%, rgba(129, 140, 248, 0) 70%);
+    top: -20%;
+    left: -10%;
+    animation: orb-float-1 20s ease-in-out infinite;
   }
 
-  .blob-1 {
+  .orb-2 {
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(129, 140, 248, 0.8) 0%, transparent 70%);
-    top: -15%;
-    left: -10%;
+    background: radial-gradient(circle, rgba(244, 114, 182, 0.7) 0%, rgba(244, 114, 182, 0) 70%);
+    bottom: -15%;
+    right: -10%;
+    animation: orb-float-2 25s ease-in-out infinite;
   }
 
-  .blob-2 {
+  .orb-3 {
     width: 400px;
     height: 400px;
-    background: radial-gradient(circle, rgba(244, 114, 182, 0.7) 0%, transparent 70%);
-    bottom: -10%;
-    right: -5%;
-    animation-delay: -7s;
+    background: radial-gradient(circle, rgba(52, 211, 153, 0.6) 0%, rgba(52, 211, 153, 0) 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: orb-float-3 18s ease-in-out infinite;
   }
 
-  .blob-3 {
-    width: 350px;
-    height: 350px;
-    background: radial-gradient(circle, rgba(52, 211, 153, 0.6) 0%, transparent 70%);
-    top: 40%;
-    left: 60%;
-    animation-delay: -14s;
-  }
-
-  /* Glow Rings */
-  .glow-ring {
-    position: absolute;
-    border-radius: 50%;
-    border: 1px solid;
-    opacity: 0.3;
-    animation: ring-pulse 8s ease-in-out infinite;
-  }
-
-  .ring-1 {
+  .orb-4 {
     width: 300px;
     height: 300px;
-    border-color: var(--color-primary);
+    background: radial-gradient(circle, rgba(251, 191, 36, 0.5) 0%, rgba(251, 191, 36, 0) 70%);
     top: 20%;
-    right: 15%;
+    right: 20%;
+    animation: orb-float-4 22s ease-in-out infinite;
   }
 
-  .ring-2 {
+  @keyframes orb-float-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(30px, 50px) scale(1.1); }
+    50% { transform: translate(-20px, 30px) scale(0.95); }
+    75% { transform: translate(40px, -20px) scale(1.05); }
+  }
+
+  @keyframes orb-float-2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-40px, -30px) scale(1.1); }
+    66% { transform: translate(30px, 40px) scale(0.9); }
+  }
+
+  @keyframes orb-float-3 {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.2); }
+  }
+
+  @keyframes orb-float-4 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-50px, 50px); }
+  }
+
+  .shapes-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .shape {
+    position: absolute;
+    border: 1px solid;
+    opacity: 0.15;
+    will-change: transform;
+    transition: transform 0.3s ease-out;
+  }
+
+  .shape-1 {
     width: 200px;
     height: 200px;
-    border-color: var(--color-accent-1);
-    bottom: 25%;
+    border-color: var(--color-primary);
+    top: 15%;
     left: 10%;
-    animation-delay: -4s;
+    animation: shape-rotate 30s linear infinite;
   }
 
-  /* Floating Dots */
-  .floating-dot {
+  .shape-2 {
+    width: 150px;
+    height: 150px;
+    border-color: var(--color-accent-1);
+    border-radius: 30%;
+    bottom: 20%;
+    right: 15%;
+    animation: shape-rotate 25s linear infinite reverse;
+  }
+
+  .shape-3 {
+    width: 100px;
+    height: 100px;
+    border-color: var(--color-accent-2);
+    border-radius: 50%;
+    top: 60%;
+    left: 20%;
+    animation: shape-pulse 8s ease-in-out infinite;
+  }
+
+  @keyframes shape-rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes shape-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.15; }
+    50% { transform: scale(1.2); opacity: 0.25; }
+  }
+
+  .particles {
     position: absolute;
-    width: 6px;
-    height: 6px;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
     border-radius: 50%;
     background: var(--color-primary);
-    opacity: 0.6;
-    animation: dot-float 15s ease-in-out infinite;
+    opacity: 0.4;
+    animation: particle-float 20s ease-in-out infinite;
+    animation-delay: var(--delay);
+    left: calc(var(--i) * 8% + 5%);
+    top: calc(var(--i) * 7% + 10%);
   }
 
-  .dot-1 {
-    top: 15%;
-    left: 20%;
-  }
-
-  .dot-2 {
-    top: 70%;
-    right: 25%;
-    animation-delay: -5s;
+  .particle:nth-child(even) {
     background: var(--color-accent-1);
+    animation-duration: 25s;
   }
 
-  .dot-3 {
-    top: 45%;
-    left: 75%;
-    animation-delay: -10s;
+  .particle:nth-child(3n) {
     background: var(--color-accent-2);
+    width: 6px;
+    height: 6px;
   }
 
-  /* Grid Overlay */
+  @keyframes particle-float {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.4; }
+    25% { transform: translate(30px, -50px) scale(1.2); opacity: 0.6; }
+    50% { transform: translate(-20px, -100px) scale(0.8); opacity: 0.3; }
+    75% { transform: translate(40px, -60px) scale(1.1); opacity: 0.5; }
+  }
+
   .grid-overlay {
     position: absolute;
     inset: 0;
     background-image:
       linear-gradient(rgba(129, 140, 248, 0.03) 1px, transparent 1px),
       linear-gradient(90deg, rgba(129, 140, 248, 0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
+    background-size: 80px 80px;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  }
+
+  .noise {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.03;
     pointer-events: none;
   }
 
-  :global([data-theme="light"]) .grid-overlay {
-    background-image:
-      linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
-  }
-
-  /* Animations */
-  @keyframes blob-morph {
-    0%, 100% {
-      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-      transform: rotate(0deg) scale(1);
-    }
-    25% {
-      border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-    }
-    50% {
-      border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%;
-      transform: rotate(180deg) scale(1.1);
-    }
-    75% {
-      border-radius: 60% 40% 60% 30% / 70% 30% 50% 60%;
-    }
-  }
-
-  @keyframes ring-pulse {
-    0%, 100% {
-      transform: scale(1);
-      opacity: 0.3;
-    }
-    50% {
-      transform: scale(1.1);
-      opacity: 0.15;
-    }
-  }
-
-  @keyframes dot-float {
-    0%, 100% {
-      transform: translate(0, 0);
-    }
-    25% {
-      transform: translate(20px, -30px);
-    }
-    50% {
-      transform: translate(-10px, -50px);
-    }
-    75% {
-      transform: translate(30px, -20px);
-    }
-  }
+  /* ===== CONTENT WITH ANIMATIONS ===== */
 
   .content {
     position: relative;
@@ -314,25 +323,51 @@
     max-width: 800px;
     width: 100%;
     margin: 0 auto;
-    padding: 0 1rem;
-    box-sizing: border-box;
+    padding: 0 2rem;
+    z-index: 10;
   }
-  
+
   .name {
     font-family: var(--font-display);
     font-size: var(--text-hero);
     font-weight: 300;
     letter-spacing: var(--tracking-tight);
-    background: linear-gradient(270deg, var(--color-primary), var(--color-accent-1), var(--color-accent-2));
-    background-size: 400% 400%;
+    margin-bottom: 1rem;
+    display: inline-block;
+  }
+
+  .char {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent-1) 50%, var(--color-accent-2) 100%);
+    background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 1rem;
-    /* Removed animation to improve scroll performance */
-    position: relative;
+    animation:
+      char-appear 0.6s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i) * 0.05s) both,
+      gradient-shift 8s ease infinite;
   }
-  
+
+  .char.space {
+    width: 0.3em;
+  }
+
+  @keyframes char-appear {
+    from {
+      opacity: 0;
+      transform: translateY(40px) rotateX(-90deg);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) rotateX(0);
+    }
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
   .title {
     font-size: var(--text-2xl);
     color: var(--text-secondary);
@@ -341,66 +376,95 @@
     margin-bottom: 2.5rem;
     position: relative;
     display: inline-block;
-    line-height: 1.2;
+    animation: fade-slide-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both;
   }
-  
+
   .title::after {
     content: '';
     position: absolute;
     bottom: -15px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) scaleX(0);
     width: 100px;
     height: 2px;
     background: var(--gradient-primary);
-    opacity: 0.5;
+    animation: line-expand 0.6s cubic-bezier(0.22, 1, 0.36, 1) 1.2s forwards;
   }
-  
+
+  @keyframes fade-slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes line-expand {
+    to {
+      transform: translateX(-50%) scaleX(1);
+    }
+  }
+
   .tagline-wrapper {
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
+    animation: fade-slide-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1s both;
   }
 
-  .tagline-main {
-    font-size: var(--text-xl);
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-    font-weight: 400;
-    letter-spacing: -0.01em;
-  }
-
-  .tech-pills {
+  .tagline {
+    font-size: var(--text-lg);
+    color: var(--text-muted);
+    margin: 0 auto 0.75rem;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tagline-item {
+    display: inline-block;
+  }
+
+  .tech-line {
     gap: 0.75rem;
   }
 
-  .tech-pill {
-    padding: 0.5rem 1.25rem;
-    border-radius: 100px;
-    font-size: var(--text-sm);
+  .tech {
+    color: var(--text-secondary);
     font-weight: 500;
-    color: var(--text-muted);
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    transition: all 0.3s ease;
+    transition: color 0.3s ease;
   }
 
-  .tech-pill:hover {
-    color: var(--text-primary);
-    border-color: var(--color-primary);
-    box-shadow: 0 0 20px rgba(129, 140, 248, 0.15);
+  .tech:hover {
+    color: var(--color-primary);
   }
-  
+
+  .dot {
+    color: var(--color-primary);
+    animation: dot-pulse 2s ease-in-out infinite;
+  }
+
+  .dot:nth-child(2) { animation-delay: 0.2s; }
+  .dot:nth-child(4) { animation-delay: 0.4s; }
+  .dot:nth-child(6) { animation-delay: 0.6s; }
+
+  @keyframes dot-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.2); }
+  }
+
   .cta-group {
     display: flex;
     gap: 1rem;
     justify-content: center;
     margin-top: 3rem;
     flex-wrap: wrap;
+    animation: fade-slide-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1.2s both;
   }
-  
+
   .btn-primary, .btn-secondary {
     padding: 0.875rem 2rem;
     border-radius: 12px;
@@ -417,112 +481,74 @@
   }
 
   .btn-primary {
-    background: var(--color-primary);
+    background: var(--gradient-primary);
     color: white;
-    box-shadow: 0 4px 14px rgba(129, 140, 248, 0.4);
+    box-shadow: 0 4px 20px rgba(129, 140, 248, 0.4);
   }
 
   .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(129, 140, 248, 0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(129, 140, 248, 0.5);
+  }
+
+  .btn-primary svg {
+    transition: transform 0.2s ease;
+  }
+
+  .btn-primary:hover svg {
+    transform: translateX(4px);
   }
 
   .btn-secondary {
-    background: transparent;
+    background: var(--glass-bg);
     color: var(--text-primary);
     border: 1px solid var(--glass-border);
   }
 
   .btn-secondary:hover {
-    border-color: var(--text-muted);
-    background: var(--glass-bg);
+    border-color: var(--color-primary);
+    background: rgba(129, 140, 248, 0.1);
   }
-  
+
+  /* ===== MOBILE ===== */
+
   @media (max-width: 768px) {
-    .hero {
-      padding: 1rem;
+    .orb {
+      filter: blur(60px);
+      opacity: 0.4;
     }
 
-    /* Reduce blob sizes on mobile */
-    .floating-blob {
-      opacity: 0.25;
-      filter: blur(40px);
-    }
+    .orb-1 { width: 350px; height: 350px; }
+    .orb-2 { width: 300px; height: 300px; }
+    .orb-3 { width: 250px; height: 250px; }
+    .orb-4 { display: none; }
 
-    .blob-1 {
-      width: 300px;
-      height: 300px;
-    }
+    .shape { opacity: 0.1; }
+    .shape-1 { width: 120px; height: 120px; }
+    .shape-2 { width: 100px; height: 100px; }
+    .shape-3 { width: 60px; height: 60px; }
 
-    .blob-2 {
-      width: 250px;
-      height: 250px;
-    }
-
-    .blob-3 {
-      width: 200px;
-      height: 200px;
-    }
-
-    .glow-ring {
-      opacity: 0.15;
-    }
-
-    .ring-1 {
-      width: 180px;
-      height: 180px;
-    }
-
-    .ring-2 {
-      width: 120px;
-      height: 120px;
-    }
-
-    .grid-overlay {
-      background-size: 40px 40px;
-    }
+    .particle { opacity: 0.3; }
 
     .content {
-      padding: 0;
-      max-width: 100%;
+      padding: 0 1rem;
     }
 
     .name {
       font-size: var(--text-3xl);
-      word-wrap: break-word;
     }
 
     .title {
       font-size: var(--text-xl);
     }
 
-    .tagline-wrapper {
-      max-width: 100%;
-    }
-
     .tagline {
       font-size: var(--text-base);
-    }
-
-    .tagline-main {
-      font-size: var(--text-lg);
-    }
-
-    .tech-pills {
-      gap: 0.5rem;
-    }
-
-    .tech-pill {
-      padding: 0.375rem 1rem;
-      font-size: var(--text-xs);
     }
 
     .cta-group {
       flex-direction: column;
       align-items: center;
-      width: 100%;
-      padding: 0 1rem;
-      margin-top: 2rem;
     }
 
     .btn-primary, .btn-secondary {

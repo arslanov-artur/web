@@ -5,7 +5,8 @@
       role: 'Senior Software Engineer',
       period: 'Aug 2025 - Present',
       description: 'Transparent salary data for paid media and SEO professionals',
-      highlights: []
+      highlights: [],
+      featured: true
     },
     {
       company: 'Juro',
@@ -13,9 +14,9 @@
       period: 'Jun 2023 - Aug 2025',
       description: 'London based LegalTech startup specializing in contract automation platform',
       highlights: [
-        'Performance optimizations: 2.4s → 800ms render times, 40% better engagement',
-        'Document pipeline: 8000+ contracts/month, 82% automation accuracy',
-        'Mentored 2 junior devs, 25% faster reviews, 30% fewer bugs'
+        '2.4s → 800ms render times',
+        '8000+ contracts/month processed',
+        'Mentored 2 junior devs'
       ]
     },
     {
@@ -24,11 +25,16 @@
       period: 'Oct 2019 - Jun 2023',
       description: 'Comprehensive staffing platform for automated HR management',
       highlights: [
-        'NestJS backend: 1000+ concurrent users, 150+ API endpoints, 99% uptime',
-        'MySQL schema: 45+ tables, sub 200ms response times',
-        'Redis caching: 60% less DB load, 45% faster API responses'
+        '1000+ concurrent users',
+        '150+ API endpoints',
+        '99.9% uptime'
       ]
     }
+  ];
+
+  const workStats = [
+    { value: '6+', label: 'Years Coding' },
+    { value: '50+', label: 'Projects Shipped' }
   ];
 </script>
 
@@ -36,25 +42,43 @@
   <div class="container">
     <h2 class="section-title">Work Experience</h2>
 
-    <div class="work-grid">
-      {#each experiences as exp, i}
-        <div class="work-card glass" style="--delay: {i * 0.1}s">
+    <div class="bento-grid">
+      <!-- Featured job - spans 2 columns -->
+      <div class="bento-card featured-card glass">
+        <div class="featured-badge">Current</div>
+        <div class="card-content">
+          <h3>{experiences[0].company}</h3>
+          <span class="role">{experiences[0].role}</span>
+          <p class="description">{experiences[0].description}</p>
+        </div>
+        <span class="period">{experiences[0].period}</span>
+      </div>
+
+      <!-- Stats -->
+      {#each workStats as stat}
+        <div class="bento-card stat-card glass">
+          <span class="stat-value">{stat.value}</span>
+          <span class="stat-label">{stat.label}</span>
+        </div>
+      {/each}
+
+      <!-- Other jobs -->
+      {#each experiences.slice(1) as exp}
+        <div class="bento-card job-card glass">
           <div class="card-header">
-            <div class="company-info">
-              <h3 class="company-name">{exp.company}</h3>
+            <div>
+              <h4>{exp.company}</h4>
               <span class="role">{exp.role}</span>
             </div>
             <span class="period">{exp.period}</span>
           </div>
-
           <p class="description">{exp.description}</p>
-
           {#if exp.highlights.length > 0}
-            <ul class="highlights">
+            <div class="highlights">
               {#each exp.highlights as highlight}
-                <li>{highlight}</li>
+                <span class="highlight-tag">{highlight}</span>
               {/each}
-            </ul>
+            </div>
           {/if}
         </div>
       {/each}
@@ -74,7 +98,7 @@
   }
 
   .container {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 0 2rem;
     width: 100%;
@@ -82,7 +106,7 @@
 
   .section-title {
     font-size: var(--text-3xl);
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     text-align: center;
     background: var(--gradient-primary);
     -webkit-background-clip: text;
@@ -90,23 +114,21 @@
     background-clip: text;
   }
 
-  .work-grid {
+  .bento-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
   }
 
-  .work-card {
+  .bento-card {
     padding: 1.5rem;
     border-radius: 1.25rem;
     transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     position: relative;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
   }
 
-  .work-card::before {
+  .bento-card::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -121,42 +143,118 @@
     transition: opacity 0.3s ease;
   }
 
-  .work-card:hover::before {
+  .bento-card:hover::before {
     opacity: 1;
   }
 
-  .work-card:hover {
+  .bento-card:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-lg), 0 0 30px rgba(129, 140, 248, 0.1);
+  }
+
+  /* Featured card */
+  .featured-card {
+    grid-column: span 2;
+    grid-row: span 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .featured-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.25rem 0.75rem;
+    background: var(--gradient-primary);
+    color: white;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .featured-card h3 {
+    font-size: var(--text-2xl);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+
+  .featured-card .role {
+    font-size: var(--text-base);
+    color: var(--text-primary);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .featured-card .description {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .featured-card .period {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  /* Stat cards */
+  .stat-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Job cards */
+  .job-card {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
   .card-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 0.75rem;
-    gap: 0.5rem;
+    gap: 1rem;
   }
 
-  .company-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .company-name {
+  .job-card h4 {
     font-size: var(--text-lg);
+    color: var(--text-primary);
     font-weight: 600;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    margin: 0;
   }
 
   .role {
     font-size: var(--text-sm);
-    color: var(--text-primary);
-    font-weight: 500;
+    color: var(--text-secondary);
   }
 
   .period {
@@ -167,60 +265,43 @@
     border-radius: 20px;
     border: 1px solid var(--glass-border);
     white-space: nowrap;
-    flex-shrink: 0;
   }
 
   .description {
     font-size: var(--text-sm);
-    color: var(--text-secondary);
-    margin-bottom: 0.75rem;
+    color: var(--text-muted);
     line-height: 1.5;
+    margin: 0;
   }
 
   .highlights {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto;
   }
 
-  .highlights li {
-    position: relative;
-    padding-left: 1rem;
-    margin-bottom: 0.375rem;
+  .highlight-tag {
+    padding: 0.25rem 0.625rem;
+    border-radius: 15px;
     font-size: var(--text-xs);
-    color: var(--text-muted);
-    line-height: 1.5;
-  }
-
-  .highlights li::before {
-    content: '▸';
-    position: absolute;
-    left: 0;
-    color: var(--color-primary);
+    color: var(--text-secondary);
+    background: var(--bg-subtle);
+    border: 1px solid var(--glass-border);
   }
 
   @media (max-width: 900px) {
-    .work-grid {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-      max-height: 70vh;
-      overflow-y: auto;
-      padding-right: 0.5rem;
+    .bento-grid {
+      grid-template-columns: repeat(2, 1fr);
     }
 
-    .work-grid::-webkit-scrollbar {
-      width: 4px;
+    .featured-card {
+      grid-column: span 2;
+      grid-row: span 1;
     }
 
-    .work-grid::-webkit-scrollbar-track {
-      background: var(--glass-bg);
-      border-radius: 2px;
-    }
-
-    .work-grid::-webkit-scrollbar-thumb {
-      background: var(--color-primary);
-      border-radius: 2px;
+    .job-card {
+      grid-column: span 2;
     }
   }
 
@@ -231,19 +312,19 @@
 
     .section-title {
       font-size: var(--text-2xl);
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
     }
 
-    .work-card {
+    .bento-card {
       padding: 1.25rem;
     }
 
-    .card-header {
-      flex-direction: column;
+    .featured-card h3 {
+      font-size: var(--text-xl);
     }
 
-    .period {
-      align-self: flex-start;
+    .stat-value {
+      font-size: var(--text-xl);
     }
   }
 </style>
